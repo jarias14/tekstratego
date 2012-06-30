@@ -2,17 +2,25 @@ package com.jarias14.tekstratego.service.pricer.rest.resource;
 
 import java.util.HashMap;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 
+@XmlRootElement(name = "indicatorResource")
 public class IndicatorResource extends BaseResource {
     
     private static final long serialVersionUID = 3749994184149195859L;
+    
     
     private String indicatorId;
     private String indicatorType;
     private String sizeOfBars;
     private String numberOfBars;
-    private HashMap<String, Object> details;
+    private HashMap<String, String> details;
+    
+    public IndicatorResource() {
+        super();
+    }
 
     public String getIndicatorId() {
         return indicatorId;
@@ -46,11 +54,11 @@ public class IndicatorResource extends BaseResource {
         this.numberOfBars = numberOfBars;
     }
 
-    public HashMap<String, Object> getDetails() {
+    public HashMap<String, String> getDetails() {
         return details;
     }
 
-    public void setDetails(HashMap<String, Object> details) {
+    public void setDetails(HashMap<String, String> details) {
         this.details = details;
     }
 

@@ -2,6 +2,8 @@ package com.jarias14.tekstratego.service.pricer.rest.impl;
 
 import org.springframework.stereotype.Service;
 
+import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
+import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorFactory;
 import com.jarias14.tekstratego.service.pricer.rest.RestPricerService;
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
@@ -10,10 +12,16 @@ import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 public class DefaultPricerServiceImpl implements RestPricerService {
 
     @Override
-    public BaseResource createIndicator(IndicatorResource indicator) {
+    public IndicatorResource createIndicator(IndicatorResource resource) {
+        IndicatorBase model = null;
         
-        // TODO Auto-generated method stub
-        return null;
+        try {
+            model = (IndicatorBase) IndicatorFactory.getIndicator(resource);
+        } catch (Exception e) {
+            
+        }
+        
+        return model.toResource();
     }
 
     @Override

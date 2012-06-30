@@ -9,6 +9,10 @@ public class BaseResource implements Serializable {
 	
     private static final long serialVersionUID = 1L;
     private String selfLink;
+    
+    public BaseResource() {
+        
+    }
 
 	public String getSelfLink() {
 		return selfLink;

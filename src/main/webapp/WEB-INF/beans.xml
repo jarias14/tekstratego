@@ -12,18 +12,19 @@
 		
 		<context:component-scan base-package="com.jarias14.tekstratego.service"/>
 		
-		<jaxrs:server id="restContainer" address="/thinker-service/">
+		<jaxrs:server id="restThinkerContainer" address="/thinker-service/">
 			<jaxrs:serviceBeans>
 				<ref bean="restThinkerService" />
 			</jaxrs:serviceBeans>
 		</jaxrs:server>
 		
-		<jaxrs:server id="restContainer" address="/pricer-service/">
+		<jaxrs:server id="restPricerContainer" address="/pricer-service/">
 			<jaxrs:serviceBeans>
 				<ref bean="restPricerService" />
 			</jaxrs:serviceBeans>
 		</jaxrs:server>
 		
+		<!-- 
 		<bean id="couchbaseClientUriFactory" class="java.net.URI" />
 		<bean id="couchbaseClientUri" factory-bean="couchbaseClientUriFactory" factory-method="create">
 			<constructor-arg value="http://127.0.0.1:8091/pools" />
@@ -34,6 +35,6 @@
 		</bean>
 		
 		<bean id="restfulClient" class="com.jarias14.tekstratego.service.thinker.dao.util"/>
-   
+    -->
    
 </beans>
