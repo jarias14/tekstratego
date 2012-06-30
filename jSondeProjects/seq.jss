@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><session><database-file-name>/Users/jarias14/workspace/tekstratego/jSondeProjects//seq</database-file-name></session>
