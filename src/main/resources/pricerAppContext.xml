@@ -8,22 +8,17 @@
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 		
-		<context:component-scan base-package="com.jarias14.tekstratego.service"/>
+		<bean id="realIndicatorDAO" class="com.jarias14.tekstratego.service.pricer.dao.impl.DefaultIndicatorDAO">
+			<property name="memory" ref="membaseConnector" />
+			<property name="timeToLiveInSeconds" value="120" />
+		</bean>
 		
-		<import resource="classpath:META-INF/cxf/cxf.xml" />
-		<import resource="classpath:membaseAppContext.xml" />
-		<import resource="classpath:pricerAppContext.xml" />
+		<bean id="defaultPricerService" class="com.jarias14.tekstratego.service.pricer.biz.impl.DefaultPricerService">
+			<property name="indicatorDAO" ref="realIndicatorDAO" />
+		</bean>
 		
-		<jaxrs:server id="restThinkerContainer" address="/thinker-service/">
-			<jaxrs:serviceBeans>
-				<ref bean="restThinkerService" />
-			</jaxrs:serviceBeans>
-		</jaxrs:server>
+		<bean id="restPricerService" class="com.jarias14.tekstratego.service.pricer.rest.impl.DefaultRestPricerServiceImpl">
+			<property name="pricerService" ref="defaultPricerService" />
+		</bean>
 		
-		<jaxrs:server id="restPricerContainer" address="/pricer-service/">
-			<jaxrs:serviceBeans>
-				<ref bean="restPricerService" />
-			</jaxrs:serviceBeans>
-		</jaxrs:server>
-
 </beans>

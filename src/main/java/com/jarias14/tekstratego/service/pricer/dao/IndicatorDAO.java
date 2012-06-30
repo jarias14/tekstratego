@@ -4,8 +4,10 @@ import com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator;
 
 public interface IndicatorDAO {
     
-    public void saveIndicator(Indicator indicator);
+    public void createIndicator(Indicator indicator);
     
-    public void readIndicator(String indicatorId);
+    public Indicator readIndicator(String indicatorId);
+    
+    public void deleteIndicator(String indicatorId);
 
 }

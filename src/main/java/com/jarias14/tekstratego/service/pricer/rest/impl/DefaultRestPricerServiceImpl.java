@@ -1,25 +1,24 @@
 package com.jarias14.tekstratego.service.pricer.rest.impl;
 
-import org.springframework.stereotype.Service;
-
-import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
+import com.jarias14.tekstratego.service.pricer.biz.PricerService;
+import com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorFactory;
 import com.jarias14.tekstratego.service.pricer.rest.RestPricerService;
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 
-@Service("restPricerService")
-public class DefaultPricerServiceImpl implements RestPricerService {
+public class DefaultRestPricerServiceImpl implements RestPricerService {
+    
+    private PricerService pricerService;
 
     @Override
     public IndicatorResource createIndicator(IndicatorResource resource) {
-        IndicatorBase model = null;
         
-        try {
-            model = (IndicatorBase) IndicatorFactory.getIndicator(resource);
-        } catch (Exception e) {
-            
-        }
+        Indicator model = null;
+        
+        model = IndicatorFactory.getIndicator(resource);
+        
+        model = pricerService.createIndicator(model);
         
         return model.toResource();
     }
@@ -35,6 +34,14 @@ public class DefaultPricerServiceImpl implements RestPricerService {
     public BaseResource getIndicator(String indicatorId) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public PricerService getPricerService() {
+        return pricerService;
+    }
+
+    public void setPricerService(PricerService pricerService) {
+        this.pricerService = pricerService;
     }
 
 }

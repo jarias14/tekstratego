@@ -5,6 +5,10 @@ import java.io.Serializable;
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 
 public interface Indicator extends Serializable {
+    
     public IndicatorResource toResource();
+    
+    public String getId();
+    public void setId(String indicatorId);
 
 }

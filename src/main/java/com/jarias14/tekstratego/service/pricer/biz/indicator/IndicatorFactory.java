@@ -18,10 +18,21 @@ public class IndicatorFactory {
         INDICATOR_MAP.put("simpleMovingAverage", (Class<? extends Indicator>) SimpleMovingAverage.class);
     }
 
-    public static Indicator getIndicator(IndicatorResource resource) throws Exception {
-        Class<? extends Indicator> indicatorClass = (Class<? extends Indicator>)INDICATOR_MAP.get(resource.getIndicatorType());
-        Constructor<? extends Indicator> indicatorConstructor = indicatorClass.getDeclaredConstructor(new Class[] { IndicatorResource.class });
-        Indicator indicatorObject = (Indicator) indicatorConstructor.newInstance(resource);
+    public static Indicator getIndicator(IndicatorResource resource) {
+        Indicator indicatorObject = null;
+
+        try {
+            // get the class
+            Class<? extends Indicator> indicatorClass = (Class<? extends Indicator>)INDICATOR_MAP.get(resource.getIndicatorType());
+            // get the constructor for the class
+            Constructor<? extends Indicator> indicatorConstructor = indicatorClass.getDeclaredConstructor(new Class[] { IndicatorResource.class });
+            // get the object through the constructor 
+            indicatorObject = (Indicator) indicatorConstructor.newInstance(resource);
+            
+        } catch (Exception e) {
+
+        }
+        
         return indicatorObject;
     }
 }

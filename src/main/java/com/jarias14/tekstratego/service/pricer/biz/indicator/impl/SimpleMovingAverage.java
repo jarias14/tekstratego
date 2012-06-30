@@ -31,7 +31,7 @@ public class SimpleMovingAverage extends IndicatorBase {
 
     public SimpleMovingAverage(IndicatorResource resource) {
         super(resource);
-        period = 3;
+        period = Integer.valueOf((String)resource.getDetails().get("period"));
     }
     
     public IndicatorResource toResource() {
