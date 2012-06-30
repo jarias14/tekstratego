@@ -8,33 +8,6 @@
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 		
-		<import resource="classpath:META-INF/cxf/cxf.xml" />
+		<import resource="classpath:beans.xml" />
 		
-		<context:component-scan base-package="com.jarias14.tekstratego.service"/>
-		
-		<jaxrs:server id="restThinkerContainer" address="/thinker-service/">
-			<jaxrs:serviceBeans>
-				<ref bean="restThinkerService" />
-			</jaxrs:serviceBeans>
-		</jaxrs:server>
-		
-		<jaxrs:server id="restPricerContainer" address="/pricer-service/">
-			<jaxrs:serviceBeans>
-				<ref bean="restPricerService" />
-			</jaxrs:serviceBeans>
-		</jaxrs:server>
-		
-		<!-- 
-		<bean id="couchbaseClientUriFactory" class="java.net.URI" />
-		<bean id="couchbaseClientUri" factory-bean="couchbaseClientUriFactory" factory-method="create">
-			<constructor-arg value="http://127.0.0.1:8091/pools" />
-		</bean>
-    
-		<bean id="couchbaseClient" class="com.couchbase.client.CouchbaseClient">
-			<property name="client" ref="couchbaseClientUri"/>
-		</bean>
-		
-		<bean id="restfulClient" class="com.jarias14.tekstratego.service.thinker.dao.util"/>
-    -->
-   
 </beans>
