@@ -21,13 +21,12 @@ public class DefaultPricerService implements PricerService {
         indicatorDAO.createIndicator(indicator);
         
         // read and return indicator from memory
-        return indicatorDAO.readIndicator(indicatorId);
+        return retrieveIndicator(indicatorId);
     }
 
     @Override
     public Indicator retrieveIndicator(String indicatorId) {
-        // TODO Auto-generated method stub
-        return null;
+        return indicatorDAO.readIndicator(indicatorId);
     }
 
     public IndicatorDAO getIndicatorDAO() {

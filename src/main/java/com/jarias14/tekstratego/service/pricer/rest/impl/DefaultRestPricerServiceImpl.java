@@ -31,9 +31,8 @@ public class DefaultRestPricerServiceImpl implements RestPricerService {
     }
 
     @Override
-    public BaseResource getIndicator(String indicatorId) {
-        // TODO Auto-generated method stub
-        return null;
+    public IndicatorResource getIndicator(String indicatorId) {
+        return pricerService.retrieveIndicator(indicatorId).toResource();
     }
 
     public PricerService getPricerService() {
