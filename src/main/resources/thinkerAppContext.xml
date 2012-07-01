@@ -7,11 +7,11 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-		
-	<context:component-scan base-package="com.jarias14.tekstratego.service"/>
-	
-	<import resource="classpath:membaseAppContext.xml" />
-	<import resource="classpath:pricerAppContext.xml" />
-	<import resource="classpath:thinkerAppContext.xml" />
+
+	<jaxrs:server id="restThinkerContainer" address="/thinker-service/">
+		<jaxrs:serviceBeans>
+			<ref bean="restThinkerService" />
+		</jaxrs:serviceBeans>
+	</jaxrs:server>
 
 </beans>

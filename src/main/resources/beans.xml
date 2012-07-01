@@ -8,22 +8,10 @@
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 		
-		<context:component-scan base-package="com.jarias14.tekstratego.service"/>
-		
-		<import resource="classpath:META-INF/cxf/cxf.xml" />
-		<import resource="classpath:membaseAppContext.xml" />
-		<import resource="classpath:pricerAppContext.xml" />
-		
-		<jaxrs:server id="restThinkerContainer" address="/thinker-service/">
-			<jaxrs:serviceBeans>
-				<ref bean="restThinkerService" />
-			</jaxrs:serviceBeans>
-		</jaxrs:server>
-		
-		<jaxrs:server id="restPricerContainer" address="/pricer-service/">
-			<jaxrs:serviceBeans>
-				<ref bean="restPricerService" />
-			</jaxrs:serviceBeans>
-		</jaxrs:server>
+	<context:component-scan base-package="com.jarias14.tekstratego.service"/>
+	
+	<import resource="classpath:membaseAppContext.xml" />
+	<import resource="classpath:pricerAppContext.xml" />
+	<import resource="classpath:thinkerAppContext.xml" />
 
 </beans>

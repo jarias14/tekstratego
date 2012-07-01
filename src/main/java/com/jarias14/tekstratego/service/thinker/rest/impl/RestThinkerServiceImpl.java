@@ -11,9 +11,12 @@ import com.jarias14.tekstratego.service.thinker.rest.RestThinkerService;
 import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
 
-@Service("restThinkerService")
 public class RestThinkerServiceImpl implements RestThinkerService{
 
+    public RestThinkerServiceImpl() {
+        
+    }
+    
     @Override
     public HypothesisResource createHypothesis() throws Exception {
         // TODO Auto-generated method stub

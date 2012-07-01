@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
 
-@Service("restThinkerService")
 public interface RestThinkerService {
-	
 
     /**
      * Creates an instance of a hypothesis.

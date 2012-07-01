@@ -8,11 +8,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 
+//@Service("restPricerService")
 public interface RestPricerService {
     
     /**
