@@ -68,7 +68,7 @@ public class DefaultPricerService implements PricerService {
         }
         
         //make the call down to calculate values
-        indicator.calculate(calcStock, calcStartDate, calcSizeOfBars, calcNumberOfBars);
+        indicator.calculate(calcStock, calcStartDate, calcNumberOfBars);
         
         return indicator;
     }

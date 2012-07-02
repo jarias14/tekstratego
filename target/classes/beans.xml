@@ -11,6 +11,7 @@
 	<context:component-scan base-package="com.jarias14.tekstratego.service"/>
 	
 	<import resource="classpath:membaseAppContext.xml" />
+	<import resource="classpath:mysqlAppContext.xml" />
 	<import resource="classpath:pricerAppContext.xml" />
 	<import resource="classpath:thinkerAppContext.xml" />
 

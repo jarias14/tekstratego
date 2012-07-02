@@ -23,9 +23,6 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.commons.lang.time.DateUtils;
-
-import com.jarias14.tekstratego.common.models.SizeOfBars;
 import com.jarias14.tekstratego.common.models.Stock;
 import com.jarias14.tekstratego.common.utilities.DateUtility;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
@@ -37,34 +34,36 @@ public class SimpleMovingAverage extends IndicatorBase {
     
     private int period;
 
-    public SimpleMovingAverage(IndicatorResource resource) {
-        super(resource);
-        period = Integer.valueOf((String)resource.getDetails().get("period"));
+    public SimpleMovingAverage() {
+        
     }
     
     @Override
-    public SortedMap<Date, Double> calculate(Stock stock, Date startDate, SizeOfBars sizeOfBars, int numberOfBars) {
+    public SortedMap<Date, Double> calculate(Stock stock, Date startDate, int numberOfBars) {
         
         SortedMap<Date, Double> values = new TreeMap<Date, Double>();
         
-        populateValues(values, stock, startDate, sizeOfBars, numberOfBars);
+        populateValues(values, stock, startDate, numberOfBars);
         
         return values;
     }
     
-    private void populateValues(SortedMap<Date, Double> values, Stock stock, Date startDate, SizeOfBars sizeOfBars, int numberOfBars) {
+    private void populateValues(SortedMap<Date, Double> values, Stock stock, Date startDate, int numberOfBars) {
         
-        SortedMap<Date, Double> prices = getPriceHistory(stock, startDate, sizeOfBars, numberOfBars);
+        SortedMap<Date, Double> prices = getPriceHistory(stock, startDate, numberOfBars);
         
     }
 
-    private SortedMap<Date, Double> getPriceHistory(Stock stock, Date startDate, SizeOfBars sizeOfBars, int numberOfBars) {
+    private SortedMap<Date, Double> getPriceHistory(Stock stock, Date startDate, int numberOfBars) {
         
-        Date priceHistoryStartDate = DateUtility.math(startDate, sizeOfBars.getTimeUnit(), sizeOfBars.getTimeValue(), period*2);
+        Date priceHistoryStartDate = DateUtility.math(startDate, this.getSizeOfBars().getTimeUnit(), this.getSizeOfBars().getTimeValue(), -period*2);
         
+        Price priceIndicator = new Price();
+        priceIndicator.setSizeOfBars(this.getSizeOfBars());
         
+        SortedMap<Date, Double> priceHistory = priceIndicator.calculate(stock, priceHistoryStartDate, numberOfBars);
         
-        return null;
+        return priceHistory;
     }
 
     public int getPeriod() {
@@ -86,5 +85,10 @@ public class SimpleMovingAverage extends IndicatorBase {
         resource.setDetails(details);
         
         return resource;
+    }
+    
+    public void fromResource(IndicatorResource resource) {
+        super.fromResource(resource);
+        period = Integer.valueOf((String)resource.getDetails().get("period"));
     }
 }

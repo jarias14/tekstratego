@@ -12,16 +12,13 @@ public abstract class IndicatorBase implements Indicator {
     private static final long serialVersionUID = -3455826973698151284L;
     
     private String id;
-    private String sizeOfBars;
-    private String numberOfBars;
+    private SizeOfBars sizeOfBars;
     
-    public IndicatorBase(IndicatorResource resource) {
-        this.id = resource.getIndicatorId();
-        this.sizeOfBars = resource.getSizeOfBars();
-        this.numberOfBars = resource.getNumberOfBars();
+    public IndicatorBase() {
+        
     }
     
-    public abstract SortedMap<Date, Double> calculate(Stock stock, Date startDate, SizeOfBars sizeOfBars, int numberOfBars);
+    public abstract SortedMap<Date, Double> calculate(Stock stock, Date startDate, int numberOfBars);
     
     public String getId() {
         return id;
@@ -31,29 +28,25 @@ public abstract class IndicatorBase implements Indicator {
         this.id = id;
     }
     
-    public String getSizeOfBars() {
+    public SizeOfBars getSizeOfBars() {
         return sizeOfBars;
     }
     
-    public void setSizeOfBars(String sizeOfBars) {
+    public void setSizeOfBars(SizeOfBars sizeOfBars) {
         this.sizeOfBars = sizeOfBars;
-    }
-    
-    public String getNumberOfBars() {
-        return numberOfBars;
-    }
-    
-    public void setNumberOfBars(String numberOfBars) {
-        this.numberOfBars = numberOfBars;
     }
 
     @Override
     public IndicatorResource toResource() {
         IndicatorResource resource = new IndicatorResource();
         resource.setIndicatorId(this.getId());
-        resource.setNumberOfBars(this.getNumberOfBars());
-        resource.setSizeOfBars(this.getSizeOfBars());
+        resource.setSizeOfBars(this.getSizeOfBars().name());
         return resource;
+    }
+    
+    public void fromResource(IndicatorResource resource) {
+        this.id = resource.getIndicatorId();
+        this.sizeOfBars = SizeOfBars.valueOf(resource.getSizeOfBars());
     }
     
 }

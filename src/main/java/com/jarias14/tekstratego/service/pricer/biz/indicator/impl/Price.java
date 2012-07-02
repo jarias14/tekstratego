@@ -16,16 +16,16 @@ public class Price extends IndicatorBase {
 
     private static final long serialVersionUID = 1L;
 
-    public Price(IndicatorResource resource) {
-        super(resource);
+    public Price() {
+        
     }
     
     @Override
-    public SortedMap<Date, Double> calculate(Stock stock, Date startDate, SizeOfBars sizeOfBars, int numberOfBars) {
+    public SortedMap<Date, Double> calculate(Stock stock, Date startDate, int numberOfBars) {
         
         SortedMap<Date, Double> values = new TreeMap<Date, Double>();
         
-        populateValues(values, stock, startDate, sizeOfBars, numberOfBars);
+        populateValues(values, stock, startDate, this.getSizeOfBars(), numberOfBars);
         
         return values;
     }
@@ -44,5 +44,9 @@ public class Price extends IndicatorBase {
         IndicatorResource resource = super.toResource();
         
         return resource;
+    }
+    
+    public void fromResource(IndicatorResource resource) {
+        super.fromResource(resource);
     }
 }

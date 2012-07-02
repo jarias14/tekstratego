@@ -1,6 +1,7 @@
 package com.jarias14.tekstratego.service.pricer.biz.indicator;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator;
@@ -25,9 +26,11 @@ public class IndicatorFactory {
             // get the class
             Class<? extends Indicator> indicatorClass = (Class<? extends Indicator>)INDICATOR_MAP.get(resource.getIndicatorType());
             // get the constructor for the class
-            Constructor<? extends Indicator> indicatorConstructor = indicatorClass.getDeclaredConstructor(new Class[] { IndicatorResource.class });
+            Constructor<? extends Indicator> indicatorConstructor = indicatorClass.getDeclaredConstructor(new Class[] { });
             // get the object through the constructor 
-            indicatorObject = (Indicator) indicatorConstructor.newInstance(resource);
+            indicatorObject = (Indicator) indicatorConstructor.newInstance();
+            // build object through builder method
+            indicatorObject.fromResource(resource);
             
         } catch (Exception e) {
 
