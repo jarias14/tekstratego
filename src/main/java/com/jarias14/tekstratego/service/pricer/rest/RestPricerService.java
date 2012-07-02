@@ -23,7 +23,7 @@ public interface RestPricerService {
     @Path("/indicators")
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public IndicatorResource createIndicator(@RequestBody IndicatorResource indicator);
+    public BaseResource createIndicator(@RequestBody IndicatorResource indicator);
     
     /**
      * Creates an indicator given the stock and the body.

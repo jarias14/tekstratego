@@ -18,8 +18,16 @@
 
 package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
+import org.apache.commons.lang.time.DateUtils;
+
+import com.jarias14.tekstratego.common.models.SizeOfBars;
+import com.jarias14.tekstratego.common.models.Stock;
+import com.jarias14.tekstratego.common.utilities.DateUtility;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 
@@ -34,15 +42,29 @@ public class SimpleMovingAverage extends IndicatorBase {
         period = Integer.valueOf((String)resource.getDetails().get("period"));
     }
     
-    public IndicatorResource toResource() {
+    @Override
+    public SortedMap<Date, Double> calculate(Stock stock, Date startDate, SizeOfBars sizeOfBars, int numberOfBars) {
         
-        IndicatorResource resource = super.toResource();
+        SortedMap<Date, Double> values = new TreeMap<Date, Double>();
         
-        HashMap<String, String> details = new HashMap<String, String>();
-        details.put("period", String.valueOf(period));
-        resource.setDetails(details);
+        populateValues(values, stock, startDate, sizeOfBars, numberOfBars);
         
-        return resource;
+        return values;
+    }
+    
+    private void populateValues(SortedMap<Date, Double> values, Stock stock, Date startDate, SizeOfBars sizeOfBars, int numberOfBars) {
+        
+        SortedMap<Date, Double> prices = getPriceHistory(stock, startDate, sizeOfBars, numberOfBars);
+        
+    }
+
+    private SortedMap<Date, Double> getPriceHistory(Stock stock, Date startDate, SizeOfBars sizeOfBars, int numberOfBars) {
+        
+        Date priceHistoryStartDate = DateUtility.math(startDate, sizeOfBars.getTimeUnit(), sizeOfBars.getTimeValue(), period*2);
+        
+        
+        
+        return null;
     }
 
     public int getPeriod() {
@@ -51,5 +73,18 @@ public class SimpleMovingAverage extends IndicatorBase {
 
     public void setPeriod(int period) {
         this.period = period;
+    }
+
+    public IndicatorResource toResource() {
+        
+        // populate resource from base class
+        IndicatorResource resource = super.toResource();
+        
+        // populate resource from this class
+        HashMap<String, String> details = new HashMap<String, String>();
+        details.put("period", String.valueOf(period));
+        resource.setDetails(details);
+        
+        return resource;
     }
 }

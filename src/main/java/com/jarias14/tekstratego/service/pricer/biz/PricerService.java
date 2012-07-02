@@ -6,5 +6,6 @@ public interface PricerService {
     
     public Indicator createIndicator(Indicator indicator);
     public Indicator retrieveIndicator(String indicatorId);
+    public Indicator calculateIndicator(String indicatorId, String stockId, String sizeOfBars, String startDate, String numberOfBars);
 
 }

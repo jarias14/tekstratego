@@ -7,12 +7,16 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-		
-	<context:component-scan base-package="com.jarias14.tekstratego.service"/>
+
+	<bean id="tekSqlDatabase" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	    <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+	    <property name="url" value="jdbc:mysql://localhost/world"/>
+	    <property name="username" value="username_goes_here"/>
+	    <property name="password" value="password_goes_here"/>
+	</bean>
 	
-	<import resource="classpath:membaseAppContext.xml" />
-	<import resource="classpath:mysqlAppContext.xml" />
-	<import resource="classpath:pricerAppContext.xml" />
-	<import resource="classpath:thinkerAppContext.xml" />
+	<bean id="tekSqlConnector" class="com.jarias14.tekstratego.common.utilities.MySqlConnector">
+		<property name="client" ref="tekSqlDatabase"/>
+	</bean>
 
 </beans>

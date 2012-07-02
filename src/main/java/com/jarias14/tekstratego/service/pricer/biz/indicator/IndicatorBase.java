@@ -1,8 +1,13 @@
 package com.jarias14.tekstratego.service.pricer.biz.indicator;
 
+import java.util.Date;
+import java.util.SortedMap;
+
+import com.jarias14.tekstratego.common.models.SizeOfBars;
+import com.jarias14.tekstratego.common.models.Stock;
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 
-public class IndicatorBase implements Indicator {
+public abstract class IndicatorBase implements Indicator {
     
     private static final long serialVersionUID = -3455826973698151284L;
     
@@ -15,6 +20,8 @@ public class IndicatorBase implements Indicator {
         this.sizeOfBars = resource.getSizeOfBars();
         this.numberOfBars = resource.getNumberOfBars();
     }
+    
+    public abstract SortedMap<Date, Double> calculate(Stock stock, Date startDate, SizeOfBars sizeOfBars, int numberOfBars);
     
     public String getId() {
         return id;

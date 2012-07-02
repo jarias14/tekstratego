@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.pricer.rest.impl;
 
+import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.pricer.biz.PricerService;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorFactory;
@@ -10,24 +11,27 @@ import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 public class DefaultRestPricerServiceImpl implements RestPricerService {
     
     private PricerService pricerService;
+    private LinksUtility linksUtility = new LinksUtility();
 
     @Override
-    public IndicatorResource createIndicator(IndicatorResource resource) {
+    public BaseResource createIndicator(IndicatorResource resource) {
         
         Indicator model = null;
+        model = IndicatorFactory.getIndicator(resource); //from resource to model
+        model = pricerService.createIndicator(model);  //save to memory
         
-        model = IndicatorFactory.getIndicator(resource);
+        resource = model.toResource();  //back to resource, now with indicatorId
+        resource.addSelfLink("self", linksUtility.getPricerIndicatorLink("href", resource.getIndicatorId()));
         
-        model = pricerService.createIndicator(model);
-        
-        return model.toResource();
+        return resource;
     }
 
     @Override
     public BaseResource getValues(String indicatorId, String stockId, String sizeOfBars, String startDate, String numberOfBars) {
         
-        // TODO Auto-generated method stub
-        return null;
+        Indicator model = pricerService.calculateIndicator(indicatorId, stockId, sizeOfBars, startDate, numberOfBars);
+        
+        return model.toResource();
     }
 
     @Override

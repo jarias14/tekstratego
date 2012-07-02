@@ -1,25 +1,30 @@
 package com.jarias14.tekstratego.service.thinker.rest.resource;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
 
-@XmlRootElement(name = "baseResource")
 public class BaseResource implements Serializable {
 	
     private static final long serialVersionUID = 1L;
-    private String selfLink;
+    
+    @XmlElement
+    private HashMap<String, HashMap<String, String>> links;
     
     public BaseResource() {
         
     }
 
-	public String getSelfLink() {
-		return selfLink;
+	public HashMap<String, HashMap<String, String>> getLink() {
+		return links;
 	}
 	
-	public void setSelfLink(String selfLink) {
-		this.selfLink = selfLink;
+	public void addSelfLink(String key, HashMap<String, String> link) {
+	    if (links == null) {
+	        links = new HashMap<String, HashMap<String, String>>();
+	    }
+	    links.put(key, link);
 	}
 
 }

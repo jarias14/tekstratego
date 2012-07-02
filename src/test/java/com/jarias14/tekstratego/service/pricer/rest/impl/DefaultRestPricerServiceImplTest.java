@@ -32,4 +32,19 @@ public class DefaultRestPricerServiceImplTest {
         webservice.createIndicator(resource);
     }
 
+    @Test
+    public void testCalculate() {
+        HashMap<String,String> details = new HashMap<String,String>();
+        details.put("period", "3");
+        
+        IndicatorResource resource = new IndicatorResource();
+        resource.setDetails(details);
+        resource.setIndicatorType("simpleMovingAverage");
+        resource.setNumberOfBars("90");
+        resource.setSizeOfBars("3");
+        
+        resource = (IndicatorResource) webservice.createIndicator(resource);
+        
+        webservice.getValues(resource.getIndicatorId(), "AAPL", "ONE_DAY", "2012-03-14T12:13:00Z", "40");
+    }
 }
