@@ -41,16 +41,34 @@ public class SimpleMovingAverage extends IndicatorBase {
     @Override
     public SortedMap<Date, Double> calculate(Stock stock, Date startDate, int numberOfBars) {
         
-        SortedMap<Date, Double> values = new TreeMap<Date, Double>();
+        SortedMap<Date, Double> priceHistory = getPriceHistory(stock, startDate, numberOfBars);
         
-        populateValues(values, stock, startDate, numberOfBars);
+        SortedMap<Date, Double> values = calculate(priceHistory, startDate, numberOfBars);
         
         return values;
     }
     
-    private void populateValues(SortedMap<Date, Double> values, Stock stock, Date startDate, int numberOfBars) {
+    private SortedMap<Date, Double> calculate(SortedMap<Date, Double> prices, Date startDate, int numberOfBars) {
         
-        SortedMap<Date, Double> prices = getPriceHistory(stock, startDate, numberOfBars);
+        SortedMap<Date, Double> values = new TreeMap<Date, Double>();
+        
+        Object[] valueList = prices.values().toArray();
+        Object[] keyList = prices.keySet().toArray();
+        
+        double sum = 0;
+        
+        for (int i = 0; i < valueList.length; i++) {
+            
+            sum = sum + (Double) valueList[i];
+            sum = sum - (Double) (i > numberOfBars ? valueList[i-numberOfBars] : 0);
+            
+            if (((Date)keyList[i]).compareTo(startDate) >= 0) {
+                Double value = sum / numberOfBars; 
+                values.put((Date) keyList[i], value);
+            }
+        }
+        
+        return values;
         
     }
 

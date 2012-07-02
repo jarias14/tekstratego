@@ -20,7 +20,6 @@ public class IndicatorFactoryTest {
         IndicatorResource expected = new IndicatorResource();
         expected.setIndicatorId("abc123");
         expected.setIndicatorType("simpleMovingAverage");
-        expected.setNumberOfBars("7");
         expected.setSizeOfBars("60min");
         expected.setDetails(details);
         

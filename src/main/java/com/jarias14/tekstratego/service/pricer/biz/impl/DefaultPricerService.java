@@ -50,7 +50,6 @@ public class DefaultPricerService implements PricerService {
         
         Indicator indicator = null;
         Date calcStartDate = null;
-        SizeOfBars calcSizeOfBars = null;
         int calcNumberOfBars = 1;
         Stock calcStock = null;
         
@@ -59,7 +58,6 @@ public class DefaultPricerService implements PricerService {
             
             indicator = retrieveIndicator(indicatorId);
             calcStartDate = (new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT)).parse(startDate);
-            calcSizeOfBars = SizeOfBars.valueOf(sizeOfBars);
             calcNumberOfBars = Integer.valueOf(numberOfBars);
             calcStock = new Stock(stockSymbol);
             

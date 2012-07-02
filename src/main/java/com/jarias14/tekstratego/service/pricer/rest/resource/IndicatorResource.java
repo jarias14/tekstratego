@@ -50,14 +50,6 @@ public class IndicatorResource extends BaseResource {
         this.sizeOfBars = sizeOfBars;
     }
 
-    public String getNumberOfBars() {
-        return numberOfBars;
-    }
-
-    public void setNumberOfBars(String numberOfBars) {
-        this.numberOfBars = numberOfBars;
-    }
-
     public HashMap<String, String> getDetails() {
         return details;
     }
@@ -72,6 +64,14 @@ public class IndicatorResource extends BaseResource {
 
     public void setValues(SortedMap<Date, Double> values) {
         this.values = values;
+    }
+
+    public String getNumberOfBars() {
+        return numberOfBars;
+    }
+
+    public void setNumberOfBars(String numberOfBars) {
+        this.numberOfBars = numberOfBars;
     }
 
 }

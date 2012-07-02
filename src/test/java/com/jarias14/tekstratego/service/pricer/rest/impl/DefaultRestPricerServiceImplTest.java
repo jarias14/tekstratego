@@ -40,7 +40,6 @@ public class DefaultRestPricerServiceImplTest {
         IndicatorResource resource = new IndicatorResource();
         resource.setDetails(details);
         resource.setIndicatorType("simpleMovingAverage");
-        resource.setNumberOfBars("90");
         resource.setSizeOfBars("ONE_DAY");
         
         resource = (IndicatorResource) webservice.createIndicator(resource);
