@@ -3,7 +3,7 @@ package com.jarias14.tekstratego.service.pricer.biz.indicator;
 import java.util.Date;
 import java.util.SortedMap;
 
-import com.jarias14.tekstratego.common.models.SizeOfBars;
+import com.jarias14.tekstratego.common.models.SizeOfBarsEnum;
 import com.jarias14.tekstratego.common.models.Stock;
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 
@@ -12,7 +12,7 @@ public abstract class IndicatorBase implements Indicator {
     private static final long serialVersionUID = -3455826973698151284L;
     
     private String id;
-    private SizeOfBars sizeOfBars;
+    private SizeOfBarsEnum sizeOfBars;
     
     public IndicatorBase() {
         
@@ -28,11 +28,11 @@ public abstract class IndicatorBase implements Indicator {
         this.id = id;
     }
     
-    public SizeOfBars getSizeOfBars() {
+    public SizeOfBarsEnum getSizeOfBars() {
         return sizeOfBars;
     }
     
-    public void setSizeOfBars(SizeOfBars sizeOfBars) {
+    public void setSizeOfBars(SizeOfBarsEnum sizeOfBars) {
         this.sizeOfBars = sizeOfBars;
     }
 
@@ -46,7 +46,7 @@ public abstract class IndicatorBase implements Indicator {
     
     public void fromResource(IndicatorResource resource) {
         this.id = resource.getIndicatorId();
-        this.sizeOfBars = SizeOfBars.valueOf(resource.getSizeOfBars());
+        this.sizeOfBars = SizeOfBarsEnum.valueOf(resource.getSizeOfBars());
     }
     
 }

@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-import com.jarias14.tekstratego.common.models.SizeOfBars;
 import com.jarias14.tekstratego.common.models.Stock;
 import com.jarias14.tekstratego.common.utilities.ConstantsUtility;
 import com.jarias14.tekstratego.service.pricer.biz.PricerService;
@@ -59,7 +58,7 @@ public class DefaultPricerService implements PricerService {
             indicator = retrieveIndicator(indicatorId);
             calcStartDate = (new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT)).parse(startDate);
             calcNumberOfBars = Integer.valueOf(numberOfBars);
-            calcStock = new Stock(stockSymbol);
+            calcStock = new Stock("", stockSymbol);
             
         } catch (Exception e) {
             e.printStackTrace();

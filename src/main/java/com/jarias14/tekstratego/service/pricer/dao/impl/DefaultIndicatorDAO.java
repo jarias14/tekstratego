@@ -3,23 +3,31 @@ package com.jarias14.tekstratego.service.pricer.dao.impl;
 import java.util.Date;
 import java.util.SortedMap;
 
-import com.jarias14.tekstratego.common.models.SizeOfBars;
+import com.jarias14.tekstratego.common.models.PriceOfBarsEnum;
+import com.jarias14.tekstratego.common.models.SizeOfBarsEnum;
 import com.jarias14.tekstratego.common.models.Stock;
 import com.jarias14.tekstratego.common.utilities.MembaseConnector;
-import com.jarias14.tekstratego.common.utilities.MySqlConnector;
+import com.jarias14.tekstratego.common.utilities.RdsConnector;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator;
 import com.jarias14.tekstratego.service.pricer.dao.IndicatorDAO;
 
 public class DefaultIndicatorDAO implements IndicatorDAO {
     
     private MembaseConnector memory;
-    private MySqlConnector mysql;
+    private RdsConnector rds;
     private int timeToLiveInSeconds;
 
     @Override
-    public SortedMap<Date, Double> readPrices(Stock stock, SizeOfBars sizeOfBar, Date startDate, int numberOfBars) {
-        // TODO Auto-generated method stub
-        return null;
+    public SortedMap<Date, Double> readPrices(Stock stock, SizeOfBarsEnum sizeOfBar, PriceOfBarsEnum priceOfBar,Date startDate, int numberOfBars) {
+        
+        SortedMap<Date, Double> prices;
+        
+        // get prices from database
+        prices = rds.getPrices(stock.getExchange(), stock.getSymbol(), sizeOfBar, priceOfBar, startDate, numberOfBars);
+        
+        // TODO if empty or null try yahoo and other sources of date
+        
+        return prices;
     }
     
     @Override
@@ -53,13 +61,4 @@ public class DefaultIndicatorDAO implements IndicatorDAO {
     public void setTimeToLiveInSeconds(int timeToLiveInSeconds) {
         this.timeToLiveInSeconds = timeToLiveInSeconds;
     }
-
-    public MySqlConnector getMysql() {
-        return mysql;
-    }
-
-    public void setMysql(MySqlConnector mysql) {
-        this.mysql = mysql;
-    }
-
 }

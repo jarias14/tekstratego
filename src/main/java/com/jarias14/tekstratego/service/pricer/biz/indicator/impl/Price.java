@@ -6,7 +6,8 @@ import java.util.TreeMap;
 
 import org.springframework.web.context.ContextLoader;
 
-import com.jarias14.tekstratego.common.models.SizeOfBars;
+import com.jarias14.tekstratego.common.models.PriceOfBarsEnum;
+import com.jarias14.tekstratego.common.models.SizeOfBarsEnum;
 import com.jarias14.tekstratego.common.models.Stock;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
 import com.jarias14.tekstratego.service.pricer.dao.IndicatorDAO;
@@ -15,6 +16,8 @@ import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 public class Price extends IndicatorBase {
 
     private static final long serialVersionUID = 1L;
+    
+    private PriceOfBarsEnum priceOfBars;
 
     public Price() {
         
@@ -30,12 +33,12 @@ public class Price extends IndicatorBase {
         return values;
     }
     
-    private void populateValues(SortedMap<Date, Double> values, Stock stock, Date startDate, SizeOfBars sizeOfBars, int numberOfBars) {
+    private void populateValues(SortedMap<Date, Double> values, Stock stock, Date startDate, SizeOfBarsEnum sizeOfBars, int numberOfBars) {
         
         // TODO: create singleton factory for DAOs
         IndicatorDAO dao = (IndicatorDAO) ContextLoader.getCurrentWebApplicationContext().getBean("testBean");
 
-        values.putAll(dao.readPrices(stock, sizeOfBars, startDate, numberOfBars));
+        values.putAll(dao.readPrices(stock, sizeOfBars, this.priceOfBars, startDate, numberOfBars));
     }
 
     public IndicatorResource toResource() {
@@ -48,5 +51,13 @@ public class Price extends IndicatorBase {
     
     public void fromResource(IndicatorResource resource) {
         super.fromResource(resource);
+    }
+
+    public PriceOfBarsEnum getPriceOfBars() {
+        return priceOfBars;
+    }
+
+    public void setPriceOfBars(PriceOfBarsEnum priceOfBars) {
+        this.priceOfBars = priceOfBars;
     }
 }
