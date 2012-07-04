@@ -1,1 +1,8 @@
-*/target/*
+.settings
+tekstratego
+eclipse
+stacktrace.log
+target
+/plugins
+/web-app/plugins
+/web-app/WEB-INF/classes
