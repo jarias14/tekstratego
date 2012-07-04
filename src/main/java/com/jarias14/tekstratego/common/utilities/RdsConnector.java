@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
 import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import java.sql.SQLException;
 
@@ -76,7 +78,7 @@ public class RdsConnector {
     }
     
     
-    public SortedMap<Date, Double> getPrices(String exchange, String symbol, SizeOfBarsEnum sizeOfBar, PriceOfBarsEnum priceOfBar,Date startDate, int numberOfBars) {
+    public SortedMap<Date, Double> getPrices(String exchange, String symbol, SizeOfBarsEnum sizeOfBar, PriceOfBarsEnum priceOfBar, Date startDate, int numberOfBars) {
 
         java.sql.Date queryStartDate = new java.sql.Date(startDate.getTime());
         
@@ -107,6 +109,45 @@ public class RdsConnector {
         }
         
         return priceBars;
+    }
+
+    public SortedSet<Date> getMarketDates(Date date, int numberOfBars, SizeOfBarsEnum sizeOfBars) {
+        
+        java.sql.Date queryStartDate = new java.sql.Date(date.getTime());
+        
+        int sizeOfBarIndex = mapSizeOfBar(sizeOfBars);
+        
+        String order, operator;
+        
+        if (numberOfBars >= 0) {
+            operator = ">=";
+            order = "ASC";
+        } else {
+            operator = "<=";
+            order = "DESC";
+        }
+        
+        String query = "SELECT date "
+                            + "FROM `PriceBars` WHERE "
+                                + "size = '"  + sizeOfBarIndex + "' AND "
+                                + "symbol = 'ED' AND "
+                                + "date "+ operator +" '"   + queryStartDate + "' "
+                            + "ORDER BY date "+ order +" LIMIT "+ (numberOfBars+1);
+        
+        ResultSet rs = select(query);
+        
+        SortedSet<Date> marketDates = new TreeSet<Date>();
+        
+        try {
+            while (rs.next()) {
+                marketDates.add((Date)(rs.getDate("date")));
+            }
+        } catch (Exception e) {
+            System.out.println("error with query " + query);
+        }
+        
+        return marketDates;
+        
     }
     
     private int mapSizeOfBar(SizeOfBarsEnum sizeOfBar) {
