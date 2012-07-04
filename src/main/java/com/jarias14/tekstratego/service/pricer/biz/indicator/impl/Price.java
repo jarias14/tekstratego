@@ -36,7 +36,7 @@ public class Price extends IndicatorBase {
     private void populateValues(SortedMap<Date, Double> values, Stock stock, Date startDate, SizeOfBarsEnum sizeOfBars, int numberOfBars) {
         
         // TODO: create singleton factory for DAOs
-        IndicatorDAO dao = (IndicatorDAO) ContextLoader.getCurrentWebApplicationContext().getBean("testBean");
+        IndicatorDAO dao = (IndicatorDAO) ContextLoader.getCurrentWebApplicationContext().getBean("realIndicatorDAO");
 
         values.putAll(dao.readPrices(stock, sizeOfBars, this.priceOfBars, startDate, numberOfBars));
     }

@@ -10,8 +10,12 @@
 		
 	<context:component-scan base-package="com.jarias14.tekstratego.service"/>
 	
+	<bean id="databaseProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    <property name="location" value="classpath:environments/local/database.properties"/>
+	</bean>
+	
 	<import resource="classpath:membaseAppContext.xml" />
-	<import resource="classpath:mysqlAppContext.xml" />
+	<import resource="classpath:rdsAppContext.xml" />
 	<import resource="classpath:pricerAppContext.xml" />
 	<import resource="classpath:thinkerAppContext.xml" />
 

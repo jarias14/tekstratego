@@ -2,6 +2,7 @@ package com.jarias14.tekstratego.service.pricer.biz.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.SortedMap;
 import java.util.UUID;
 
 import com.jarias14.tekstratego.common.models.Stock;
@@ -42,7 +43,7 @@ public class DefaultPricerService implements PricerService {
     }
 
     @Override
-    public Indicator calculateIndicator(String indicatorId, String stockSymbol,
+    public SortedMap<Date, Double> calculateIndicator(String indicatorId, String stockSymbol,
             String sizeOfBars, String startDate, String numberOfBars) {
         
         // init my variables to send to indicator
@@ -65,9 +66,7 @@ public class DefaultPricerService implements PricerService {
         }
         
         //make the call down to calculate values
-        indicator.calculate(calcStock, calcStartDate, calcNumberOfBars);
-        
-        return indicator;
+        return indicator.calculate(calcStock, calcStartDate, calcNumberOfBars);
     }
 
 }

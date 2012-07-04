@@ -1,11 +1,16 @@
 package com.jarias14.tekstratego.service.pricer.rest.impl;
 
+import java.util.Date;
+import java.util.SortedMap;
+
+import com.jarias14.tekstratego.common.resources.LinksResource;
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.pricer.biz.PricerService;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorFactory;
 import com.jarias14.tekstratego.service.pricer.rest.RestPricerService;
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
+import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorValuesResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 
 public class DefaultRestPricerServiceImpl implements RestPricerService {
@@ -21,22 +26,29 @@ public class DefaultRestPricerServiceImpl implements RestPricerService {
         model = pricerService.createIndicator(model);  //save to memory
         
         resource = model.toResource();  //back to resource, now with indicatorId
-        resource.addSelfLink("self", linksUtility.getPricerIndicatorLink("href", resource.getIndicatorId()));
+        resource.getLinks().add(linksUtility.getPricerIndicatorLink("self", resource.getIndicatorId()));
         
         return resource;
     }
 
     @Override
-    public BaseResource getValues(String indicatorId, String stockId, String sizeOfBars, String startDate, String numberOfBars) {
+    public IndicatorValuesResource getValues(String indicatorId, String stockId, String sizeOfBars, String startDate, String numberOfBars) {
         
-        Indicator model = pricerService.calculateIndicator(indicatorId, stockId, sizeOfBars, startDate, numberOfBars);
+        SortedMap<Date,Double> values = pricerService.calculateIndicator(indicatorId, stockId, sizeOfBars, startDate, numberOfBars);
         
-        return model.toResource();
+        IndicatorValuesResource resource = new IndicatorValuesResource(values);
+
+        return resource;
     }
 
     @Override
     public IndicatorResource getIndicator(String indicatorId) {
-        return pricerService.retrieveIndicator(indicatorId).toResource();
+        
+        IndicatorResource resource = pricerService.retrieveIndicator(indicatorId).toResource();
+        
+        resource.getLinks().add(linksUtility.getPricerIndicatorLink("self", resource.getIndicatorId()));
+        
+        return resource;
     }
 
     public PricerService getPricerService() {

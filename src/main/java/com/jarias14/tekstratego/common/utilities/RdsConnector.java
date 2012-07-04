@@ -19,17 +19,25 @@ import com.jarias14.tekstratego.common.models.PriceOfBarsEnum;
 import com.jarias14.tekstratego.common.models.SizeOfBarsEnum;
 
 public class RdsConnector {
-    AmazonRDS rds;
-    Connection con;
-    String secretKey = "F7WppV4mhnzekvQ54Yd2Ftfu6evZ0O/HNxd5UrNJ";
-    String accessKey = "AKIAI5T2T7ZRHOCXAZAQ";
-    String dbUser = "jarias14";
-    String dbPass = "powerDatabas3";
-    int dbPriceBars = 3600;
+    private AmazonRDS rds;
+    private Connection con;
+    private String secretKey;
+    private String accessKey;
+    private String username;
+    private String password;
+    //int dbPriceBars = 3600;
 
     public RdsConnector() {
+        
+    }
+    
+    public void init() {
         rds = new AmazonRDSClient(new BasicAWSCredentials(accessKey, secretKey));
         open();
+    }
+    
+    public void shutdown() {
+        this.close();
     }
     
     public void open() {
@@ -41,7 +49,7 @@ public class RdsConnector {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://" + endpoint + ":3306/tekstratego";
-            con = DriverManager.getConnection(url, dbUser, dbPass);
+            con = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,6 +111,38 @@ public class RdsConnector {
     
     private int mapSizeOfBar(SizeOfBarsEnum sizeOfBar) {
         return 10;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
     
     

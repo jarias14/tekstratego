@@ -1,9 +1,6 @@
 package com.jarias14.tekstratego.service.pricer.rest.resource;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.SortedMap;
-
+import java.util.Map;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -19,8 +16,7 @@ public class IndicatorResource extends BaseResource {
     private String indicatorType;
     private String sizeOfBars;
     private String numberOfBars;
-    private HashMap<String, String> details;
-    private SortedMap<Date, Double> values;
+    private Map<String, String> details;
     
     public IndicatorResource() {
         super();
@@ -50,20 +46,12 @@ public class IndicatorResource extends BaseResource {
         this.sizeOfBars = sizeOfBars;
     }
 
-    public HashMap<String, String> getDetails() {
+    public Map<String, String> getDetails() {
         return details;
     }
 
-    public void setDetails(HashMap<String, String> details) {
+    public void setDetails(Map<String, String> details) {
         this.details = details;
-    }
-
-    public SortedMap<Date, Double> getValues() {
-        return values;
-    }
-
-    public void setValues(SortedMap<Date, Double> values) {
-        this.values = values;
     }
 
     public String getNumberOfBars() {

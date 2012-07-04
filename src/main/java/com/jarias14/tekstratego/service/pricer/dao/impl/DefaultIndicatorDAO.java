@@ -20,12 +20,9 @@ public class DefaultIndicatorDAO implements IndicatorDAO {
     @Override
     public SortedMap<Date, Double> readPrices(Stock stock, SizeOfBarsEnum sizeOfBar, PriceOfBarsEnum priceOfBar,Date startDate, int numberOfBars) {
         
-        SortedMap<Date, Double> prices;
+        SortedMap<Date, Double> prices = rds.getPrices(stock.getExchange(), stock.getSymbol(), sizeOfBar, priceOfBar, startDate, numberOfBars);
         
-        // get prices from database
-        prices = rds.getPrices(stock.getExchange(), stock.getSymbol(), sizeOfBar, priceOfBar, startDate, numberOfBars);
-        
-        // TODO if empty or null try yahoo and other sources of date
+        // TODO if empty or null try yahoo and other sources of data http://code.google.com/p/tekstratego/issues/detail?id=1
         
         return prices;
     }
@@ -42,7 +39,7 @@ public class DefaultIndicatorDAO implements IndicatorDAO {
 
     @Override
     public void deleteIndicator(String indicatorId) {
-        // TODO Auto-generated method stub
+        // TODO allow deletion of indicators
         
     }
     
@@ -60,5 +57,13 @@ public class DefaultIndicatorDAO implements IndicatorDAO {
 
     public void setTimeToLiveInSeconds(int timeToLiveInSeconds) {
         this.timeToLiveInSeconds = timeToLiveInSeconds;
+    }
+
+    public RdsConnector getRds() {
+        return rds;
+    }
+
+    public void setRds(RdsConnector rds) {
+        this.rds = rds;
     }
 }

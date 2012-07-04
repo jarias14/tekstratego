@@ -1,6 +1,6 @@
 package com.jarias14.tekstratego.common.utilities;
 
-import java.util.HashMap;
+import com.jarias14.tekstratego.common.resources.LinksResource;
 
 public class LinksUtility {
     
@@ -13,14 +13,12 @@ public class LinksUtility {
         return new String (protocol + "://" + host + ":" + port + "/" + location);
     }
     
-    public HashMap<String,String> getPricerIndicatorLink(String key, String indicatorId) {
-        HashMap<String,String> map = new HashMap<String,String>();
+    public LinksResource getPricerIndicatorLink(String type, String indicatorId) {
         
         String link = getBaseLink().concat("/pricer-service/indicators/{INDICATOR-ID}");
         link = link.replace("{INDICATOR-ID}", indicatorId);
         
-        map.put(key, link);
-        return map;
+        return new LinksResource(type, link);
     }
 
 }

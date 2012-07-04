@@ -1,5 +1,8 @@
 package com.jarias14.tekstratego.service.pricer.rest;
 
+import java.util.Date;
+import java.util.SortedMap;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
+import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorValuesResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 
 public interface RestPricerService {
@@ -43,7 +47,7 @@ public interface RestPricerService {
     @Path("/indicators/{indicator-id}/prices/{stock-id}")
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public BaseResource getValues(@PathParam("indicator-id") String indicatorId, @PathParam("stock-id") String stockId,
+    public IndicatorValuesResource getValues(@PathParam("indicator-id") String indicatorId, @PathParam("stock-id") String stockId,
             @QueryParam("sizeOfBars") String sizeOfBars, @QueryParam("startDate") String startDate, @QueryParam("numberOfBars") String numberOfBars);
     
 }

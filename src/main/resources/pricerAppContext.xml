@@ -10,7 +10,7 @@
 		
 		<bean id="realIndicatorDAO" class="com.jarias14.tekstratego.service.pricer.dao.impl.DefaultIndicatorDAO">
 			<property name="memory" ref="membaseConnector" />
-			<property name="mysql" ref="tekSqlConnector" />
+			<property name="rds" ref="tekRdsConnector" />
 			<property name="timeToLiveInSeconds" value="120" />
 		</bean>
 		

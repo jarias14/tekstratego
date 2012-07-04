@@ -18,6 +18,10 @@ public class MembaseConnector {
         }
     }
     
+    public void shutdown() {
+        client.shutdown();
+    }
+    
     public void save(String key, Object value, int timeToLiveInSeconds) {
         
         client.set(key, timeToLiveInSeconds, value);
