@@ -3,7 +3,9 @@ package com.jarias14.tekstratego.service.thinker.model.study;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
+import com.jarias14.tekstratego.common.resources.LinksResource;
 import com.jarias14.tekstratego.service.thinker.model.Study;
 import com.jarias14.tekstratego.service.thinker.rest.resource.StudyResource;
 
@@ -12,6 +14,7 @@ public abstract class AbstractOperatorStudy implements Study , Serializable {
     private static final long serialVersionUID = 1L;
     
     private String id;
+    private String parentId;
     private List<Study> studies;
     
     public AbstractOperatorStudy() {
@@ -28,6 +31,7 @@ public abstract class AbstractOperatorStudy implements Study , Serializable {
         StudyResource resource = new StudyResource();
         resource.setType(type);
         resource.setId(this.id);
+        resource.setStudies(new TreeSet<LinksResource>());
         return resource;
     }
     
@@ -47,6 +51,14 @@ public abstract class AbstractOperatorStudy implements Study , Serializable {
     
     public void setStudies(List<Study> studies) {
         this.studies = studies;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
 }

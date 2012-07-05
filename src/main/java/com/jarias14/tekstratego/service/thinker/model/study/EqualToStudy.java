@@ -13,6 +13,10 @@ public class EqualToStudy extends AbstractCalculationStudy {
         super();
     }
     
+    public EqualToStudy(StudyResource resource) {
+        super(resource);
+    }
+    
     @Override
     public boolean execute(SortedMap<Date, Double> indicatorValues) {
         

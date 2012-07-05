@@ -14,6 +14,10 @@ public class AndStudy extends AbstractOperatorStudy {
         super();
     }
     
+    public AndStudy(StudyResource resource) {
+        super(resource);
+    }
+    
     @Override
     public boolean execute(SortedMap<Date, Double> indicatorValues) {
         

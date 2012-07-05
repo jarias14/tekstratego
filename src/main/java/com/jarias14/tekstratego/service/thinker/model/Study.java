@@ -11,5 +11,7 @@ public interface Study {
     public String getId();
     public boolean execute(SortedMap<Date, Double> indicatorValues);
     public StudyResource toResource();
+    public String getParentId();
+    public void setParentId(String id);
 
 }

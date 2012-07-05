@@ -13,6 +13,10 @@ public class GreaterThanStudy extends AbstractCalculationStudy {
         super();
     }
     
+    public GreaterThanStudy(StudyResource resource) {
+        super(resource);
+    }
+    
     @Override
     public boolean execute(SortedMap<Date, Double> indicatorValues) {
         

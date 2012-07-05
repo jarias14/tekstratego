@@ -6,6 +6,7 @@ import com.jarias14.tekstratego.service.thinker.model.Hypothesis;
 import com.jarias14.tekstratego.service.thinker.model.Strategy;
 import com.jarias14.tekstratego.service.thinker.model.Study;
 import com.jarias14.tekstratego.service.thinker.model.StudyFactory;
+import com.jarias14.tekstratego.service.thinker.model.study.AbstractOperatorStudy;
 import com.jarias14.tekstratego.service.thinker.rest.RestThinkerService;
 import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.StrategyResource;
@@ -22,19 +23,19 @@ public class RestThinkerServiceImpl implements RestThinkerService{
     @Override
     public HypothesisResource createHypothesis(HypothesisResource resource) {
         
-        resource = thinkerService.createHypothesis(new Hypothesis(resource)).toResource();
+        Hypothesis model = thinkerService.createHypothesis(new Hypothesis(resource));
         
-        resource.getLinks().add(LinksUtility.getThinkerHypothesisLink("self", resource.getId()));
-        
-        return resource;
+        return getHypothesis(model.getId());
     }
 
     @Override
     public HypothesisResource getHypothesis(String hypothesisId) {
         
-        HypothesisResource resource = thinkerService.getHypothesis(hypothesisId).toResource();
+        Hypothesis model = thinkerService.getHypothesis(hypothesisId);
         
-        resource.getLinks().add(LinksUtility.getThinkerHypothesisLink("self", resource.getId()));
+        HypothesisResource resource = model.toResource();
+        
+        resource.getLinks().add(LinksUtility.getThinkerHypothesisLink("self", model.getId()));
         
         return resource;
     }
@@ -42,20 +43,21 @@ public class RestThinkerServiceImpl implements RestThinkerService{
     @Override
     public StrategyResource addStrategy(String hypothesisId, StrategyResource resource) {
         
-        resource = thinkerService.addStrategy(hypothesisId, new Strategy(resource)).toResource();
+        Strategy model = thinkerService.addStrategy(hypothesisId, new Strategy(resource));
         
-        resource.getLinks().add(LinksUtility.getThinkerStrategyLink("self", hypothesisId, resource.getId()));
-        
-        return resource;
+        return getStrategy(hypothesisId, model.getId());
     }
 
     @Override
     public StrategyResource getStrategy(String hypothesisId, String strategyId) {
         
-        StrategyResource resource = thinkerService.getStrategy(hypothesisId, strategyId).toResource();
+        Strategy model = thinkerService.getStrategy(hypothesisId, strategyId);
+        
+        StrategyResource resource = model.toResource();
         
         resource.getLinks().add(LinksUtility.getThinkerHypothesisLink("hypothesis", hypothesisId));
-        resource.getLinks().add(LinksUtility.getThinkerStrategyLink("self", hypothesisId, resource.getId()));
+        resource.getLinks().add(LinksUtility.getThinkerStrategyLink("self", hypothesisId, model.getId()));
+        resource.setStudy(LinksUtility.getThinkerStudyLink("root", hypothesisId, strategyId, "root"));
         
         return resource;
     }
@@ -63,13 +65,31 @@ public class RestThinkerServiceImpl implements RestThinkerService{
     @Override
     public StudyResource addStudy(String hypothesisId, String strategyId, String studyId, StudyResource resource) {
         
-        Study model = StudyFactory.getInstance(resource);
+        Study model = thinkerService.addStudy(hypothesisId, strategyId, studyId, StudyFactory.getInstance(resource));
         
-        resource = thinkerService.addStudy(hypothesisId, strategyId, studyId, model).toResource();
+        return getStudy(hypothesisId, strategyId, model.getId());
+    }
+
+    @Override
+    public StudyResource getStudy(String hypothesisId, String strategyId, String studyId) {
+        
+        Study model = thinkerService.getStudy(hypothesisId, strategyId, studyId);
+        
+        StudyResource resource = model.toResource();
         
         resource.getLinks().add(LinksUtility.getThinkerHypothesisLink("hypothesis", hypothesisId));
-        resource.getLinks().add(LinksUtility.getThinkerStrategyLink("self", hypothesisId, resource.getId()));
-        resource.getLinks().add(LinksUtility.getThinkerStudyLink("self", hypothesisId, strategyId, resource.getId()));
+        resource.getLinks().add(LinksUtility.getThinkerStrategyLink("strategy", hypothesisId, strategyId));
+        resource.getLinks().add(LinksUtility.getThinkerStudyLink("self", hypothesisId, strategyId, model.getId()));
+        
+        if (model.getId() != null && !model.getId().equals("root")) {
+            resource.getLinks().add(LinksUtility.getThinkerStudyLink("parent", hypothesisId, strategyId, model.getParentId()));
+        }
+        
+        if (model instanceof AbstractOperatorStudy) {
+            for (Study study : ((AbstractOperatorStudy)model).getStudies()) {
+                resource.getStudies().add(LinksUtility.getThinkerStudyLink(study.getId(), hypothesisId, strategyId, study.getId()));
+            }
+        }
         
         return resource;
     }

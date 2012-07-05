@@ -2,6 +2,7 @@ package com.jarias14.tekstratego.service.thinker.model;
 
 import java.math.BigDecimal;
 
+import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.thinker.model.study.AndStudy;
 import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.StrategyResource;

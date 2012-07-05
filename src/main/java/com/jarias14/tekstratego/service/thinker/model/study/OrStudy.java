@@ -14,6 +14,10 @@ public class OrStudy extends AbstractOperatorStudy {
         super();
     }
     
+    public OrStudy(StudyResource resource){
+        super(resource);
+    }
+    
     @Override
     public boolean execute(SortedMap<Date, Double> indicatorValues) {
         

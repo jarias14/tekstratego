@@ -13,6 +13,10 @@ public class LessThanStudy extends AbstractCalculationStudy {
         super();
     }
     
+    public LessThanStudy(StudyResource resource) {
+        super(resource);
+    }
+    
     @Override
     public boolean execute(SortedMap<Date, Double> indicatorValues) {
         

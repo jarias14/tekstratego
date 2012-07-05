@@ -103,7 +103,7 @@ public class SimpleMovingAverage extends IndicatorBase {
     
     public void fromResource(IndicatorResource resource) {
         super.fromResource(resource);
-        period = Integer.valueOf((String)resource.getDetails().get("period"));
+        period = Integer.parseInt((String)resource.getDetails().get("period"));
         priceOfBars = PriceOfBarsEnum.valueOf((String)resource.getDetails().get("priceOfBars"));
     }
 

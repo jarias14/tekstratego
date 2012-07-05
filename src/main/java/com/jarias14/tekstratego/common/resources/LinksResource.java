@@ -1,6 +1,6 @@
 package com.jarias14.tekstratego.common.resources;
 
-public class LinksResource {
+public class LinksResource implements Comparable<LinksResource>{
     
     private String type;
     private String href;
@@ -28,5 +28,13 @@ public class LinksResource {
     
     public void setHref(String href) {
         this.href = href;
+    }
+
+    @Override
+    public int compareTo(LinksResource arg0) {
+        if (arg0.getType().equalsIgnoreCase(this.type)) {
+            return 0;
+        }
+        return 1;
     }
 }

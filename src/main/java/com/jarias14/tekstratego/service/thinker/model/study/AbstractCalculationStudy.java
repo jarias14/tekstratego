@@ -13,6 +13,8 @@ public abstract class AbstractCalculationStudy implements Study, Serializable {
     private MembaseConnector memory;
     
     private String id;
+    private String parentId;
+
     private String indicatorId;
     private Double studyValue;
     private int numberOfBarsBeforeCurrent;
@@ -25,7 +27,7 @@ public abstract class AbstractCalculationStudy implements Study, Serializable {
         this.id = resource.getId();
         this.indicatorId = resource.getIndicatorId();
         this.studyValue = Double.valueOf(resource.getStudyValue());
-        this.numberOfBarsBeforeCurrent = Integer.getInteger(resource.getBarUnderTest());
+        this.numberOfBarsBeforeCurrent = Integer.parseInt(resource.getBarUnderTest());
     }
     
     protected StudyResource toResource(String type) {
@@ -79,6 +81,14 @@ public abstract class AbstractCalculationStudy implements Study, Serializable {
 
     public void setStudyValue(Double studyValue) {
         this.studyValue = studyValue;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
 }

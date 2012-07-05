@@ -81,4 +81,17 @@ public interface RestThinkerService {
     @Produces({"application/json"})
     @Consumes({"application/json"})
     public StudyResource addStudy(@PathParam("hypothesis-id") String hypothesisId, @PathParam("strategy-id") String strategyId, @QueryParam("parent-study-id") String studyId, @RequestBody StudyResource study);
+
+    /**
+     * Provides the requested study.
+     * @param hypothesisId - is the hypothesis id where the study lives in
+     * @param strategyId - is the strategy id that owns the study
+     * @param studyId - is the study id to look for
+     * @return the requested study
+     */
+    @GET
+    @Path("/hypothesis/{hypothesis-id}/strategies/{strategy-id}/studies/{study-id}")
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
+    public StudyResource getStudy(@PathParam("hypothesis-id") String hypothesisId, @PathParam("strategy-id") String strategyId, @PathParam("study-id") String studyId);
 }

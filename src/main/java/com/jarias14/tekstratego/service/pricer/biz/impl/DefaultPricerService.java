@@ -58,7 +58,7 @@ public class DefaultPricerService implements PricerService {
             
             indicator = retrieveIndicator(indicatorId);
             calcStartDate = (new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT)).parse(startDate);
-            calcNumberOfBars = Integer.valueOf(numberOfBars);
+            calcNumberOfBars = Integer.parseInt(numberOfBars);
             calcStock = new Stock("", stockSymbol);
             
         } catch (Exception e) {

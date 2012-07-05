@@ -47,7 +47,10 @@ public class DefaultThinkerService implements ThinkerService {
         // add strategy to hypothesis
         hypothesis.getStrategies().add(strategy);
         
-        // return new strategy
+        // save to memory
+        thinkerDAO.createHypothesis(hypothesis);
+        
+        // return new strategy from memory
         return getStrategy(hypothesisId, strategy.getId());
     }
 
@@ -81,6 +84,9 @@ public class DefaultThinkerService implements ThinkerService {
         
         // add study to parentStudy
         parentStudy.getStudies().add(study);
+        
+        // assign parent study id
+        study.setParentId(parentStudy.getId());
         
         // save hypothesis to memory
         thinkerDAO.createHypothesis(hypothesis);
