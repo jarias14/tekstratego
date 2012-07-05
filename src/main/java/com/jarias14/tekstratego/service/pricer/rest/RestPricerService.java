@@ -1,8 +1,5 @@
 package com.jarias14.tekstratego.service.pricer.rest;
 
-import java.util.Date;
-import java.util.SortedMap;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;

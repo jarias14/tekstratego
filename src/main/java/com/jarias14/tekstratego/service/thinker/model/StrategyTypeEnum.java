@@ -4,6 +4,4 @@ public enum StrategyTypeEnum {
     
     ENTER, SCALE, EXIT;
 
-    private String indicatorId;
-
 }

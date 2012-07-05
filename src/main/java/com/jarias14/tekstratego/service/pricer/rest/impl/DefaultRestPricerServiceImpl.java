@@ -15,7 +15,6 @@ import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 public class DefaultRestPricerServiceImpl implements RestPricerService {
     
     private PricerService pricerService;
-    private LinksUtility linksUtility = new LinksUtility();
 
     @Override
     public BaseResource createIndicator(IndicatorResource resource) {
@@ -25,7 +24,7 @@ public class DefaultRestPricerServiceImpl implements RestPricerService {
         model = pricerService.createIndicator(model);  //save to memory
         
         resource = model.toResource();  //back to resource, now with indicatorId
-        resource.getLinks().add(linksUtility.getPricerIndicatorLink("self", resource.getIndicatorId()));
+        resource.getLinks().add(LinksUtility.getPricerIndicatorLink("self", resource.getIndicatorId()));
         
         return resource;
     }
@@ -45,7 +44,7 @@ public class DefaultRestPricerServiceImpl implements RestPricerService {
         
         IndicatorResource resource = pricerService.retrieveIndicator(indicatorId).toResource();
         
-        resource.getLinks().add(linksUtility.getPricerIndicatorLink("self", resource.getIndicatorId()));
+        resource.getLinks().add(LinksUtility.getPricerIndicatorLink("self", resource.getIndicatorId()));
         
         return resource;
     }

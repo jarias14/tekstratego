@@ -1,7 +1,6 @@
 package com.jarias14.tekstratego.service.pricer.biz.indicator;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator;
