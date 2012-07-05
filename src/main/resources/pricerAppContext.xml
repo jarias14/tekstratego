@@ -11,7 +11,7 @@
 		<bean id="realIndicatorDAO" class="com.jarias14.tekstratego.service.pricer.dao.impl.DefaultIndicatorDAO">
 			<property name="memory" ref="membaseConnector" />
 			<property name="rds" ref="tekRdsConnector" />
-			<property name="timeToLiveInSeconds" value="120" />
+			<property name="timeToLiveInSeconds" value="600" />
 		</bean>
 		
 		<bean id="defaultPricerService" class="com.jarias14.tekstratego.service.pricer.biz.impl.DefaultPricerService">

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.StrategyResource;
+import com.jarias14.tekstratego.service.thinker.rest.resource.StudyResource;
 
 public interface RestThinkerService {
 
@@ -23,7 +24,7 @@ public interface RestThinkerService {
     @Path("/hypothesis")
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public HypothesisResource createHypothesis(HypothesisResource hypothesis);
+    public HypothesisResource createHypothesis(@RequestBody HypothesisResource hypothesis);
     
     /**
      * Returns the resource for the requested hypothesis.

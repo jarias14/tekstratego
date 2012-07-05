@@ -1,12 +1,15 @@
 package com.jarias14.tekstratego.service.thinker.model.study;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.jarias14.tekstratego.service.thinker.model.Study;
-import com.jarias14.tekstratego.service.thinker.rest.StudyResource;
+import com.jarias14.tekstratego.service.thinker.rest.resource.StudyResource;
 
-public abstract class AbstractOperatorStudy implements Study {
+public abstract class AbstractOperatorStudy implements Study , Serializable {
+    
+    private static final long serialVersionUID = 1L;
     
     private String id;
     private List<Study> studies;

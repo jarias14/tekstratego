@@ -6,9 +6,9 @@ import com.jarias14.tekstratego.service.thinker.model.Strategy;
 import com.jarias14.tekstratego.service.thinker.model.Study;
 import com.jarias14.tekstratego.service.thinker.model.StudyFactory;
 import com.jarias14.tekstratego.service.thinker.rest.RestThinkerService;
-import com.jarias14.tekstratego.service.thinker.rest.StudyResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.StrategyResource;
+import com.jarias14.tekstratego.service.thinker.rest.resource.StudyResource;
 
 public class RestThinkerServiceImpl implements RestThinkerService{
 

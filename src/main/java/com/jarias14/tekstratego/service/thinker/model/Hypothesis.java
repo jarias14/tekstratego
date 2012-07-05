@@ -1,12 +1,16 @@
 package com.jarias14.tekstratego.service.thinker.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.jarias14.tekstratego.common.resources.LinksResource;
+import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
 
-public class Hypothesis {
+public class Hypothesis extends AbstractBase {
     
-    private String id;
+    private static final long serialVersionUID = 1L;
+    
     private HypothesisStatusEnum status;
     private List<Strategy> strategies;
     private String portfolioId;
@@ -16,20 +20,27 @@ public class Hypothesis {
     }
 
     public Hypothesis(HypothesisResource resource) {
-        // TODO Auto-generated constructor stub
+        super(resource);
+        //this.status = HypothesisStatusEnum.valueOf(resource.getStatus());
+        this.strategies = new ArrayList<Strategy>();
+        this.portfolioId = resource.getPortfolioId();
+        this.status = HypothesisStatusEnum.AVAILABLE;
     }
     
     public HypothesisResource toResource() {
-        // TODO Auto-generated constructor stub
-        return null;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        
+        HypothesisResource resource = new HypothesisResource();
+        
+        resource.setId(super.getId());
+        resource.setStatus(status.toString());
+        resource.setPortfolioId(portfolioId);
+        resource.setStrategies(new ArrayList<LinksResource>());
+        
+        for (Strategy strategy : strategies) {
+            resource.getStrategies().add(LinksUtility.getPricerHypothesisLink(strategy.getId(), super.getId(), strategy.getId()));
+        }
+        
+        return resource;
     }
 
     public HypothesisStatusEnum getStatus() {

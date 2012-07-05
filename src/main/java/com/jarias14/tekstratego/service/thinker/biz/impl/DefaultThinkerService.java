@@ -16,10 +16,9 @@ public class DefaultThinkerService implements ThinkerService {
     private ThinkerDAO thinkerDAO;
 
     @Override
-    public Hypothesis createHypothesis(Hypothesis resource) {
+    public Hypothesis createHypothesis(Hypothesis hypothesis) {
         
         // get a unique id
-        Hypothesis hypothesis = new Hypothesis();
         hypothesis.setId(UUID.randomUUID().toString());
         
         // save hypothesis to memory

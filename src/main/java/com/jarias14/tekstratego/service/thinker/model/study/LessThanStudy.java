@@ -3,10 +3,12 @@ package com.jarias14.tekstratego.service.thinker.model.study;
 import java.util.Date;
 import java.util.SortedMap;
 
-import com.jarias14.tekstratego.service.thinker.rest.StudyResource;
+import com.jarias14.tekstratego.service.thinker.rest.resource.StudyResource;
 
 public class LessThanStudy extends AbstractCalculationStudy {
     
+    private static final long serialVersionUID = 1L;
+
     public LessThanStudy() {
         super();
     }

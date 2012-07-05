@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.jarias14.tekstratego.common.resources.LinksResource;
 
+@XmlRootElement
 public class BaseResource implements Serializable {
 	
     private static final long serialVersionUID = 1L;
