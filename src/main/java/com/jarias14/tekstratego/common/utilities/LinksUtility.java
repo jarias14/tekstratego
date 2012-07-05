@@ -21,7 +21,7 @@ public class LinksUtility {
         return new LinksResource(type, link);
     }
 
-    public static LinksResource getPricerHypothesisLink(String type, String hypothesisId) {
+    public static LinksResource getThinkerHypothesisLink(String type, String hypothesisId) {
         
         String link = getBaseLink().concat("/thinker-service/hypothesis/{HYPOTHESIS-ID}");
         link = link.replace("{HYPOTHESIS-ID}", hypothesisId);
@@ -29,11 +29,21 @@ public class LinksUtility {
         return new LinksResource(type, link);
     }
 
-    public static LinksResource getPricerHypothesisLink(String type, String hypothesisId, String strategyId) {
+    public static LinksResource getThinkerStrategyLink(String type, String hypothesisId, String strategyId) {
         
         String link = getBaseLink().concat("/thinker-service/hypothesis/{HYPOTHESIS-ID}/strategies/{STRATEGY-ID}");
         link = link.replace("{HYPOTHESIS-ID}", hypothesisId);
         link = link.replace("{STRATEGY-ID}", strategyId);
+        
+        return new LinksResource(type, link);
+    }
+
+    public static LinksResource getThinkerStudyLink(String type, String hypothesisId, String strategyId, String studyId) {
+            
+        String link = getBaseLink().concat("/thinker-service/hypothesis/{HYPOTHESIS-ID}/strategies/{STRATEGY-ID}/studies/{STUDY-ID}");
+        link = link.replace("{HYPOTHESIS-ID}", hypothesisId);
+        link = link.replace("{STRATEGY-ID}", strategyId);
+        link = link.replace("{STUDY-ID}", studyId);
         
         return new LinksResource(type, link);
     }

@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.thinker.rest.impl;
 
+import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.thinker.biz.ThinkerService;
 import com.jarias14.tekstratego.service.thinker.model.Hypothesis;
 import com.jarias14.tekstratego.service.thinker.model.Strategy;
@@ -20,22 +21,43 @@ public class RestThinkerServiceImpl implements RestThinkerService{
     
     @Override
     public HypothesisResource createHypothesis(HypothesisResource resource) {
-        return thinkerService.createHypothesis(new Hypothesis(resource)).toResource();
+        
+        resource = thinkerService.createHypothesis(new Hypothesis(resource)).toResource();
+        
+        resource.getLinks().add(LinksUtility.getThinkerHypothesisLink("self", resource.getId()));
+        
+        return resource;
     }
 
     @Override
     public HypothesisResource getHypothesis(String hypothesisId) {
-        return thinkerService.getHypothesis(hypothesisId).toResource();
+        
+        HypothesisResource resource = thinkerService.getHypothesis(hypothesisId).toResource();
+        
+        resource.getLinks().add(LinksUtility.getThinkerHypothesisLink("self", resource.getId()));
+        
+        return resource;
     }
 
     @Override
     public StrategyResource addStrategy(String hypothesisId, StrategyResource resource) {
-        return thinkerService.addStrategy(hypothesisId, new Strategy(resource)).toResource();
+        
+        resource = thinkerService.addStrategy(hypothesisId, new Strategy(resource)).toResource();
+        
+        resource.getLinks().add(LinksUtility.getThinkerStrategyLink("self", hypothesisId, resource.getId()));
+        
+        return resource;
     }
 
     @Override
     public StrategyResource getStrategy(String hypothesisId, String strategyId) {
-        return thinkerService.getStrategy(hypothesisId, strategyId).toResource();
+        
+        StrategyResource resource = thinkerService.getStrategy(hypothesisId, strategyId).toResource();
+        
+        resource.getLinks().add(LinksUtility.getThinkerHypothesisLink("hypothesis", hypothesisId));
+        resource.getLinks().add(LinksUtility.getThinkerStrategyLink("self", hypothesisId, resource.getId()));
+        
+        return resource;
     }
 
     @Override
@@ -43,7 +65,13 @@ public class RestThinkerServiceImpl implements RestThinkerService{
         
         Study model = StudyFactory.getInstance(resource);
         
-        return thinkerService.addStudy(hypothesisId, strategyId, studyId, model).toResource();
+        resource = thinkerService.addStudy(hypothesisId, strategyId, studyId, model).toResource();
+        
+        resource.getLinks().add(LinksUtility.getThinkerHypothesisLink("hypothesis", hypothesisId));
+        resource.getLinks().add(LinksUtility.getThinkerStrategyLink("self", hypothesisId, resource.getId()));
+        resource.getLinks().add(LinksUtility.getThinkerStudyLink("self", hypothesisId, strategyId, resource.getId()));
+        
+        return resource;
     }
 
     public ThinkerService getThinkerService() {

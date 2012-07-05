@@ -37,7 +37,7 @@ public class Hypothesis extends AbstractBase {
         resource.setStrategies(new ArrayList<LinksResource>());
         
         for (Strategy strategy : strategies) {
-            resource.getStrategies().add(LinksUtility.getPricerHypothesisLink(strategy.getId(), super.getId(), strategy.getId()));
+            resource.getStrategies().add(LinksUtility.getThinkerStrategyLink(strategy.getId(), super.getId(), strategy.getId()));
         }
         
         return resource;
