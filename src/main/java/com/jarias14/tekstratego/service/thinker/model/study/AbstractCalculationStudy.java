@@ -2,6 +2,7 @@ package com.jarias14.tekstratego.service.thinker.model.study;
 
 import com.jarias14.tekstratego.common.utilities.MembaseConnector;
 import com.jarias14.tekstratego.service.thinker.model.Study;
+import com.jarias14.tekstratego.service.thinker.rest.StudyResource;
 
 public abstract class AbstractCalculationStudy implements Study {
     
@@ -14,6 +15,24 @@ public abstract class AbstractCalculationStudy implements Study {
     
     public AbstractCalculationStudy() {
         
+    }
+    
+    public AbstractCalculationStudy(StudyResource resource) {
+        this.id = resource.getId();
+        this.indicatorId = resource.getIndicatorId();
+        this.studyValue = Double.valueOf(resource.getStudyValue());
+        this.numberOfBarsBeforeCurrent = Integer.getInteger(resource.getBarUnderTest());
+    }
+    
+    protected StudyResource toResource(String type) {
+        
+        StudyResource resource = new StudyResource();
+        resource.setType(type);
+        resource.setStudyValue(String.valueOf(this.studyValue));
+        resource.setId(this.id);
+        resource.setIndicatorId(this.indicatorId);
+        resource.setBarUnderTest(String.valueOf(this.numberOfBarsBeforeCurrent));
+        return resource;
     }
     
     @Override

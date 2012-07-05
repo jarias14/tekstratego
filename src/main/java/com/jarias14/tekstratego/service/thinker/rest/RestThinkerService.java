@@ -1,7 +1,4 @@
-    package com.jarias14.tekstratego.service.thinker.rest;
-
-import java.io.IOException;
-import java.util.Set;
+package com.jarias14.tekstratego.service.thinker.rest;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -11,13 +8,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
+import com.jarias14.tekstratego.service.thinker.rest.resource.StrategyResource;
 
 public interface RestThinkerService {
 
@@ -29,7 +23,7 @@ public interface RestThinkerService {
     @Path("/hypothesis")
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public HypothesisResource createHypothesis() throws Exception;
+    public HypothesisResource createHypothesis(HypothesisResource hypothesis);
     
     /**
      * Returns the resource for the requested hypothesis.
@@ -40,7 +34,7 @@ public interface RestThinkerService {
     @Path("/hypothesis/{hypothesis-id}")
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public BaseResource getHypothesis(@PathParam("hypothesis-id") String hypothesisId);
+    public HypothesisResource getHypothesis(@PathParam("hypothesis-id") String hypothesisId);
     
     /**
      * Creates a strategy for the given hypothesis.
@@ -51,18 +45,19 @@ public interface RestThinkerService {
     @Path("/hypothesis/{hypothesis-id}/strategies")
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public BaseResource addStrategy(@PathParam("hypothesis-id") String hypothesisId, @QueryParam("type") String strategyType, @RequestBody String body)  throws JsonParseException, JsonMappingException, IOException;
+    public StrategyResource addStrategy(@PathParam("hypothesis-id") String hypothesisId, @RequestBody StrategyResource strategy);
 
     /**
      * Provides a list of strategies in the hypothesis.
      * @param hypothesisId identifier for the hypothesis
      * @return the list of strategies part of the hypothesis
-     */
+     
     @GET
     @Path("/hypothesis/{hypothesis-id}/strategies")
     @Produces({"application/json"})
     @Consumes({"application/json"})
     public Set<BaseResource> getStrategies(@PathParam("hypothesis-id") String hypothesisId);
+    */
     
     /**
      * Provides the requested strategy.
@@ -73,7 +68,7 @@ public interface RestThinkerService {
     @Path("/hypothesis/{hypothesis-id}/strategies/{strategy-id}")
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public BaseResource getStrategy(@PathParam("hypothesis-id") String hypothesisId, @PathParam("strategy-id") String strategyId);
+    public StrategyResource getStrategy(@PathParam("hypothesis-id") String hypothesisId, @PathParam("strategy-id") String strategyId);
 
     /**
      * Provides the requested strategy.
@@ -84,5 +79,5 @@ public interface RestThinkerService {
     @Path("/hypothesis/{hypothesis-id}/strategies/{strategy-id}/studies")
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public BaseResource addStudy(@PathParam("hypothesis-id") String hypothesisId, @PathParam("strategy-id") String strategyId);
+    public StudyResource addStudy(@PathParam("hypothesis-id") String hypothesisId, @PathParam("strategy-id") String strategyId, @QueryParam("parent-study-id") String studyId, @RequestBody StudyResource study);
 }

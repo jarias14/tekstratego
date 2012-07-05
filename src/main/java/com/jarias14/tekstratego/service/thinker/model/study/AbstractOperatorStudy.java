@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jarias14.tekstratego.service.thinker.model.Study;
+import com.jarias14.tekstratego.service.thinker.rest.StudyResource;
 
 public abstract class AbstractOperatorStudy implements Study {
     
@@ -12,6 +13,19 @@ public abstract class AbstractOperatorStudy implements Study {
     
     public AbstractOperatorStudy() {
         studies = new ArrayList<Study>();
+    }
+    
+    public AbstractOperatorStudy(StudyResource resource) {
+        this.id = resource.getId();
+        this.studies = new ArrayList<Study>(); // a new study shouldn't have child studies
+    }
+    
+    protected StudyResource toResource(String type) {
+        
+        StudyResource resource = new StudyResource();
+        resource.setType(type);
+        resource.setId(this.id);
+        return resource;
     }
     
     @Override

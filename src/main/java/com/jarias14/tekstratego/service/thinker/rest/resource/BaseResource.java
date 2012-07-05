@@ -11,6 +11,7 @@ public class BaseResource implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private Set<LinksResource> links;
+    private String id;
     
     public BaseResource() {
         links = new TreeSet<LinksResource>();
@@ -22,6 +23,14 @@ public class BaseResource implements Serializable {
 
     public void setLinks(Set<LinksResource> links) {
         this.links = links;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 }

@@ -1,11 +1,14 @@
 package com.jarias14.tekstratego.service.thinker.rest.impl;
 
-import java.util.Set;
-
 import com.jarias14.tekstratego.service.thinker.biz.ThinkerService;
+import com.jarias14.tekstratego.service.thinker.model.Hypothesis;
+import com.jarias14.tekstratego.service.thinker.model.Strategy;
+import com.jarias14.tekstratego.service.thinker.model.Study;
+import com.jarias14.tekstratego.service.thinker.model.StudyFactory;
 import com.jarias14.tekstratego.service.thinker.rest.RestThinkerService;
-import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
+import com.jarias14.tekstratego.service.thinker.rest.StudyResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
+import com.jarias14.tekstratego.service.thinker.rest.resource.StrategyResource;
 
 public class RestThinkerServiceImpl implements RestThinkerService{
 
@@ -16,39 +19,31 @@ public class RestThinkerServiceImpl implements RestThinkerService{
     }
     
     @Override
-    public HypothesisResource createHypothesis() {
-        // TODO Auto-generated method stub
-        return null;
+    public HypothesisResource createHypothesis(HypothesisResource resource) {
+        return thinkerService.createHypothesis(new Hypothesis(resource)).toResource();
     }
 
     @Override
-    public BaseResource getHypothesis(String hypothesisId) {
-        // TODO Auto-generated method stub
-        return null;
+    public HypothesisResource getHypothesis(String hypothesisId) {
+        return thinkerService.getHypothesis(hypothesisId).toResource();
     }
 
     @Override
-    public BaseResource addStrategy(String hypothesisId, String strategyType, String body) {
-        // TODO Auto-generated method stub
-        return null;
+    public StrategyResource addStrategy(String hypothesisId, StrategyResource resource) {
+        return thinkerService.addStrategy(hypothesisId, new Strategy(resource)).toResource();
     }
 
     @Override
-    public Set<BaseResource> getStrategies(String hypothesisId) {
-        // TODO Auto-generated method stub
-        return null;
+    public StrategyResource getStrategy(String hypothesisId, String strategyId) {
+        return thinkerService.getStrategy(hypothesisId, strategyId).toResource();
     }
 
     @Override
-    public BaseResource getStrategy(String hypothesisId, String strategyId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public BaseResource addStudy(String hypothesisId, String strategyId) {
-        // TODO Auto-generated method stub
-        return null;
+    public StudyResource addStudy(String hypothesisId, String strategyId, String studyId, StudyResource resource) {
+        
+        Study model = StudyFactory.getInstance(resource);
+        
+        return thinkerService.addStudy(hypothesisId, strategyId, studyId, model).toResource();
     }
 
     public ThinkerService getThinkerService() {

@@ -10,11 +10,6 @@ import com.jarias14.tekstratego.service.thinker.model.Strategy;
 import com.jarias14.tekstratego.service.thinker.model.Study;
 import com.jarias14.tekstratego.service.thinker.model.study.AbstractCalculationStudy;
 import com.jarias14.tekstratego.service.thinker.model.study.AbstractOperatorStudy;
-import com.jarias14.tekstratego.service.thinker.model.study.AndStudy;
-import com.jarias14.tekstratego.service.thinker.model.study.EqualToStudy;
-import com.jarias14.tekstratego.service.thinker.model.study.GreaterThanStudy;
-import com.jarias14.tekstratego.service.thinker.model.study.LessThanStudy;
-import com.jarias14.tekstratego.service.thinker.model.study.OrStudy;
 
 public class DefaultThinkerService implements ThinkerService {
     
@@ -71,22 +66,7 @@ public class DefaultThinkerService implements ThinkerService {
     }
 
     @Override
-    public Study addStudy(String hypothesisId, String strategyId, String studyId, String studyType) {
-        
-        // instantiate new study
-        Study study = null;
-        // TODO create factory for studies http://code.google.com/p/tekstratego/issues/detail?id=4
-        if (studyType.equalsIgnoreCase("or")) {
-            study = new OrStudy();
-        } else if (studyType.equalsIgnoreCase("and")) {
-            study = new AndStudy();
-        } else if (studyType.equalsIgnoreCase("gt")) {
-            study = new GreaterThanStudy();
-        } else if (studyType.equalsIgnoreCase("lt")) {
-            study = new LessThanStudy();
-        } else if (studyType.equalsIgnoreCase("et")) {
-            study = new EqualToStudy();
-        }
+    public Study addStudy(String hypothesisId, String strategyId, String studyId, Study study) {
         
         // set an unique id for the new study
         study.setId(UUID.randomUUID().toString());

@@ -10,7 +10,7 @@ public interface ThinkerService {
     public Hypothesis getHypothesis(String hypothesisId);
     public Strategy addStrategy(String hypothesisId, Strategy strategy);
     public Strategy getStrategy(String hypothesisId, String strategyId);
-    public Study addStudy(String hypothesisId, String strategyId, String studyId, String studyType);
+    public Study addStudy(String hypothesisId, String strategyId, String studyId, Study study);
     public Study getStudy(String hypothesisId, String strategyId, String studyId);
     
 }

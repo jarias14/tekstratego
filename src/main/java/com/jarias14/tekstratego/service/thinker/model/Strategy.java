@@ -2,6 +2,8 @@ package com.jarias14.tekstratego.service.thinker.model;
 
 import java.math.BigDecimal;
 
+import com.jarias14.tekstratego.service.thinker.rest.resource.StrategyResource;
+
 public class Strategy {
     
     private String id;
@@ -11,6 +13,15 @@ public class Strategy {
     
     public Strategy() {
         
+    }
+
+    public Strategy(StrategyResource resource) {
+        // TODO Auto-generated constructor stub
+    }
+
+    public StrategyResource toResource() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     public String getId() {

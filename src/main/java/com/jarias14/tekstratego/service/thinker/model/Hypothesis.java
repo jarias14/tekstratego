@@ -2,6 +2,8 @@ package com.jarias14.tekstratego.service.thinker.model;
 
 import java.util.List;
 
+import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
+
 public class Hypothesis {
     
     private String id;
@@ -11,6 +13,15 @@ public class Hypothesis {
     
     public Hypothesis() {
         
+    }
+
+    public Hypothesis(HypothesisResource resource) {
+        // TODO Auto-generated constructor stub
+    }
+    
+    public HypothesisResource toResource() {
+        // TODO Auto-generated constructor stub
+        return null;
     }
 
     public String getId() {
