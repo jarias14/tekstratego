@@ -1,18 +1,16 @@
 package com.jarias14.tekstratego.service.thinker.biz;
 
-import java.util.Set;
-
-import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
-import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
+import com.jarias14.tekstratego.service.thinker.model.Hypothesis;
+import com.jarias14.tekstratego.service.thinker.model.Strategy;
+import com.jarias14.tekstratego.service.thinker.model.Study;
 
 public interface ThinkerService {
     
-
-    public HypothesisResource createHypothesis();
-    public BaseResource getHypothesis(String hypothesisId);
-    public BaseResource addStrategy(String hypothesisId, String strategyType, String body);
-    public Set<BaseResource> getStrategies(String hypothesisId);
-    public BaseResource getStrategy(String hypothesisId, String strategyId);
-    public BaseResource addStudy(String hypothesisId, String strategyId);
-
+    public Hypothesis createHypothesis(Hypothesis resource);
+    public Hypothesis getHypothesis(String hypothesisId);
+    public Strategy addStrategy(String hypothesisId, Strategy strategy);
+    public Strategy getStrategy(String hypothesisId, String strategyId);
+    public Study addStudy(String hypothesisId, String strategyId, String studyId, String studyType);
+    public Study getStudy(String hypothesisId, String strategyId, String studyId);
+    
 }

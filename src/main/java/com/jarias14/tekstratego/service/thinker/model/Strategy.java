@@ -1,14 +1,13 @@
 package com.jarias14.tekstratego.service.thinker.model;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public class Strategy {
     
     private String id;
     private StrategyTypeEnum type;
     private BigDecimal amount;
-    private List<Study> studies;
+    private Study study;
     
     public Strategy() {
         
@@ -38,12 +37,12 @@ public class Strategy {
         this.amount = amount;
     }
 
-    public List<Study> getStudies() {
-        return studies;
+    public Study getStudy() {
+        return study;
     }
 
-    public void setStudies(List<Study> studies) {
-        this.studies = studies;
+    public void setStudy(Study study) {
+        this.study = study;
     }
 
 }
