@@ -10,20 +10,22 @@ import javax.ws.rs.QueryParam;
 
 import org.springframework.stereotype.Service;
 
-import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
+import com.jarias14.tekstratego.service.manager.rest.resource.AlertCollectionResource;
+import com.jarias14.tekstratego.service.manager.rest.resource.PortfolioResource;
+import com.jarias14.tekstratego.service.manager.rest.resource.TransactionCollectionResource;
 
 @Service("restManagerService")
 public interface RestManagerService {
     
     /**
      * Creates a portfolio for the client.
-     * @return the list of prices for the request.
+     * @return a portfolio instance.
      */
     @POST
     @Path("/portfolio")
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public BaseResource createPortfolio(@QueryParam("suggested-id") String suggestedId);
+    public PortfolioResource createPortfolio(PortfolioResource portfolio);
 
     /**
      * Returns an existing portfolio object.
@@ -33,25 +35,56 @@ public interface RestManagerService {
     @Path("/portfolio/{portfolio-id}")
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public BaseResource getPortfolio(@PathParam("portfolio-id") String portfolioId);
+    public PortfolioResource getPortfolio(@PathParam("portfolio-id") String portfolioId);
     
     /**
-     * Adds a transaction to the portfolio.
+     * Adds a trade alert for the portfolio to consider.
+     * @return list of trade alerts
+     */
+    @POST
+    @Path("/portfolio/{portfolio-id}/alerts")
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
+    public AlertCollectionResource addAlerts(@PathParam("portfolio-id") String portfolioId, AlertCollectionResource alerts);
+
+    /**
+     * Gets trade alerts from the portfolio.
+     * @return a list of trade alerts
+     */
+    @GET
+    @Path("/portfolio/{portfolio-id}/alerts")
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
+    public AlertCollectionResource getAlerts(@PathParam("portfolio-id") String portfolioId);
+    
+    /**
+     * Gets trade alerts from the portfolio.
+     * @return a list of trade alerts
+     */
+    @GET
+    @Path("/portfolio/{portfolio-id}/alerts")
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
+    public AlertCollectionResource getAlerts(@PathParam("portfolio-id") String portfolioId, @QueryParam("sort-by") String sortBy);
+    
+    
+    /**
+     * Trades an alert and moves it to the transactions resource.
      * @return a transaction object
      */
     @POST
-    @Path("/portfolio/{portfolio-id}/transactions")
+    @Path("/portfolio/{portfolio-id}/alerts/{alert-id}/trade")
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public BaseResource addTransaction(@PathParam("portfolio-id") String portfolioId);
+    public TransactionCollectionResource addTransaction(@PathParam("portfolio-id") String portfolioId, @PathParam("alert-id") String alertId);
     
     /**
-     * Gets transactions from the portfolio.
+     * Gets transactions executed by the portfolio.
      * @return a transaction object
      */
     @GET
     @Path("/portfolio/{portfolio-id}/transactions")
     @Produces({"application/json"})
     @Consumes({"application/json"})
-    public BaseResource getTransactions(@PathParam("portfolio-id") String portfolioId);
+    public TransactionCollectionResource getTransactions(@PathParam("portfolio-id") String portfolioId, @QueryParam("sort-by") String sortBy);
 }

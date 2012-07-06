@@ -10,6 +10,7 @@ public class Strategy extends AbstractBase {
     private static final long serialVersionUID = 1L;
     
     private StrategyTypeEnum type;
+    private String name;
     private BigDecimal amount;
     private Study study;
     
@@ -57,6 +58,14 @@ public class Strategy extends AbstractBase {
 
     public void setStudy(Study study) {
         this.study = study;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }
