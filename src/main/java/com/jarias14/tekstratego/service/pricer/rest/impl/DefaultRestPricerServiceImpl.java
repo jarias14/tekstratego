@@ -24,7 +24,7 @@ public class DefaultRestPricerServiceImpl implements RestPricerService {
         model = pricerService.createIndicator(model);  //save to memory
         
         resource = model.toResource();  //back to resource, now with indicatorId
-        resource.getLinks().add(LinksUtility.getPricerIndicatorLink("self", resource.getIndicatorId()));
+        resource.getLinks().add(LinksUtility.getPricerIndicatorLink("self", resource.getId()));
         
         return resource;
     }
@@ -44,7 +44,7 @@ public class DefaultRestPricerServiceImpl implements RestPricerService {
         
         IndicatorResource resource = pricerService.retrieveIndicator(indicatorId).toResource();
         
-        resource.getLinks().add(LinksUtility.getPricerIndicatorLink("self", resource.getIndicatorId()));
+        resource.getLinks().add(LinksUtility.getPricerIndicatorLink("self", resource.getId()));
         
         return resource;
     }

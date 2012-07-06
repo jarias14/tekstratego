@@ -39,13 +39,13 @@ public abstract class IndicatorBase implements Indicator {
     @Override
     public IndicatorResource toResource() {
         IndicatorResource resource = new IndicatorResource();
-        resource.setIndicatorId(this.getId());
+        resource.setId(this.getId());
         resource.setSizeOfBars(this.getSizeOfBars().name());
         return resource;
     }
     
     public void fromResource(IndicatorResource resource) {
-        this.id = resource.getIndicatorId();
+        this.id = resource.getId();
         this.sizeOfBars = SizeOfBarsEnum.valueOf(resource.getSizeOfBars());
     }
     

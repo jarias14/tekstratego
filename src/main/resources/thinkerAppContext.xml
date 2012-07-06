@@ -21,11 +21,11 @@
 	<bean id="restThinkerService" class="com.jarias14.tekstratego.service.thinker.rest.impl.RestThinkerServiceImpl">
 		<property name="thinkerService" ref="thinkerService"/>
 	</bean>
-	
+	<!-- 
 	<jaxrs:server id="restThinkerContainer" address="/thinker-service/">
 		<jaxrs:serviceBeans>
 			<ref bean="restThinkerService" />
 		</jaxrs:serviceBeans>
 	</jaxrs:server>
-
+ 	-->
 </beans>

@@ -21,10 +21,10 @@
 		<bean id="restPricerService" class="com.jarias14.tekstratego.service.pricer.rest.impl.DefaultRestPricerServiceImpl">
 			<property name="pricerService" ref="defaultPricerService" />
 		</bean>
-		
+		<!-- 
 		<jaxrs:server id="restPricerContainer" address="/pricer-service/">
 			<jaxrs:serviceBeans>
 				<ref bean="restPricerService" />
 			</jaxrs:serviceBeans>
-		</jaxrs:server>
+		</jaxrs:server> -->
 </beans>

@@ -45,7 +45,6 @@ public class RdsConnectorTest {
         
         Assert.assertEquals(24.27, prices.get(date));
         
-        rds.close();
     }
     
     @Test
@@ -60,7 +59,6 @@ public class RdsConnectorTest {
         
         Assert.assertEquals(2, actualDates.size());
         Assert.assertEquals(formatter.parse("2010-07-12"), actualDates.last());
-        rds.close();
     }
 
 }

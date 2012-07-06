@@ -8,7 +8,6 @@ public class IndicatorResource extends BaseResource {
     
     private static final long serialVersionUID = 3749994184149195859L;
     
-    private String indicatorId;
     private String indicatorType;
     private String sizeOfBars;
     private String numberOfBars;
@@ -16,14 +15,6 @@ public class IndicatorResource extends BaseResource {
     
     public IndicatorResource() {
         super();
-    }
-
-    public String getIndicatorId() {
-        return indicatorId;
-    }
-
-    public void setIndicatorId(String indicatorId) {
-        this.indicatorId = indicatorId;
     }
 
     public String getIndicatorType() {
