@@ -34,16 +34,16 @@ public class RdsConnectorTest {
         SizeOfBarsEnum sizeOfBar = SizeOfBarsEnum.ONE_DAY;
         PriceOfBarsEnum priceOfBar = PriceOfBarsEnum.CLOSE;
         Date startDate = DateUtility.math(new Date(), TimeUnit.DAYS, 1, -730);
-        int numberOfBars = 20;
+        Date endDate = DateUtility.math(new Date(), TimeUnit.DAYS, 1, -701);
         
-        
-        SortedMap<Date, Double> prices = rds.getPrices(exchange, symbol, sizeOfBar, priceOfBar, startDate, numberOfBars);
+        SortedMap<Date, Double> prices = rds.getPrices(exchange, symbol, sizeOfBar, priceOfBar, startDate, endDate);
         
         SimpleDateFormat formatter = new SimpleDateFormat(ConstantsUtility.DATE_FORMAT);
         
         Date date = formatter.parse("2010-07-09");
         
         Assert.assertEquals(24.27, prices.get(date));
+        Assert.assertEquals(21, prices.size());
         
     }
     

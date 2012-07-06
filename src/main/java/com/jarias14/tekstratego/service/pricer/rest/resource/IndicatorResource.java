@@ -8,21 +8,22 @@ public class IndicatorResource extends BaseResource {
     
     private static final long serialVersionUID = 3749994184149195859L;
     
-    private String indicatorType;
+    private String type;
     private String sizeOfBars;
-    private String numberOfBars;
+    private String priceOfBars;
+
     private Map<String, String> details;
     
     public IndicatorResource() {
         super();
     }
 
-    public String getIndicatorType() {
-        return indicatorType;
+    public String getType() {
+        return type;
     }
 
-    public void setIndicatorType(String indicatorType) {
-        this.indicatorType = indicatorType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getSizeOfBars() {
@@ -40,13 +41,12 @@ public class IndicatorResource extends BaseResource {
     public void setDetails(Map<String, String> details) {
         this.details = details;
     }
-
-    public String getNumberOfBars() {
-        return numberOfBars;
+    
+    public String getPriceOfBars() {
+        return priceOfBars;
     }
 
-    public void setNumberOfBars(String numberOfBars) {
-        this.numberOfBars = numberOfBars;
+    public void setPriceOfBars(String priceOfBars) {
+        this.priceOfBars = priceOfBars;
     }
-
 }

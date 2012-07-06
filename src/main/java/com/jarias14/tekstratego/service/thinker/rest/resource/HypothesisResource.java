@@ -1,6 +1,6 @@
 package com.jarias14.tekstratego.service.thinker.rest.resource;
 
-import java.util.List;
+import java.util.Map;
 
 import com.jarias14.tekstratego.common.resources.LinksResource;
 
@@ -10,7 +10,9 @@ public class HypothesisResource extends BaseResource {
     
     private String status;
     private String portfolioId;
-    private List<LinksResource> strategies;
+    private Map<String, LinksResource> strategies;
+    private String startDate;
+    private String endDate;
 
     public HypothesisResource() {
         super();
@@ -24,11 +26,11 @@ public class HypothesisResource extends BaseResource {
         this.status = status;
     }
     
-    public List<LinksResource> getStrategies() {
+    public Map<String, LinksResource> getStrategies() {
         return strategies;
     }
     
-    public void setStrategies(List<LinksResource> strategies) {
+    public void setStrategies(Map<String, LinksResource> strategies) {
         this.strategies = strategies;
     }
 
@@ -38,6 +40,22 @@ public class HypothesisResource extends BaseResource {
 
     public void setPortfolioId(String portfolioId) {
         this.portfolioId = portfolioId;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
 }

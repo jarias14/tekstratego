@@ -44,13 +44,13 @@ public class DefaultPricerService implements PricerService {
 
     @Override
     public SortedMap<Date, Double> calculateIndicator(String indicatorId, String stockSymbol,
-            String sizeOfBars, String startDate, String numberOfBars) {
+            String startDate, String endDate) {
         
         // init my variables to send to indicator
         
         Indicator indicator = null;
         Date calcStartDate = null;
-        int calcNumberOfBars = 1;
+        Date calcEndDate = null;
         Stock calcStock = null;
         
         // setup variables
@@ -58,7 +58,7 @@ public class DefaultPricerService implements PricerService {
             
             indicator = retrieveIndicator(indicatorId);
             calcStartDate = (new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT)).parse(startDate);
-            calcNumberOfBars = Integer.parseInt(numberOfBars);
+            calcEndDate = (new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT)).parse(endDate);
             calcStock = new Stock("", stockSymbol);
             
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class DefaultPricerService implements PricerService {
         }
         
         //make the call down to calculate values
-        return indicator.calculate(calcStock, calcStartDate, calcNumberOfBars);
+        return indicator.calculate(calcStock, calcStartDate, calcEndDate);
     }
 
 }

@@ -22,13 +22,12 @@ public class DefaultRestPricerServiceImplTest {
     public void test() {
         HashMap<String,String> details = new HashMap<String,String>();
         details.put("period", "3");
-        details.put("priceOfBars", "OPEN");
         
         IndicatorResource resource = new IndicatorResource();
         resource.setDetails(details);
-        resource.setIndicatorType("simpleMovingAverage");
-        resource.setNumberOfBars("90");
+        resource.setType("simple_moving_average");
         resource.setSizeOfBars("ONE_DAY");
+        resource.setPriceOfBars("OPEN");
         
         webservice.createIndicator(resource);
     }

@@ -24,21 +24,21 @@ public class Price extends IndicatorBase {
     }
     
     @Override
-    public SortedMap<Date, Double> calculate(Stock stock, Date startDate, int numberOfBars) {
+    public SortedMap<Date, Double> calculate(Stock stock, Date startDate, Date endDate) {
         
         SortedMap<Date, Double> values = new TreeMap<Date, Double>();
         
-        populateValues(values, stock, startDate, this.getSizeOfBars(), numberOfBars);
+        populateValues(values, stock, startDate, endDate, this.getSizeOfBars());
         
         return values;
     }
     
-    private void populateValues(SortedMap<Date, Double> values, Stock stock, Date startDate, SizeOfBarsEnum sizeOfBars, int numberOfBars) {
+    private void populateValues(SortedMap<Date, Double> values, Stock stock, Date startDate, Date endDate, SizeOfBarsEnum sizeOfBars) {
         
         // TODO: create singleton factory for DAOs
         IndicatorDAO dao = (IndicatorDAO) ContextLoader.getCurrentWebApplicationContext().getBean("realIndicatorDAO");
 
-        values.putAll(dao.readPrices(stock, sizeOfBars, this.priceOfBars, startDate, numberOfBars));
+        values.putAll(dao.readPrices(stock, sizeOfBars, this.priceOfBars, startDate, endDate));
     }
 
     public IndicatorResource toResource() {
@@ -50,6 +50,7 @@ public class Price extends IndicatorBase {
     }
     
     public void fromResource(IndicatorResource resource) {
+        this.priceOfBars = PriceOfBarsEnum.valueOf(resource.getPriceOfBars().toUpperCase());
         super.fromResource(resource);
     }
 

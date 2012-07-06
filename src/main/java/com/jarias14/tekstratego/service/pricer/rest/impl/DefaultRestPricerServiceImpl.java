@@ -24,18 +24,21 @@ public class DefaultRestPricerServiceImpl implements RestPricerService {
         model = pricerService.createIndicator(model);  //save to memory
         
         resource = model.toResource();  //back to resource, now with indicatorId
-        resource.getLinks().add(LinksUtility.getPricerIndicatorLink("self", resource.getId()));
+        resource.getLinks().put("self", LinksUtility.getPricerIndicatorLink(resource.getId()));
         
         return resource;
     }
 
     @Override
-    public IndicatorValuesResource getValues(String indicatorId, String stockId, String sizeOfBars, String startDate, String numberOfBars) {
+    public IndicatorValuesResource getValues(String indicatorId, String stockId, String startDate, String numberOfBars) {
         
-        SortedMap<Date,Double> values = pricerService.calculateIndicator(indicatorId, stockId, sizeOfBars, startDate, numberOfBars);
+        SortedMap<Date,Double> values = pricerService.calculateIndicator(indicatorId, stockId, startDate, numberOfBars);
         
         IndicatorValuesResource resource = new IndicatorValuesResource(values);
+        resource.getLinks().put("self", LinksUtility.getPricerIndicatorLink(indicatorId));
+        resource.setId(indicatorId);
 
+        
         return resource;
     }
 
@@ -44,7 +47,7 @@ public class DefaultRestPricerServiceImpl implements RestPricerService {
         
         IndicatorResource resource = pricerService.retrieveIndicator(indicatorId).toResource();
         
-        resource.getLinks().add(LinksUtility.getPricerIndicatorLink("self", resource.getId()));
+        resource.getLinks().put("self", LinksUtility.getPricerIndicatorLink(resource.getId()));
         
         return resource;
     }

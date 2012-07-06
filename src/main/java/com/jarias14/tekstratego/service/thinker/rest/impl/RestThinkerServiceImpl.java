@@ -35,7 +35,7 @@ public class RestThinkerServiceImpl implements RestThinkerService{
         
         HypothesisResource resource = model.toResource();
         
-        resource.getLinks().add(LinksUtility.getThinkerHypothesisLink("self", model.getId()));
+        resource.getLinks().put("self", LinksUtility.getThinkerHypothesisLink(model.getId()));
         
         return resource;
     }
@@ -63,9 +63,9 @@ public class RestThinkerServiceImpl implements RestThinkerService{
         
         StrategyResource resource = model.toResource();
         
-        resource.getLinks().add(LinksUtility.getThinkerHypothesisLink("hypothesis", hypothesisId));
-        resource.getLinks().add(LinksUtility.getThinkerStrategyLink("self", hypothesisId, model.getId()));
-        resource.setStudy(LinksUtility.getThinkerStudyLink("root", hypothesisId, strategyId, "root"));
+        resource.getLinks().put("hypothesis", LinksUtility.getThinkerHypothesisLink(hypothesisId));
+        resource.getLinks().put("self", LinksUtility.getThinkerStrategyLink(hypothesisId, model.getId()));
+        resource.setStudy(LinksUtility.getThinkerStudyLink(hypothesisId, strategyId, "root"));
         
         return resource;
     }
@@ -85,17 +85,17 @@ public class RestThinkerServiceImpl implements RestThinkerService{
         
         StudyResource resource = model.toResource();
         
-        resource.getLinks().add(LinksUtility.getThinkerHypothesisLink("hypothesis", hypothesisId));
-        resource.getLinks().add(LinksUtility.getThinkerStrategyLink("strategy", hypothesisId, strategyId));
-        resource.getLinks().add(LinksUtility.getThinkerStudyLink("self", hypothesisId, strategyId, model.getId()));
+        resource.getLinks().put("hypothesis", LinksUtility.getThinkerHypothesisLink(hypothesisId));
+        resource.getLinks().put("strategy", LinksUtility.getThinkerStrategyLink(hypothesisId, strategyId));
+        resource.getLinks().put("self", LinksUtility.getThinkerStudyLink(hypothesisId, strategyId, model.getId()));
         
         if (model.getId() != null && !model.getId().equals("root")) {
-            resource.getLinks().add(LinksUtility.getThinkerStudyLink("parent", hypothesisId, strategyId, model.getParentId()));
+            resource.getLinks().put("parent", LinksUtility.getThinkerStudyLink(hypothesisId, strategyId, model.getParentId()));
         }
         
         if (model instanceof AbstractOperatorStudy) {
             for (Study study : ((AbstractOperatorStudy)model).getStudies()) {
-                resource.getStudies().add(LinksUtility.getThinkerStudyLink(study.getId(), hypothesisId, strategyId, study.getId()));
+                resource.getStudies().put(study.getId(), LinksUtility.getThinkerStudyLink(hypothesisId, strategyId, study.getId()));
             }
         }
         

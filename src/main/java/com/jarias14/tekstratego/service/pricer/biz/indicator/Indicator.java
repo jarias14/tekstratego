@@ -15,7 +15,7 @@ public interface Indicator extends Serializable {
     public String getId();
     public void setId(String indicatorId);
     
-    public SortedMap<Date, Double> calculate(Stock stock, Date startDate, int numberOfBars);
+    public SortedMap<Date, Double> calculate(Stock stock, Date startDate, Date endDate);
     
 
 }

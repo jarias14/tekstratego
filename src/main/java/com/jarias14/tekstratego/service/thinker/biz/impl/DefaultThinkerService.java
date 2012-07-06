@@ -1,6 +1,5 @@
 package com.jarias14.tekstratego.service.thinker.biz.impl;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.core.task.TaskExecutor;
@@ -49,7 +48,7 @@ public class DefaultThinkerService implements ThinkerService {
         Hypothesis hypothesis = thinkerDAO.readHypothesis(hypothesisId);
         
         // add strategy to hypothesis
-        hypothesis.getStrategies().add(strategy);
+        hypothesis.getStrategies().put(strategy.getId(), strategy);
         
         // save to memory
         thinkerDAO.createHypothesis(hypothesis);
@@ -74,7 +73,7 @@ public class DefaultThinkerService implements ThinkerService {
         thinkerDAO.createHypothesis(hypothesis);
         
         // spoon process
-        taskExecutor.execute(new DefaultRunnerService(hypothesis));
+        taskExecutor.execute(new DefaultRunnerService(thinkerDAO, hypothesis));
 
         // if we got here, we should be good
         return true;
@@ -87,7 +86,7 @@ public class DefaultThinkerService implements ThinkerService {
         Hypothesis hypothesis = thinkerDAO.readHypothesis(hypothesisId);
         
         // get strategy from hypothesis
-        Strategy strategy = findStrategy(strategyId, hypothesis.getStrategies());
+        Strategy strategy = hypothesis.getStrategies().get(strategyId);
         
         // return the strategy found
         return strategy;
@@ -103,7 +102,7 @@ public class DefaultThinkerService implements ThinkerService {
         Hypothesis hypothesis = thinkerDAO.readHypothesis(hypothesisId);
         
         // get strategy from hypothesis
-        Strategy strategy = findStrategy(strategyId, hypothesis.getStrategies());
+        Strategy strategy = hypothesis.getStrategies().get(strategyId);
         
         // get study to add to
         AbstractOperatorStudy parentStudy = (AbstractOperatorStudy)findStudy(studyId, strategy.getStudy());
@@ -128,24 +127,13 @@ public class DefaultThinkerService implements ThinkerService {
         Hypothesis hypothesis = thinkerDAO.readHypothesis(hypothesisId);
         
         // get strategy from hypothesis
-        Strategy strategy = findStrategy(strategyId, hypothesis.getStrategies());
+        Strategy strategy = hypothesis.getStrategies().get(strategyId);
         
         // get study to add to
         Study study = findStudy(studyId, strategy.getStudy());
         
         // return the study found
         return study;
-    }
-
-    private Strategy findStrategy(String strategyId, List<Strategy> strategies) {
-        
-        for (Strategy strategy : strategies) {
-            if (strategy.getId().equalsIgnoreCase(strategyId)) {
-                return strategy;
-            }
-        }
-        
-        return null;
     }
     
     private Study findStudy(String studyId, Study study) {

@@ -2,24 +2,14 @@ package com.jarias14.tekstratego.common.resources;
 
 public class LinksResource implements Comparable<LinksResource>{
     
-    private String type;
     private String href;
     
     public LinksResource() {
         
     }
     
-    public LinksResource(String type, String href) {
-        this.type = type;
+    public LinksResource(String href) {
         this.href = href;
-    }
-    
-    public String getType() {
-        return type;
-    }
-    
-    public void setType(String type) {
-        this.type = type;
     }
     
     public String getHref() {
@@ -32,7 +22,7 @@ public class LinksResource implements Comparable<LinksResource>{
 
     @Override
     public int compareTo(LinksResource arg0) {
-        if (arg0.getType().equalsIgnoreCase(this.type)) {
+        if (arg0.getHref().equalsIgnoreCase(this.href)) {
             return 0;
         }
         return 1;

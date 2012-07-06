@@ -2,8 +2,8 @@ package com.jarias14.tekstratego.service.thinker.model.study;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.TreeSet;
 
 import com.jarias14.tekstratego.common.resources.LinksResource;
 import com.jarias14.tekstratego.service.thinker.model.Study;
@@ -31,7 +31,7 @@ public abstract class AbstractOperatorStudy implements Study , Serializable {
         StudyResource resource = new StudyResource();
         resource.setType(type);
         resource.setId(this.id);
-        resource.setStudies(new TreeSet<LinksResource>());
+        resource.setStudies(new HashMap<String, LinksResource>());
         return resource;
     }
     

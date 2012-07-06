@@ -1,5 +1,7 @@
 package com.jarias14.tekstratego.common.utilities;
 
+import java.util.Map;
+
 import com.jarias14.tekstratego.common.resources.LinksResource;
 
 public class LinksUtility {
@@ -9,42 +11,63 @@ public class LinksUtility {
     private static String port = "8080";
     private static String location = "tekstratego";
     
+    public final static String PRICER_INDICATOR_VALUES = "/pricer-service/indicators/{indicator}/prices/{symbol}";
+
+    public static String getUrl(String template, Map<String,String> replacements, Map<String,String> parameters) {
+        String url = getBaseLink().concat(template);
+        
+        for (String key : replacements.keySet()) {
+            url = url.replace("{"+key+"}", replacements.get(key));
+        }
+        
+        if (parameters.size() > 0) {
+            url = url.concat("?");
+            for (String key : parameters.keySet()) {
+                url = url.concat(key + "=" + parameters.get(key) + "&");
+            }
+        }
+        
+        return url;
+    }
+    
     private static String getBaseLink() {
         return new String (protocol + "://" + host + ":" + port + "/" + location);
     }
     
-    public static LinksResource getPricerIndicatorLink(String type, String indicatorId) {
+    public static LinksResource getPricerIndicatorLink(String indicatorId) {
         
         String link = getBaseLink().concat("/pricer-service/indicators/{INDICATOR-ID}");
         link = link.replace("{INDICATOR-ID}", indicatorId);
         
-        return new LinksResource(type, link);
+        return new LinksResource(link);
     }
 
-    public static LinksResource getThinkerHypothesisLink(String type, String hypothesisId) {
+    public static LinksResource getThinkerHypothesisLink(String hypothesisId) {
         
         String link = getBaseLink().concat("/thinker-service/hypothesis/{HYPOTHESIS-ID}");
         link = link.replace("{HYPOTHESIS-ID}", hypothesisId);
         
-        return new LinksResource(type, link);
+        return new LinksResource(link);
     }
 
-    public static LinksResource getThinkerStrategyLink(String type, String hypothesisId, String strategyId) {
+    public static LinksResource getThinkerStrategyLink(String hypothesisId, String strategyId) {
         
         String link = getBaseLink().concat("/thinker-service/hypothesis/{HYPOTHESIS-ID}/strategies/{STRATEGY-ID}");
         link = link.replace("{HYPOTHESIS-ID}", hypothesisId);
         link = link.replace("{STRATEGY-ID}", strategyId);
         
-        return new LinksResource(type, link);
+        return new LinksResource(link);
     }
 
-    public static LinksResource getThinkerStudyLink(String type, String hypothesisId, String strategyId, String studyId) {
+    public static LinksResource getThinkerStudyLink(String hypothesisId, String strategyId, String studyId) {
             
         String link = getBaseLink().concat("/thinker-service/hypothesis/{HYPOTHESIS-ID}/strategies/{STRATEGY-ID}/studies/{STUDY-ID}");
         link = link.replace("{HYPOTHESIS-ID}", hypothesisId);
         link = link.replace("{STRATEGY-ID}", strategyId);
         link = link.replace("{STUDY-ID}", studyId);
         
-        return new LinksResource(type, link);
+        return new LinksResource(link);
     }
+    
+    
 }

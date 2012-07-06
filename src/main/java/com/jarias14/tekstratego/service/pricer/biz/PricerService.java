@@ -9,6 +9,6 @@ public interface PricerService {
     
     public Indicator createIndicator(Indicator indicator);
     public Indicator retrieveIndicator(String indicatorId);
-    public SortedMap<Date, Double> calculateIndicator(String indicatorId, String stockId, String sizeOfBars, String startDate, String numberOfBars);
+    public SortedMap<Date, Double> calculateIndicator(String indicatorId, String stockId, String sizeOfBars, String startDate);
 
 }

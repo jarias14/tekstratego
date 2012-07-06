@@ -90,6 +90,11 @@
 		class="com.jarias14.tekstratego.service.thinker.biz.impl.DefaultThinkerService">
 		<property name="thinkerDAO" ref="thinkerDAO" />
 	</bean>
+	
+	<bean id="runnerService"
+		class="com.jarias14.tekstratego.service.thinker.biz.impl.DefaultThinkerService">
+		<property name="thinkerDAO" ref="thinkerDAO" />
+	</bean>
 
 	<!-- END: business layer beans -->
 

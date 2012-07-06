@@ -19,8 +19,9 @@ public class IndicatorFactoryTest {
         
         IndicatorResource expected = new IndicatorResource();
         expected.setId("abc123");
-        expected.setIndicatorType("simpleMovingAverage");
+        expected.setType("simple_moving_average");
         expected.setSizeOfBars("ONE_DAY");
+        expected.setPriceOfBars("OPEN");
         expected.setDetails(details);
         
         boolean success = false;
@@ -33,7 +34,6 @@ public class IndicatorFactoryTest {
         
         Assert.assertTrue(success);
         Assert.assertEquals(expected.getId(), actual.getId());
-        //Assert.assertEquals(expected.getNumberOfBars(), actual.getNumberOfBars());
         Assert.assertEquals(expected.getSizeOfBars(), actual.getSizeOfBars().toString());
         Assert.assertEquals((String)expected.getDetails().get("period"), String.valueOf(((SimpleMovingAverage)actual).getPeriod()));
     }

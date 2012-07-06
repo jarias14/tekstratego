@@ -17,6 +17,6 @@ public interface IndicatorDAO {
     public void deleteIndicator(String indicatorId);
     
     public SortedMap<Date, Double> readPrices(Stock stock, SizeOfBarsEnum sizeOfBar,
-            PriceOfBarsEnum priceOfBar, Date startDate, int numberOfBars);
+            PriceOfBarsEnum priceOfBar, Date startDate, Date endDate);
 
 }

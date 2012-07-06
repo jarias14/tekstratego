@@ -1,10 +1,7 @@
 package com.jarias14.tekstratego.service.pricer.biz.indicator;
 
-import java.util.Date;
-import java.util.SortedMap;
-
+import com.jarias14.tekstratego.common.models.PriceOfBarsEnum;
 import com.jarias14.tekstratego.common.models.SizeOfBarsEnum;
-import com.jarias14.tekstratego.common.models.Stock;
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 
 public abstract class IndicatorBase implements Indicator {
@@ -13,12 +10,13 @@ public abstract class IndicatorBase implements Indicator {
     
     private String id;
     private SizeOfBarsEnum sizeOfBars;
+    private PriceOfBarsEnum priceOfBars;
+
+    private String type;
     
     public IndicatorBase() {
         
     }
-    
-    public abstract SortedMap<Date, Double> calculate(Stock stock, Date startDate, int numberOfBars);
     
     public String getId() {
         return id;
@@ -36,17 +34,41 @@ public abstract class IndicatorBase implements Indicator {
         this.sizeOfBars = sizeOfBars;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    public PriceOfBarsEnum getPriceOfBars() {
+        return priceOfBars;
+    }
+
+    public void setPriceOfBars(PriceOfBarsEnum priceOfBars) {
+        this.priceOfBars = priceOfBars;
+    }
+
     @Override
     public IndicatorResource toResource() {
+        
         IndicatorResource resource = new IndicatorResource();
+        
         resource.setId(this.getId());
+        resource.setType(this.type);
         resource.setSizeOfBars(this.getSizeOfBars().name());
+        resource.setPriceOfBars(this.priceOfBars.name());
+        
         return resource;
     }
     
     public void fromResource(IndicatorResource resource) {
+        
         this.id = resource.getId();
-        this.sizeOfBars = SizeOfBarsEnum.valueOf(resource.getSizeOfBars());
+        this.type = resource.getType();
+        this.sizeOfBars = SizeOfBarsEnum.valueOf(resource.getSizeOfBars().toUpperCase());
+        this.priceOfBars = PriceOfBarsEnum.valueOf(resource.getPriceOfBars().toUpperCase());
     }
     
 }

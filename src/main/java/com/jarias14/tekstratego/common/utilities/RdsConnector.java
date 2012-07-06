@@ -78,9 +78,10 @@ public class RdsConnector {
     }
     
     
-    public SortedMap<Date, Double> getPrices(String exchange, String symbol, SizeOfBarsEnum sizeOfBar, PriceOfBarsEnum priceOfBar, Date startDate, int numberOfBars) {
+    public SortedMap<Date, Double> getPrices(String exchange, String symbol, SizeOfBarsEnum sizeOfBar, PriceOfBarsEnum priceOfBar, Date startDate, Date endDate) {
 
         java.sql.Date queryStartDate = new java.sql.Date(startDate.getTime());
+        java.sql.Date queryEndDate = new java.sql.Date(endDate.getTime());
         
         SortedMap<Date, Double> priceBars = new TreeMap<Date, Double>();
         
@@ -90,8 +91,9 @@ public class RdsConnector {
                             + "FROM `PriceBars` WHERE "
                                 + "size = '"  + sizeOfBarIndex + "' AND "
                                 + "symbol = '"  + symbol + "' AND "
-                                + "date >= '"   + queryStartDate + "' "
-                            + "ORDER BY date ASC LIMIT "+ numberOfBars;
+                                + "date >= '"   + queryStartDate + "' AND "
+                                + "date <= '"   + queryEndDate + "' "
+                            + "ORDER BY date ASC";
         
         ResultSet rs = select(query);
         
