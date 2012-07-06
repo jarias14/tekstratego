@@ -44,6 +44,6 @@ public interface RestPricerService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public IndicatorValuesResource getValues(@PathParam("indicator-id") String indicatorId, @PathParam("stock-id") String stockId,
-            @QueryParam("startDate") String startDate, @QueryParam("numberOfBars") String numberOfBars);
+            @QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate);
     
 }

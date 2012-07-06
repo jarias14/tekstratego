@@ -1,6 +1,7 @@
 package com.jarias14.tekstratego.service.thinker.model.study;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.SortedMap;
 
 import com.jarias14.tekstratego.service.thinker.model.Study;
@@ -19,7 +20,7 @@ public class AndStudy extends AbstractOperatorStudy {
     }
     
     @Override
-    public boolean execute(SortedMap<Date, Double> indicatorValues) {
+    public boolean execute(Map<String, SortedMap<Date, Double>> indicatorValues) {
         
         boolean result = true;
         
