@@ -1,6 +1,6 @@
 package com.jarias14.tekstratego.service.pricer.rest.impl;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.SortedMap;
 
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
@@ -32,7 +32,7 @@ public class DefaultRestPricerServiceImpl implements RestPricerService {
     @Override
     public IndicatorValuesResource getValues(String indicatorId, String stockId, String startDate, String numberOfBars) {
         
-        SortedMap<Date,Double> values = pricerService.calculateIndicator(indicatorId, stockId, startDate, numberOfBars);
+        SortedMap<Calendar,Double> values = pricerService.calculateIndicator(indicatorId, stockId, startDate, numberOfBars);
         
         IndicatorValuesResource resource = new IndicatorValuesResource(values);
         resource.getLinks().put("self", LinksUtility.getPricerIndicatorLink(indicatorId));

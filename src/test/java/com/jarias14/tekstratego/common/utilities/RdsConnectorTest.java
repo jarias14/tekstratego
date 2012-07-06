@@ -1,11 +1,8 @@
 package com.jarias14.tekstratego.common.utilities;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
@@ -33,32 +30,21 @@ public class RdsConnectorTest {
         String symbol = "MSFT";
         SizeOfBarsEnum sizeOfBar = SizeOfBarsEnum.ONE_DAY;
         PriceOfBarsEnum priceOfBar = PriceOfBarsEnum.CLOSE;
-        Date startDate = DateUtility.math(new Date(), TimeUnit.DAYS, 1, -730);
-        Date endDate = DateUtility.math(new Date(), TimeUnit.DAYS, 1, -701);
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(2010, 3, 5, 0, 0, 0);
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(2010, 6, 10, 23, 59, 59);
         
-        SortedMap<Date, Double> prices = rds.getPrices(exchange, symbol, sizeOfBar, priceOfBar, startDate, endDate);
+        //this thing goes up to but not including the last one
+        SortedMap<Calendar, Double> prices = rds.getPrices(exchange, symbol, sizeOfBar, priceOfBar, startDate, endDate);
         
-        SimpleDateFormat formatter = new SimpleDateFormat(ConstantsUtility.DATE_FORMAT);
-        
-        Date date = formatter.parse("2010-07-09");
-        
-        Assert.assertEquals(24.27, prices.get(date));
-        Assert.assertEquals(21, prices.size());
-        
-    }
-    
-    @Test
-    public void testGetMarketDates() throws ParseException {
-        
-        SimpleDateFormat formatter = new SimpleDateFormat(ConstantsUtility.DATE_FORMAT);
-        Date date = formatter.parse("2010-07-09");
-        SizeOfBarsEnum sizeOfBars = SizeOfBarsEnum.ONE_DAY;
-        int numberOfBars = 1;
-        
-        SortedSet<Date> actualDates = rds.getMarketDates(date, numberOfBars, sizeOfBars);
-        
-        Assert.assertEquals(2, actualDates.size());
-        Assert.assertEquals(formatter.parse("2010-07-12"), actualDates.last());
-    }
+        Calendar date = Calendar.getInstance();
+        date.set(2010, 6, 9, 0, 0, 0);
+        date.set(Calendar.MILLISECOND, 0);
 
+        Assert.assertEquals(68, prices.size());
+        Assert.assertEquals(24.27, prices.get(date));
+        Assert.assertEquals(24.27, prices.get(prices.lastKey()));
+        
+    }
 }

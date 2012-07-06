@@ -4,13 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.SortedMap;
-import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.rds.AmazonRDS;
@@ -78,12 +77,14 @@ public class RdsConnector {
     }
     
     
-    public SortedMap<Date, Double> getPrices(String exchange, String symbol, SizeOfBarsEnum sizeOfBar, PriceOfBarsEnum priceOfBar, Date startDate, Date endDate) {
+    public SortedMap<Calendar, Double> getPrices(String exchange, String symbol, SizeOfBarsEnum sizeOfBar, PriceOfBarsEnum priceOfBar, Calendar startDate, Calendar endDate) {
 
-        java.sql.Date queryStartDate = new java.sql.Date(startDate.getTime());
-        java.sql.Date queryEndDate = new java.sql.Date(endDate.getTime());
+        SimpleDateFormat formatter = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
         
-        SortedMap<Date, Double> priceBars = new TreeMap<Date, Double>();
+        String queryStartDate = formatter.format(startDate.getTime());
+        String queryEndDate = formatter.format(endDate.getTime());
+        
+        SortedMap<Calendar, Double> priceBars = new TreeMap<Calendar, Double>();
         
         int sizeOfBarIndex = mapSizeOfBar(sizeOfBar);
         
@@ -99,8 +100,10 @@ public class RdsConnector {
         
         try {
             while (rs.next()) {
-                
-                priceBars.put((Date)(rs.getDate("date")), rs.getDouble(priceOfBar.toString().toLowerCase()));
+                Calendar cal = Calendar.getInstance();
+                java.sql.Date date = rs.getDate("date");
+                cal.setTimeInMillis(date.getTime());
+                priceBars.put(cal, rs.getDouble(priceOfBar.toString().toLowerCase()));
             }
         } catch (Exception e) {
             System.out.println("error with query " + query);
@@ -113,44 +116,6 @@ public class RdsConnector {
         return priceBars;
     }
 
-    public SortedSet<Date> getMarketDates(Date date, int numberOfBars, SizeOfBarsEnum sizeOfBars) {
-        
-        java.sql.Date queryStartDate = new java.sql.Date(date.getTime());
-        
-        int sizeOfBarIndex = mapSizeOfBar(sizeOfBars);
-        
-        String order, operator;
-        
-        if (numberOfBars >= 0) {
-            operator = ">=";
-            order = "ASC";
-        } else {
-            operator = "<=";
-            order = "DESC";
-        }
-        
-        String query = "SELECT date "
-                            + "FROM `PriceBars` WHERE "
-                                + "size = '"  + sizeOfBarIndex + "' AND "
-                                + "symbol = 'ED' AND "
-                                + "date "+ operator +" '"   + queryStartDate + "' "
-                            + "ORDER BY date "+ order +" LIMIT "+ (numberOfBars+1);
-        
-        ResultSet rs = select(query);
-        
-        SortedSet<Date> marketDates = new TreeSet<Date>();
-        
-        try {
-            while (rs.next()) {
-                marketDates.add((Date)(rs.getDate("date")));
-            }
-        } catch (Exception e) {
-            System.out.println("error with query " + query);
-        }
-        
-        return marketDates;
-        
-    }
     
     private int mapSizeOfBar(SizeOfBarsEnum sizeOfBar) {
         return 10;
@@ -191,6 +156,50 @@ public class RdsConnector {
     
     
     /*
+    
+    public SortedSet<Calendar> getMarketDates(Calendar date, int numberOfBars, SizeOfBarsEnum sizeOfBars) {
+        
+        java.sql.Date queryStartDate = new java.sql.Date(date.getTime().getTime());
+        
+        int sizeOfBarIndex = mapSizeOfBar(sizeOfBars);
+        
+        String order, operator;
+        
+        if (numberOfBars >= 0) {
+            operator = ">=";
+            order = "ASC";
+        } else {
+            operator = "<=";
+            order = "DESC";
+        }
+        
+        String query = "SELECT date "
+                            + "FROM `PriceBars` WHERE "
+                                + "size = '"  + sizeOfBarIndex + "' AND "
+                                + "symbol = 'ED' AND "
+                                + "date "+ operator +" '"   + queryStartDate + "' "
+                            + "ORDER BY date "+ order +" LIMIT "+ (numberOfBars+1);
+        
+        ResultSet rs = select(query);
+        
+        SortedSet<Calendar> marketDates = new TreeSet<Calendar>();
+        
+        try {
+            while (rs.next()) {
+                Calendar cal = Calendar.getInstance();
+                java.sql.Date retrievedDate = rs.getDate("date");
+                cal.setTime(retrievedDate);
+                marketDates.add(cal);
+            }
+        } catch (Exception e) {
+            System.out.println("error with query " + query);
+        }
+        
+        return marketDates;
+        
+    }
+    
+    
     public void insert(ArrayList<String> queries) {
 
     }

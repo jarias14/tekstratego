@@ -1,7 +1,7 @@
 package com.jarias14.tekstratego.service.pricer.biz.indicator;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.SortedMap;
 
 import com.jarias14.tekstratego.common.models.Stock;
@@ -15,7 +15,7 @@ public interface Indicator extends Serializable {
     public String getId();
     public void setId(String indicatorId);
     
-    public SortedMap<Date, Double> calculate(Stock stock, Date startDate, Date endDate);
+    public SortedMap<Calendar, Double> calculate(Stock stock, Calendar startDate, Calendar endDate);
     
 
 }

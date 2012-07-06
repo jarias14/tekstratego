@@ -1,15 +1,15 @@
 package com.jarias14.tekstratego.common.models;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Calendar;
 
 public enum SizeOfBarsEnum {
     
-    ONE_DAY (1, TimeUnit.DAYS);
+    ONE_DAY (1, Calendar.DATE);
     
     private final int timeValue;
-    private final TimeUnit timeUnit;
+    private final int timeUnit;
     
-    SizeOfBarsEnum(int timeValue, TimeUnit timeUnit) {
+    SizeOfBarsEnum(int timeValue, int timeUnit) {
         this.timeValue = timeValue;
         this.timeUnit = timeUnit;
     }
@@ -18,7 +18,7 @@ public enum SizeOfBarsEnum {
         return timeValue;
     }
 
-    public TimeUnit getTimeUnit() {
+    public int getTimeUnit() {
         return timeUnit;
     }
 

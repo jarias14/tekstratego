@@ -1,9 +1,8 @@
 package com.jarias14.tekstratego.service.thinker.model;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +21,8 @@ public class Hypothesis extends AbstractBase {
     private Map<String, Strategy> strategies;
     private List<Stock> stocks;
     private String portfolioId;
-    private Date startDate;
-    private Date endDate;
+    private Calendar startDate;
+    private Calendar endDate;
     
     public Hypothesis() {
         
@@ -37,9 +36,13 @@ public class Hypothesis extends AbstractBase {
         this.status = HypothesisStatusEnum.AVAILABLE;
         this.stocks = new ArrayList<Stock>();
         this.stocks.add(new Stock("NYSE", "ED"));
+        this.startDate = Calendar.getInstance();
+        this.endDate = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
+        
         try {
-            this.startDate = (new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT)).parse(resource.getStartDate());
-            this.endDate = (new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT)).parse(resource.getEndDate());
+            this.startDate.setTime(formatter.parse(resource.getStartDate()));
+            this.endDate.setTime(formatter.parse(resource.getEndDate()));
         } catch (Exception e) {
             
         }
@@ -95,19 +98,19 @@ public class Hypothesis extends AbstractBase {
         this.stocks = stocks;
     }
 
-    public Date getStartDate() {
+    public Calendar getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(Calendar startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public Calendar getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(Calendar endDate) {
         this.endDate = endDate;
     }
 

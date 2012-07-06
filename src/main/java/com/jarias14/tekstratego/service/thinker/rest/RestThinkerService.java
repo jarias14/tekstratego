@@ -44,7 +44,7 @@ public interface RestThinkerService {
      * @return the hypothesis
      */
     @POST
-    @Path("/hypothesis/{hypothesis-id}")
+    @Path("/hypothesis/{hypothesis-id}/process")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public HypothesisResource runHypothesis(@PathParam("hypothesis-id") String hypothesisId);

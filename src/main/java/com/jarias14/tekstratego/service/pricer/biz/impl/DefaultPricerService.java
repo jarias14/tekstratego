@@ -1,7 +1,7 @@
 package com.jarias14.tekstratego.service.pricer.biz.impl;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.SortedMap;
 import java.util.UUID;
 
@@ -43,22 +43,24 @@ public class DefaultPricerService implements PricerService {
     }
 
     @Override
-    public SortedMap<Date, Double> calculateIndicator(String indicatorId, String stockSymbol,
+    public SortedMap<Calendar, Double> calculateIndicator(String indicatorId, String stockSymbol,
             String startDate, String endDate) {
+        
+        SimpleDateFormat sdf = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
         
         // init my variables to send to indicator
         
         Indicator indicator = null;
-        Date calcStartDate = null;
-        Date calcEndDate = null;
+        Calendar calcStartDate = Calendar.getInstance();;
+        Calendar calcEndDate = Calendar.getInstance();;
         Stock calcStock = null;
         
         // setup variables
         try {
             
             indicator = retrieveIndicator(indicatorId);
-            calcStartDate = (new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT)).parse(startDate);
-            calcEndDate = (new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT)).parse(endDate);
+            calcStartDate.setTime(sdf.parse(startDate));
+            calcEndDate.setTime(sdf.parse(endDate));
             calcStock = new Stock("", stockSymbol);
             
         } catch (Exception e) {

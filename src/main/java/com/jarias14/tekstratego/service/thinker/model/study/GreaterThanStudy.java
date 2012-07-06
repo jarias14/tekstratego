@@ -1,6 +1,6 @@
 package com.jarias14.tekstratego.service.thinker.model.study;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -19,15 +19,9 @@ public class GreaterThanStudy extends AbstractCalculationStudy {
     }
     
     @Override
-    public boolean execute(Map<String, SortedMap<Date, Double>> data) {
+    public boolean execute(Map<String, SortedMap<Calendar, Double>> data) {
         
-        SortedMap<Date, Double> indicatorValues = data.get(this.getIndicatorId());
-        
-        Object[] keyList = indicatorValues.keySet().toArray();
-        
-        Double indicatorValue = indicatorValues.get(keyList[this.getNumberOfBarsBeforeCurrent()]);
-        
-        return indicatorValue > this.getStudyValue();
+        return super.getValueFromData(data) > this.getStudyValue();
     }
     
     @Override

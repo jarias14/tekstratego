@@ -18,13 +18,12 @@
 
 package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import com.jarias14.tekstratego.common.models.Stock;
-import com.jarias14.tekstratego.common.utilities.DateUtility;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 
@@ -39,18 +38,18 @@ public class SimpleMovingAverage extends IndicatorBase {
     }
     
     @Override
-    public SortedMap<Date, Double> calculate(Stock stock, Date startDate, Date endDate) {
+    public SortedMap<Calendar, Double> calculate(Stock stock, Calendar startDate, Calendar endDate) {
         
-        SortedMap<Date, Double> priceHistory = getPriceHistory(stock, startDate, endDate);
+        SortedMap<Calendar, Double> priceHistory = getPriceHistory(stock, startDate, endDate);
         
-        SortedMap<Date, Double> values = calculate(priceHistory, startDate, endDate);
+        SortedMap<Calendar, Double> values = calculate(priceHistory, startDate, endDate);
         
         return values;
     }
     
-    private SortedMap<Date, Double> calculate(SortedMap<Date, Double> prices, Date startDate, Date endDate) {
+    private SortedMap<Calendar, Double> calculate(SortedMap<Calendar, Double> prices, Calendar startDate, Calendar endDate) {
         
-        SortedMap<Date, Double> values = new TreeMap<Date, Double>();
+        SortedMap<Calendar, Double> values = new TreeMap<Calendar, Double>();
         
         Object[] valueList = prices.values().toArray();
         Object[] keyList = prices.keySet().toArray();
@@ -62,9 +61,9 @@ public class SimpleMovingAverage extends IndicatorBase {
             sum = sum + (Double) valueList[i];
             sum = sum - (Double) (i >= period ? valueList[i-period] : 0.0);
             
-            if (((Date)keyList[i]).compareTo(startDate) >= 0 && ((Date)keyList[i]).compareTo(endDate) <= 0) {
+            if (((Calendar)keyList[i]).compareTo(startDate) >= 0 && ((Calendar)keyList[i]).compareTo(endDate) <= 0) {
                 Double value = sum / period; 
-                values.put((Date) keyList[i], value);
+                values.put((Calendar) keyList[i], value);
             }
         }
         
@@ -72,16 +71,18 @@ public class SimpleMovingAverage extends IndicatorBase {
         
     }
 
-    private SortedMap<Date, Double> getPriceHistory(Stock stock, Date startDate, Date endDate) {
+    private SortedMap<Calendar, Double> getPriceHistory(Stock stock, Calendar startDate, Calendar endDate) {
         
-        Date priceHistoryStartDate = DateUtility.math(startDate, this.getSizeOfBars().getTimeUnit(), this.getSizeOfBars().getTimeValue(), -period*2);
-        Date priceHistoryEndDate = DateUtility.math(endDate, this.getSizeOfBars().getTimeUnit(), this.getSizeOfBars().getTimeValue(), period*2);
+        Calendar priceHistoryStartDate = (Calendar) startDate.clone();
+        priceHistoryStartDate.add(this.getSizeOfBars().getTimeUnit(), -this.getSizeOfBars().getTimeValue()*period*2);
+        Calendar priceHistoryEndDate = (Calendar) endDate.clone();
+        priceHistoryEndDate.add(this.getSizeOfBars().getTimeUnit(), this.getSizeOfBars().getTimeValue()*period*2);
         
         Price priceIndicator = new Price();
         priceIndicator.setSizeOfBars(this.getSizeOfBars());
         priceIndicator.setPriceOfBars(this.getPriceOfBars());
         
-        SortedMap<Date, Double> priceHistory = priceIndicator.calculate(stock, priceHistoryStartDate, priceHistoryEndDate);
+        SortedMap<Calendar, Double> priceHistory = priceIndicator.calculate(stock, priceHistoryStartDate, priceHistoryEndDate);
         
         return priceHistory;
     }
