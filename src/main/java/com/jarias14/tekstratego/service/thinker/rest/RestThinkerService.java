@@ -9,9 +9,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
-import com.jarias14.tekstratego.service.thinker.rest.resource.StrategyResource;
-import com.jarias14.tekstratego.service.thinker.rest.resource.StudyResource;
+import com.jarias14.tekstratego.common.resource.HypothesisResource;
+import com.jarias14.tekstratego.common.resource.StrategyResource;
+import com.jarias14.tekstratego.common.resource.StudyResource;
 
 @Path("/thinker-service")
 public interface RestThinkerService {

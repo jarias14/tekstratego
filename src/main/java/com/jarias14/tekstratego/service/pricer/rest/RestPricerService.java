@@ -9,8 +9,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
-import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorValuesResource;
+import com.jarias14.tekstratego.common.resource.IndicatorResource;
+import com.jarias14.tekstratego.common.resource.IndicatorValuesResource;
 
 @Path("/pricer-service")
 public interface RestPricerService {

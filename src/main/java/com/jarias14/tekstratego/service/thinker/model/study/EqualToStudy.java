@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Map;
 import java.util.SortedMap;
 
-import com.jarias14.tekstratego.service.thinker.rest.resource.StudyResource;
+import com.jarias14.tekstratego.common.resource.StudyResource;
 
 public class EqualToStudy extends AbstractCalculationStudy {
     

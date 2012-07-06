@@ -1,4 +1,4 @@
-package com.jarias14.tekstratego.common.models;
+package com.jarias14.tekstratego.common.model;
 
 import java.io.Serializable;
 

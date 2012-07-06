@@ -1,8 +1,7 @@
-package com.jarias14.tekstratego.service.thinker.rest.resource;
+package com.jarias14.tekstratego.common.resource;
 
 import java.util.Map;
 
-import com.jarias14.tekstratego.common.resources.LinksResource;
 
 public class HypothesisResource extends BaseResource {
 

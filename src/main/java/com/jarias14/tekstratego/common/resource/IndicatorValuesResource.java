@@ -1,9 +1,8 @@
-package com.jarias14.tekstratego.service.pricer.rest.resource;
+package com.jarias14.tekstratego.common.resource;
 
 import java.util.Calendar;
 import java.util.SortedMap;
 
-import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 
 public class IndicatorValuesResource extends BaseResource {
     

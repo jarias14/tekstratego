@@ -6,7 +6,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
+import com.jarias14.tekstratego.common.resource.IndicatorResource;
 
 @Path("trader-service")
 public interface RestTraderService {

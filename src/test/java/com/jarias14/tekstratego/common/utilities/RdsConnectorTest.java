@@ -13,8 +13,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.jarias14.tekstratego.common.models.PriceOfBarsEnum;
-import com.jarias14.tekstratego.common.models.SizeOfBarsEnum;
+import com.jarias14.tekstratego.common.model.PriceOfBarsEnum;
+import com.jarias14.tekstratego.common.model.SizeOfBarsEnum;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:beans.xml")

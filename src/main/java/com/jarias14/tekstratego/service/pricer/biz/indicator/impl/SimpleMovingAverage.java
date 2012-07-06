@@ -23,9 +23,9 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import com.jarias14.tekstratego.common.models.Stock;
+import com.jarias14.tekstratego.common.model.Stock;
+import com.jarias14.tekstratego.common.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
-import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 
 public class SimpleMovingAverage extends IndicatorBase {
     

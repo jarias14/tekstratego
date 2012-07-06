@@ -1,4 +1,4 @@
-package com.jarias14.tekstratego.common.resources;
+package com.jarias14.tekstratego.common.resource;
 
 public class LinksResource implements Comparable<LinksResource>{
     

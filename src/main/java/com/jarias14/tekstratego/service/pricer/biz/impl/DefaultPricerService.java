@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.SortedMap;
 import java.util.UUID;
 
-import com.jarias14.tekstratego.common.models.Stock;
+import com.jarias14.tekstratego.common.model.Stock;
 import com.jarias14.tekstratego.common.utilities.ConstantsUtility;
 import com.jarias14.tekstratego.service.pricer.biz.PricerService;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator;

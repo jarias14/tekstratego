@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.jarias14.tekstratego.common.resources.LinksResource;
+import com.jarias14.tekstratego.common.resource.LinksResource;
+import com.jarias14.tekstratego.common.resource.StudyResource;
 import com.jarias14.tekstratego.service.thinker.model.Study;
-import com.jarias14.tekstratego.service.thinker.rest.resource.StudyResource;
 
 public abstract class AbstractOperatorStudy implements Study , Serializable {
     

@@ -10,9 +10,9 @@ import javax.ws.rs.QueryParam;
 
 import org.springframework.stereotype.Service;
 
-import com.jarias14.tekstratego.service.manager.rest.resource.AlertCollectionResource;
-import com.jarias14.tekstratego.service.manager.rest.resource.PortfolioResource;
-import com.jarias14.tekstratego.service.manager.rest.resource.TransactionCollectionResource;
+import com.jarias14.tekstratego.common.resource.AlertCollectionResource;
+import com.jarias14.tekstratego.common.resource.PortfolioResource;
+import com.jarias14.tekstratego.common.resource.TransactionCollectionResource;
 
 @Service("restManagerService")
 public interface RestManagerService {

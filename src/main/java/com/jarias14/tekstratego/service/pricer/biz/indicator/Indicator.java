@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.SortedMap;
 
-import com.jarias14.tekstratego.common.models.Stock;
-import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
+import com.jarias14.tekstratego.common.model.Stock;
+import com.jarias14.tekstratego.common.resource.IndicatorResource;
 
 public interface Indicator extends Serializable {
     

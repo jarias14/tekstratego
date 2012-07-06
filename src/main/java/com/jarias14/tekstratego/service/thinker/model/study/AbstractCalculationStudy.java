@@ -5,9 +5,9 @@ import java.util.Calendar;
 import java.util.Map;
 import java.util.SortedMap;
 
+import com.jarias14.tekstratego.common.resource.StudyResource;
 import com.jarias14.tekstratego.common.utilities.MembaseConnector;
 import com.jarias14.tekstratego.service.thinker.model.Study;
-import com.jarias14.tekstratego.service.thinker.rest.resource.StudyResource;
 
 public abstract class AbstractCalculationStudy implements Study, Serializable {
     

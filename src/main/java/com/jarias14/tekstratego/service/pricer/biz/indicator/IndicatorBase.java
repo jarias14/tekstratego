@@ -1,8 +1,8 @@
 package com.jarias14.tekstratego.service.pricer.biz.indicator;
 
-import com.jarias14.tekstratego.common.models.PriceOfBarsEnum;
-import com.jarias14.tekstratego.common.models.SizeOfBarsEnum;
-import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
+import com.jarias14.tekstratego.common.model.PriceOfBarsEnum;
+import com.jarias14.tekstratego.common.model.SizeOfBarsEnum;
+import com.jarias14.tekstratego.common.resource.IndicatorResource;
 
 public abstract class IndicatorBase implements Indicator {
     

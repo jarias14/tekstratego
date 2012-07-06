@@ -3,13 +3,13 @@ package com.jarias14.tekstratego.service.pricer.rest.impl;
 import java.util.Calendar;
 import java.util.SortedMap;
 
+import com.jarias14.tekstratego.common.resource.IndicatorResource;
+import com.jarias14.tekstratego.common.resource.IndicatorValuesResource;
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.pricer.biz.PricerService;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorFactory;
 import com.jarias14.tekstratego.service.pricer.rest.RestPricerService;
-import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
-import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorValuesResource;
 
 
 public class DefaultRestPricerServiceImpl implements RestPricerService {

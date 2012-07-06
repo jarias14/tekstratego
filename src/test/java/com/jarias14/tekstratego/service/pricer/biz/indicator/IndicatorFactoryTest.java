@@ -6,8 +6,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.jarias14.tekstratego.common.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.impl.SimpleMovingAverage;
-import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 
 public class IndicatorFactoryTest {
     

@@ -2,7 +2,7 @@ package com.jarias14.tekstratego.common.utilities;
 
 import java.util.Map;
 
-import com.jarias14.tekstratego.common.resources.LinksResource;
+import com.jarias14.tekstratego.common.resource.LinksResource;
 
 public class LinksUtility {
     

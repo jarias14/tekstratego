@@ -3,10 +3,10 @@ package com.jarias14.tekstratego.service.pricer.biz.indicator;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
+import com.jarias14.tekstratego.common.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.impl.Price;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.impl.SimpleMovingAverage;
-import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 
 /*
  * http://www.oodesign.com/factory-pattern.html

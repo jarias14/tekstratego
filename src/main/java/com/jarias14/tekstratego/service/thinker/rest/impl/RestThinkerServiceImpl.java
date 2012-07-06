@@ -1,5 +1,8 @@
 package com.jarias14.tekstratego.service.thinker.rest.impl;
 
+import com.jarias14.tekstratego.common.resource.HypothesisResource;
+import com.jarias14.tekstratego.common.resource.StrategyResource;
+import com.jarias14.tekstratego.common.resource.StudyResource;
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.thinker.biz.ThinkerService;
 import com.jarias14.tekstratego.service.thinker.model.Hypothesis;
@@ -8,9 +11,6 @@ import com.jarias14.tekstratego.service.thinker.model.Study;
 import com.jarias14.tekstratego.service.thinker.model.StudyFactory;
 import com.jarias14.tekstratego.service.thinker.model.study.AbstractOperatorStudy;
 import com.jarias14.tekstratego.service.thinker.rest.RestThinkerService;
-import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
-import com.jarias14.tekstratego.service.thinker.rest.resource.StrategyResource;
-import com.jarias14.tekstratego.service.thinker.rest.resource.StudyResource;
 
 public class RestThinkerServiceImpl implements RestThinkerService{
 

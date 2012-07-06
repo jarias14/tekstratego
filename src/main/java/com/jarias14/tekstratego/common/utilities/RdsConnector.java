@@ -16,8 +16,8 @@ import com.amazonaws.services.rds.AmazonRDS;
 import com.amazonaws.services.rds.AmazonRDSClient;
 import com.amazonaws.services.rds.model.DescribeDBInstancesRequest;
 import com.amazonaws.services.rds.model.DescribeDBInstancesResult;
-import com.jarias14.tekstratego.common.models.PriceOfBarsEnum;
-import com.jarias14.tekstratego.common.models.SizeOfBarsEnum;
+import com.jarias14.tekstratego.common.model.PriceOfBarsEnum;
+import com.jarias14.tekstratego.common.model.SizeOfBarsEnum;
 
 public class RdsConnector {
     private AmazonRDS rds;

@@ -7,11 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.jarias14.tekstratego.common.models.Stock;
-import com.jarias14.tekstratego.common.resources.LinksResource;
+import com.jarias14.tekstratego.common.model.AbstractBase;
+import com.jarias14.tekstratego.common.model.Stock;
+import com.jarias14.tekstratego.common.resource.HypothesisResource;
+import com.jarias14.tekstratego.common.resource.LinksResource;
 import com.jarias14.tekstratego.common.utilities.ConstantsUtility;
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
-import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
 
 public class Hypothesis extends AbstractBase {
     
