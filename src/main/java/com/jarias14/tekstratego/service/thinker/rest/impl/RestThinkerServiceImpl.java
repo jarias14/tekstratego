@@ -41,7 +41,15 @@ public class RestThinkerServiceImpl implements RestThinkerService{
     }
 
     @Override
-    public StrategyResource addStrategy(String hypothesisId, StrategyResource resource) {
+    public HypothesisResource runHypothesis(String hypothesisId) {
+        
+        boolean isGoodRequest = thinkerService.runHypothesis(hypothesisId);
+        
+        return isGoodRequest ? getHypothesis(hypothesisId) : null;
+    }
+
+    @Override
+    public StrategyResource addStrategy(StrategyResource resource, String hypothesisId) {
         
         Strategy model = thinkerService.addStrategy(hypothesisId, new Strategy(resource));
         
@@ -63,7 +71,7 @@ public class RestThinkerServiceImpl implements RestThinkerService{
     }
 
     @Override
-    public StudyResource addStudy(String hypothesisId, String strategyId, String studyId, StudyResource resource) {
+    public StudyResource addStudy(StudyResource resource, String hypothesisId, String strategyId, String studyId) {
         
         Study model = thinkerService.addStudy(hypothesisId, strategyId, studyId, StudyFactory.getInstance(resource));
         

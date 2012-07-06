@@ -3,6 +3,7 @@ package com.jarias14.tekstratego.service.thinker.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jarias14.tekstratego.common.models.Stock;
 import com.jarias14.tekstratego.common.resources.LinksResource;
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
@@ -13,6 +14,7 @@ public class Hypothesis extends AbstractBase {
     
     private HypothesisStatusEnum status;
     private List<Strategy> strategies;
+    private List<Stock> stocks;
     private String portfolioId;
     
     public Hypothesis() {
@@ -25,6 +27,8 @@ public class Hypothesis extends AbstractBase {
         this.strategies = new ArrayList<Strategy>();
         this.portfolioId = resource.getPortfolioId();
         this.status = HypothesisStatusEnum.AVAILABLE;
+        this.stocks = new ArrayList<Stock>();
+        this.stocks.add(new Stock("NYSE", "ED"));
     }
     
     public HypothesisResource toResource() {
@@ -65,6 +69,14 @@ public class Hypothesis extends AbstractBase {
 
     public void setPortfolioId(String portfolioId) {
         this.portfolioId = portfolioId;
+    }
+
+    public List<Stock> getStocks() {
+        return stocks;
+    }
+
+    public void setStocks(List<Stock> stocks) {
+        this.stocks = stocks;
     }
 
 }

@@ -7,13 +7,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-
-import org.springframework.web.bind.annotation.RequestBody;
+import javax.ws.rs.core.MediaType;
 
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorValuesResource;
-import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 
+@Path("/pricer-service")
 public interface RestPricerService {
     
     /**
@@ -22,9 +21,9 @@ public interface RestPricerService {
      */
     @POST
     @Path("/indicators")
-    @Produces({"application/json"})
-    @Consumes({"application/json"})
-    public BaseResource createIndicator(@RequestBody IndicatorResource indicator);
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public IndicatorResource createIndicator(IndicatorResource indicator);
     
     /**
      * Creates an indicator given the stock and the body.
@@ -32,8 +31,8 @@ public interface RestPricerService {
      */
     @GET
     @Path("/indicators/{indicator-id}")
-    @Produces({"application/json"})
-    @Consumes({"application/json"})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public IndicatorResource getIndicator(@PathParam("indicator-id") String indicatorId);
     
     /**
@@ -42,8 +41,8 @@ public interface RestPricerService {
      */
     @GET
     @Path("/indicators/{indicator-id}/prices/{stock-id}")
-    @Produces({"application/json"})
-    @Consumes({"application/json"})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public IndicatorValuesResource getValues(@PathParam("indicator-id") String indicatorId, @PathParam("stock-id") String stockId,
             @QueryParam("sizeOfBars") String sizeOfBars, @QueryParam("startDate") String startDate, @QueryParam("numberOfBars") String numberOfBars);
     

@@ -2,13 +2,8 @@ package com.jarias14.tekstratego.service.thinker.rest.resource;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-
 import com.jarias14.tekstratego.common.resources.LinksResource;
 
-@XmlRootElement
-@XmlSeeAlso(BaseResource.class)
 public class HypothesisResource extends BaseResource {
 
     private static final long serialVersionUID = 1L;

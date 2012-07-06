@@ -3,9 +3,12 @@ package com.jarias14.tekstratego.service.thinker.biz.impl;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.core.task.TaskExecutor;
+
 import com.jarias14.tekstratego.service.thinker.biz.ThinkerService;
 import com.jarias14.tekstratego.service.thinker.dao.ThinkerDAO;
 import com.jarias14.tekstratego.service.thinker.model.Hypothesis;
+import com.jarias14.tekstratego.service.thinker.model.HypothesisStatusEnum;
 import com.jarias14.tekstratego.service.thinker.model.Strategy;
 import com.jarias14.tekstratego.service.thinker.model.Study;
 import com.jarias14.tekstratego.service.thinker.model.study.AbstractCalculationStudy;
@@ -14,6 +17,7 @@ import com.jarias14.tekstratego.service.thinker.model.study.AbstractOperatorStud
 public class DefaultThinkerService implements ThinkerService {
     
     private ThinkerDAO thinkerDAO;
+    private TaskExecutor taskExecutor;
 
     @Override
     public Hypothesis createHypothesis(Hypothesis hypothesis) {
@@ -52,6 +56,28 @@ public class DefaultThinkerService implements ThinkerService {
         
         // return new strategy from memory
         return getStrategy(hypothesisId, strategy.getId());
+    }
+
+    @Override
+    public boolean runHypothesis(String hypothesisId) {
+        
+        // get the hypothesis from memory
+        Hypothesis hypothesis = thinkerDAO.readHypothesis(hypothesisId);
+        
+        // check hypothesis status
+        if (!hypothesis.getStatus().equals(HypothesisStatusEnum.AVAILABLE)) {
+            return false;
+        }
+        
+        // mark as in process
+        hypothesis.setStatus(HypothesisStatusEnum.PROCESSING);
+        thinkerDAO.createHypothesis(hypothesis);
+        
+        // spoon process
+        taskExecutor.execute(new DefaultRunnerService(hypothesis));
+
+        // if we got here, we should be good
+        return true;
     }
 
     @Override
@@ -150,6 +176,14 @@ public class DefaultThinkerService implements ThinkerService {
 
     public void setThinkerDAO(ThinkerDAO thinkerDAO) {
         this.thinkerDAO = thinkerDAO;
+    }
+
+    public TaskExecutor getTaskExecutor() {
+        return taskExecutor;
+    }
+
+    public void setTaskExecutor(TaskExecutor taskExecutor) {
+        this.taskExecutor = taskExecutor;
     }
 
 }

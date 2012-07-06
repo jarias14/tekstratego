@@ -7,13 +7,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-
-import org.springframework.web.bind.annotation.RequestBody;
+import javax.ws.rs.core.MediaType;
 
 import com.jarias14.tekstratego.service.thinker.rest.resource.HypothesisResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.StrategyResource;
 import com.jarias14.tekstratego.service.thinker.rest.resource.StudyResource;
 
+@Path("/thinker-service")
 public interface RestThinkerService {
 
     /**
@@ -22,9 +22,9 @@ public interface RestThinkerService {
      */
     @POST
     @Path("/hypothesis")
-    @Produces({"application/json"})
-    @Consumes({"application/json"})
-    public HypothesisResource createHypothesis(@RequestBody HypothesisResource hypothesis);
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public HypothesisResource createHypothesis(HypothesisResource hypothesis);
     
     /**
      * Returns the resource for the requested hypothesis.
@@ -33,9 +33,21 @@ public interface RestThinkerService {
      */
     @GET
     @Path("/hypothesis/{hypothesis-id}")
-    @Produces({"application/json"})
-    @Consumes({"application/json"})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public HypothesisResource getHypothesis(@PathParam("hypothesis-id") String hypothesisId);
+    
+    /**
+     * Makes the hypothesis do all the necessary calculations. This will place the hypothesis
+     * in PROCESSING status until it completes all the calculations.
+     * @param hypothesisId is the identifier for the requested hypothesis
+     * @return the hypothesis
+     */
+    @POST
+    @Path("/hypothesis/{hypothesis-id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public HypothesisResource runHypothesis(@PathParam("hypothesis-id") String hypothesisId);
     
     /**
      * Creates a strategy for the given hypothesis.
@@ -44,9 +56,9 @@ public interface RestThinkerService {
      */
     @POST
     @Path("/hypothesis/{hypothesis-id}/strategies")
-    @Produces({"application/json"})
-    @Consumes({"application/json"})
-    public StrategyResource addStrategy(@PathParam("hypothesis-id") String hypothesisId, @RequestBody StrategyResource strategy);
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public StrategyResource addStrategy(StrategyResource strategy, @PathParam("hypothesis-id") String hypothesisId);
 
     /**
      * Provides a list of strategies in the hypothesis.
@@ -55,8 +67,8 @@ public interface RestThinkerService {
      
     @GET
     @Path("/hypothesis/{hypothesis-id}/strategies")
-    @Produces({"application/json"})
-    @Consumes({"application/json"})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Set<BaseResource> getStrategies(@PathParam("hypothesis-id") String hypothesisId);
     */
     
@@ -67,8 +79,8 @@ public interface RestThinkerService {
      */
     @GET
     @Path("/hypothesis/{hypothesis-id}/strategies/{strategy-id}")
-    @Produces({"application/json"})
-    @Consumes({"application/json"})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public StrategyResource getStrategy(@PathParam("hypothesis-id") String hypothesisId, @PathParam("strategy-id") String strategyId);
 
     /**
@@ -78,9 +90,9 @@ public interface RestThinkerService {
      */
     @POST
     @Path("/hypothesis/{hypothesis-id}/strategies/{strategy-id}/studies")
-    @Produces({"application/json"})
-    @Consumes({"application/json"})
-    public StudyResource addStudy(@PathParam("hypothesis-id") String hypothesisId, @PathParam("strategy-id") String strategyId, @QueryParam("parent-study-id") String studyId, @RequestBody StudyResource study);
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public StudyResource addStudy(StudyResource study, @PathParam("hypothesis-id") String hypothesisId, @PathParam("strategy-id") String strategyId, @QueryParam("parent-study-id") String studyId);
 
     /**
      * Provides the requested study.
@@ -91,7 +103,7 @@ public interface RestThinkerService {
      */
     @GET
     @Path("/hypothesis/{hypothesis-id}/strategies/{strategy-id}/studies/{study-id}")
-    @Produces({"application/json"})
-    @Consumes({"application/json"})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public StudyResource getStudy(@PathParam("hypothesis-id") String hypothesisId, @PathParam("strategy-id") String strategyId, @PathParam("study-id") String studyId);
 }

@@ -29,7 +29,7 @@ public class DefaultRestPricerServiceImplTest {
         resource.setNumberOfBars("90");
         resource.setSizeOfBars("3");
         
-        webservice.createIndicator(resource);
+        //webservice.createIndicator(resource);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class DefaultRestPricerServiceImplTest {
         resource.setIndicatorType("simpleMovingAverage");
         resource.setSizeOfBars("ONE_DAY");
         
-        resource = (IndicatorResource) webservice.createIndicator(resource);
+        //resource = (IndicatorResource) webservice.createIndicator(resource);
         
         webservice.getValues(resource.getIndicatorId(), "AAPL", "ONE_DAY", "2012-03-14T12:13:00Z", "40");
     }

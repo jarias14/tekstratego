@@ -12,5 +12,6 @@ public interface ThinkerService {
     public Strategy getStrategy(String hypothesisId, String strategyId);
     public Study addStudy(String hypothesisId, String strategyId, String studyId, Study study);
     public Study getStudy(String hypothesisId, String strategyId, String studyId);
+    public boolean runHypothesis(String hypothesisId);
     
 }

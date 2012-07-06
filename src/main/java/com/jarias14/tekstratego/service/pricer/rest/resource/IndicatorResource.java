@@ -1,13 +1,9 @@
 package com.jarias14.tekstratego.service.pricer.rest.resource;
 
 import java.util.Map;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
 
-@XmlRootElement(name = "indicatorResource")
-@XmlSeeAlso(BaseResource.class)
 public class IndicatorResource extends BaseResource {
     
     private static final long serialVersionUID = 3749994184149195859L;

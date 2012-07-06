@@ -10,14 +10,14 @@ import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorFactory;
 import com.jarias14.tekstratego.service.pricer.rest.RestPricerService;
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.pricer.rest.resource.IndicatorValuesResource;
-import com.jarias14.tekstratego.service.thinker.rest.resource.BaseResource;
+
 
 public class DefaultRestPricerServiceImpl implements RestPricerService {
     
     private PricerService pricerService;
-
+    
     @Override
-    public BaseResource createIndicator(IndicatorResource resource) {
+    public IndicatorResource createIndicator(IndicatorResource resource) { 
         
         Indicator model = null;
         model = IndicatorFactory.getIndicator(resource); //from resource to model
