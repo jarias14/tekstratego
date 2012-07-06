@@ -1,22 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans	xmlns="http://www.springframework.org/schema/beans"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xmlns:jaxrs="http://cxf.apache.org/jaxrs"
-		xmlns:context="http://www.springframework.org/schema/context"
-		xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-		
-	<context:component-scan base-package="com.jarias14.tekstratego.service"/>
+
+	<context:component-scan base-package="com.jarias14.tekstratego.service" />
+
+
+	<!-- START: properties files -->
 	
-	<bean id="databaseProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	    <property name="location" value="classpath:environments/local/database.properties"/>
+	<bean id="databaseProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="classpath:environments/local/database.properties" />
 	</bean>
 	
-	<import resource="classpath:membaseAppContext.xml" />
-	<import resource="classpath:rdsAppContext.xml" />
-	<import resource="classpath:pricerAppContext.xml" />
-	<import resource="classpath:thinkerAppContext.xml" />
+	<!-- END: properties files -->
+
+
+
+	<!-- START: database connections -->
+
+	<bean id="membaseConnector"
+		class="com.jarias14.tekstratego.common.utilities.MembaseConnector"
+		init-method="init" destroy-method="shutdown" />
+
+	<bean id="tekRdsConnector" class="com.jarias14.tekstratego.common.utilities.RdsConnector"
+		init-method="init" destroy-method="shutdown">
+		<property name="secretKey" value="${db.aws.rds.secretKey}" />
+		<property name="accessKey" value="${db.aws.rds.accessKey}" />
+		<property name="username" value="${db.aws.rds.username}" />
+		<property name="password" value="${db.aws.rds.password}" />
+	</bean>
+
+	<bean id="tekSqlDatabase"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost/world" />
+		<property name="username" value="username_goes_here" />
+		<property name="password" value="password_goes_here" />
+	</bean>
+
+	<!-- END: database connections -->
+
+
+
+	<!-- START: database connectors -->
+
+	<bean id="tekSqlConnector"
+		class="com.jarias14.tekstratego.common.utilities.MySqlConnector">
+		<property name="client" ref="tekSqlDatabase" />
+	</bean>
+	
+	<!-- END: database connectors -->
+
+
+
+	<!-- START: dao layer -->
+	
+	<bean id="realIndicatorDAO"
+		class="com.jarias14.tekstratego.service.pricer.dao.impl.DefaultIndicatorDAO">
+		<property name="memory" ref="membaseConnector" />
+		<property name="rds" ref="tekRdsConnector" />
+		<property name="timeToLiveInSeconds" value="600" />
+	</bean>
+	
+	<bean id="thinkerDAO"
+		class="com.jarias14.tekstratego.service.thinker.dao.impl.DefaultThinkerDAO">
+		<property name="memory" ref="membaseConnector" />
+		<!--<property name="rds" ref="tekRdsConnector" /> -->
+		<property name="timeToLiveInSeconds" value="600" />
+	</bean>
+	
+	<!-- END: dao layer -->
+
+
+
+	<!-- START: business layer beans -->
+	
+	<bean id="defaultPricerService"
+		class="com.jarias14.tekstratego.service.pricer.biz.impl.DefaultPricerService">
+		<property name="indicatorDAO" ref="realIndicatorDAO" />
+	</bean>
+	
+	<bean id="thinkerService"
+		class="com.jarias14.tekstratego.service.thinker.biz.impl.DefaultThinkerService">
+		<property name="thinkerDAO" ref="thinkerDAO" />
+	</bean>
+
+	<!-- END: business layer beans -->
+
+
+
+	<!-- START: business layer beans -->
+
+	<bean id="restPricerService"
+		class="com.jarias14.tekstratego.service.pricer.rest.impl.DefaultRestPricerServiceImpl">
+		<property name="pricerService" ref="defaultPricerService" />
+	</bean>
+
+	<bean id="restThinkerService"
+		class="com.jarias14.tekstratego.service.thinker.rest.impl.RestThinkerServiceImpl">
+		<property name="thinkerService" ref="thinkerService" />
+	</bean>
+
+	<!-- END: business layer beans -->
+
 
 </beans>
