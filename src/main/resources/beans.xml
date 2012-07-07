@@ -65,14 +65,19 @@
 		class="com.jarias14.tekstratego.service.pricer.dao.impl.DefaultIndicatorDAO">
 		<property name="memory" ref="membaseConnector" />
 		<property name="rds" ref="tekRdsConnector" />
-		<property name="timeToLiveInSeconds" value="600" />
+		<property name="timeToLiveInSeconds" value="6000" />
 	</bean>
 	
 	<bean id="thinkerDAO"
 		class="com.jarias14.tekstratego.service.thinker.dao.impl.DefaultThinkerDAO">
 		<property name="memory" ref="membaseConnector" />
-		<!--<property name="rds" ref="tekRdsConnector" /> -->
-		<property name="timeToLiveInSeconds" value="600" />
+		<property name="timeToLiveInSeconds" value="6000" />
+	</bean>
+	
+	<bean id="managerDAO"
+		class="com.jarias14.tekstratego.service.manager.dao.impl.DefaultManagerDAO">
+		<property name="memory" ref="membaseConnector" />
+		<property name="timeToLiveInSeconds" value="6000" />
 	</bean>
 	
 	<!-- END: dao layer -->
@@ -91,16 +96,16 @@
 		<property name="thinkerDAO" ref="thinkerDAO" />
 	</bean>
 	
-	<bean id="runnerService"
-		class="com.jarias14.tekstratego.service.thinker.biz.impl.DefaultThinkerService">
-		<property name="thinkerDAO" ref="thinkerDAO" />
+	<bean id="managerService"
+		class="com.jarias14.tekstratego.service.manager.biz.impl.DefaultManagerService">
+		<property name="managerDAO" ref="managerDAO" />
 	</bean>
 
 	<!-- END: business layer beans -->
 
 
 
-	<!-- START: business layer beans -->
+	<!-- START: rest layer beans -->
 
 	<bean id="restPricerService"
 		class="com.jarias14.tekstratego.service.pricer.rest.impl.DefaultRestPricerServiceImpl">
@@ -112,7 +117,13 @@
 		<property name="thinkerService" ref="thinkerService" />
 	</bean>
 
-	<!-- END: business layer beans -->
+	<bean id="restManagerService"
+		class="com.jarias14.tekstratego.service.manager.rest.impl.RestManagerServiceImpl">
+		<property name="managerService" ref="managerService" />
+	</bean>
+	
+
+	<!-- END: rest layer beans -->
 
 
 </beans>
