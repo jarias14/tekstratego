@@ -37,7 +37,6 @@ public class DefaultRestPricerServiceImpl implements RestPricerService {
         IndicatorValuesResource resource = new IndicatorValuesResource(values);
         resource.getLinks().put("self", LinksUtility.getPricerIndicatorLink(indicatorId));
         resource.setId(indicatorId);
-
         
         return resource;
     }

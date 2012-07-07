@@ -113,12 +113,12 @@
 	</bean>
 
 	<bean id="restThinkerService"
-		class="com.jarias14.tekstratego.service.thinker.rest.impl.RestThinkerServiceImpl">
+		class="com.jarias14.tekstratego.service.thinker.rest.impl.DefaultRestThinkerServiceImpl">
 		<property name="thinkerService" ref="thinkerService" />
 	</bean>
 
 	<bean id="restManagerService"
-		class="com.jarias14.tekstratego.service.manager.rest.impl.RestManagerServiceImpl">
+		class="com.jarias14.tekstratego.service.manager.rest.impl.DefaultRestManagerServiceImpl">
 		<property name="managerService" ref="managerService" />
 	</bean>
 	

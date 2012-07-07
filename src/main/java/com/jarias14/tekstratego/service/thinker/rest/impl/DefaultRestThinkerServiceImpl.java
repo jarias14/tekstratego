@@ -12,11 +12,11 @@ import com.jarias14.tekstratego.service.thinker.model.StudyFactory;
 import com.jarias14.tekstratego.service.thinker.model.study.AbstractOperatorStudy;
 import com.jarias14.tekstratego.service.thinker.rest.RestThinkerService;
 
-public class RestThinkerServiceImpl implements RestThinkerService{
+public class DefaultRestThinkerServiceImpl implements RestThinkerService{
 
     private ThinkerService thinkerService;
     
-    public RestThinkerServiceImpl() {
+    public DefaultRestThinkerServiceImpl() {
         
     }
     
