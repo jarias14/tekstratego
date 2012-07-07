@@ -26,6 +26,16 @@ public interface RestManagerService {
     @Produces({"application/json"})
     @Consumes({"application/json"})
     public PortfolioResource createPortfolio(PortfolioResource portfolio);
+    
+    /**
+     * Examines portfolio with the given alerts
+     * @return a portfolio instance.
+     */
+    @POST
+    @Path("/portfolio/{portfolio-id}/submit")
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
+    public PortfolioResource submitPortfolio(@PathParam("portfolio-id") String portfolioId);
 
     /**
      * Returns an existing portfolio object.
