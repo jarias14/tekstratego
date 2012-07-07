@@ -19,7 +19,7 @@
 		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>com.jarias14.tekstratego.service.pricer.rest.impl;com.jarias14.tekstratego.service.thinker.rest.impl</param-value>
+			<param-value>com.jarias14.tekstratego.service.listener.rest.impl;com.jarias14.tekstratego.service.trader.rest.impl;com.jarias14.tekstratego.service.manager.rest.impl;com.jarias14.tekstratego.service.pricer.rest.impl;com.jarias14.tekstratego.service.thinker.rest.impl</param-value>
 		</init-param>
 		<init-param>
 			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
