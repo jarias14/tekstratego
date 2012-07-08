@@ -152,6 +152,55 @@ public class RdsConnector {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Calendar getMarketDate(SizeOfBarsEnum sizeOfBars, Calendar date, int numberOfBars) {
+
+        SimpleDateFormat formatter = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
+        
+        String queryDate = formatter.format(date.getTime());
+        
+        int sizeOfBarIndex = mapSizeOfBar(sizeOfBars);
+
+        String order, operator;
+        
+        if (numberOfBars >= 0) {
+            operator = ">=";
+            order = "ASC";
+        } else {
+            operator = "<=";
+            order = "DESC";
+        }
+        
+        numberOfBars = Math.abs(numberOfBars);
+        
+        String query = "SELECT date "
+                            + "FROM `PriceBars` WHERE "
+                                + "size = '"  + sizeOfBarIndex + "' AND "
+                                + "symbol = 'ED' AND "
+                                + "date "+ operator + " '" + queryDate + "' "
+                            + "ORDER BY date " + order +" LIMIT "+ (numberOfBars+1);
+        
+        ResultSet rs = select(query);
+        
+        
+        Calendar resultCal = Calendar.getInstance();
+        
+        try {
+            rs.last();
+            if (rs.getRow() != numberOfBars+1) {
+                throw new Exception("number of rows and number of bars do not match for numberOfBars:" + numberOfBars + " and request " + query);
+            }
+            java.sql.Date resultDate = rs.getDate("date");
+            resultCal.setTimeInMillis(resultDate.getTime());
+            
+        } catch (Exception e) {
+            System.out.println("error with query " + query);
+        } finally {
+            
+        }
+        
+        return resultCal;
+    }
     
     
     

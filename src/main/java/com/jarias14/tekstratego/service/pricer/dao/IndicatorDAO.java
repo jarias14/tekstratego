@@ -18,5 +18,8 @@ public interface IndicatorDAO {
     
     public SortedMap<Calendar, Double> readPrices(Stock stock, SizeOfBarsEnum sizeOfBar,
             PriceOfBarsEnum priceOfBar, Calendar startDate, Calendar endDate);
+    
+    public Calendar getStartDate(Calendar endDate, int numberOfBars,
+            SizeOfBarsEnum sizeOfBars);
 
 }

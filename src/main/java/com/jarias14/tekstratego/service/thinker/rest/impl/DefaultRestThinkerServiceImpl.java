@@ -1,14 +1,28 @@
 package com.jarias14.tekstratego.service.thinker.rest.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import com.jarias14.tekstratego.common.resource.AlertCollectionResource;
 import com.jarias14.tekstratego.common.resource.HypothesisResource;
+import com.jarias14.tekstratego.common.resource.PositionCollectionResource;
+import com.jarias14.tekstratego.common.resource.PositionResource;
 import com.jarias14.tekstratego.common.resource.StrategyResource;
 import com.jarias14.tekstratego.common.resource.StudyResource;
+import com.jarias14.tekstratego.common.utilities.ConstantsUtility;
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.thinker.biz.ThinkerService;
 import com.jarias14.tekstratego.service.thinker.model.Hypothesis;
+import com.jarias14.tekstratego.service.thinker.model.Position;
 import com.jarias14.tekstratego.service.thinker.model.Strategy;
 import com.jarias14.tekstratego.service.thinker.model.Study;
 import com.jarias14.tekstratego.service.thinker.model.StudyFactory;
+import com.jarias14.tekstratego.service.thinker.model.TradeAlert;
 import com.jarias14.tekstratego.service.thinker.model.study.AbstractOperatorStudy;
 import com.jarias14.tekstratego.service.thinker.rest.RestThinkerService;
 
@@ -41,11 +55,34 @@ public class DefaultRestThinkerServiceImpl implements RestThinkerService{
     }
 
     @Override
-    public HypothesisResource runHypothesis(String hypothesisId) {
+    public AlertCollectionResource getAlerts(PositionCollectionResource positionsResource, String hypothesisId, String date) {
         
-        boolean isGoodRequest = thinkerService.runHypothesis(hypothesisId);
+        List<Position> positions = new ArrayList<Position>();
         
-        return isGoodRequest ? getHypothesis(hypothesisId) : null;
+        for (PositionResource entry : positionsResource.getPositions()) {
+            positions.add(new Position(entry));
+        }
+        
+        // convert date to calendar object
+        SimpleDateFormat fmtr = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTimeInMillis(fmtr.parse(date).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
+        // get alerts from service layer
+        List<TradeAlert> alerts = thinkerService.getAlerts(hypothesisId, cal, positions);
+        
+        // prepare response
+        SortedMap<Calendar, List<TradeAlert>> alertsMap = new TreeMap<Calendar, List<TradeAlert>>();
+        
+        alertsMap.put(cal, alerts);
+        
+        AlertCollectionResource responseAlerts = new AlertCollectionResource(alertsMap);
+        
+        return responseAlerts;
     }
 
     @Override

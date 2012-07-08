@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.pricer.biz.impl;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.SortedMap;
@@ -9,6 +10,7 @@ import com.jarias14.tekstratego.common.model.Stock;
 import com.jarias14.tekstratego.common.utilities.ConstantsUtility;
 import com.jarias14.tekstratego.service.pricer.biz.PricerService;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator;
+import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
 import com.jarias14.tekstratego.service.pricer.dao.IndicatorDAO;
 
 public class DefaultPricerService implements PricerService {
@@ -51,8 +53,8 @@ public class DefaultPricerService implements PricerService {
         // init my variables to send to indicator
         
         Indicator indicator = null;
-        Calendar calcStartDate = Calendar.getInstance();;
-        Calendar calcEndDate = Calendar.getInstance();;
+        Calendar calcStartDate = Calendar.getInstance();
+        Calendar calcEndDate = Calendar.getInstance();
         Stock calcStock = null;
         
         // setup variables
@@ -69,6 +71,25 @@ public class DefaultPricerService implements PricerService {
         
         //make the call down to calculate values
         return indicator.calculate(calcStock, calcStartDate, calcEndDate);
+    }
+
+    @Override
+    public SortedMap<Calendar, Double> calculateIndicatorUsingNumberOfBars(
+            String indicatorId, String stockSymbol, String endDate, int numberOfBars) {
+        
+        SimpleDateFormat sdf = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
+        Calendar endDateCal = Calendar.getInstance();
+        Indicator indicator = retrieveIndicator(indicatorId);
+        
+        try {
+            endDateCal.setTime(sdf.parse(endDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
+        Calendar startDate = indicatorDAO.getStartDate(endDateCal, numberOfBars, ((IndicatorBase)indicator).getSizeOfBars());
+        
+        return calculateIndicator(indicatorId, stockSymbol, sdf.format(startDate.getTime()), endDate);
     }
 
 }

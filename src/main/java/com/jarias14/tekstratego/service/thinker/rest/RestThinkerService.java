@@ -9,7 +9,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.jarias14.tekstratego.common.resource.AlertCollectionResource;
 import com.jarias14.tekstratego.common.resource.HypothesisResource;
+import com.jarias14.tekstratego.common.resource.PositionCollectionResource;
 import com.jarias14.tekstratego.common.resource.StrategyResource;
 import com.jarias14.tekstratego.common.resource.StudyResource;
 
@@ -44,10 +46,10 @@ public interface RestThinkerService {
      * @return the hypothesis
      */
     @POST
-    @Path("/hypothesis/{hypothesis-id}/process")
+    @Path("/hypothesis/{hypothesis-id}/alerts")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public HypothesisResource runHypothesis(@PathParam("hypothesis-id") String hypothesisId);
+    public AlertCollectionResource getAlerts(PositionCollectionResource positions, @PathParam("hypothesis-id") String hypothesisId, @QueryParam("date") String date);
     
     /**
      * Creates a strategy for the given hypothesis.

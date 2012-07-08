@@ -1,15 +1,23 @@
 package com.jarias14.tekstratego.service.thinker.biz.impl;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import org.springframework.core.task.TaskExecutor;
 
+import com.jarias14.tekstratego.common.model.Stock;
 import com.jarias14.tekstratego.service.thinker.biz.ThinkerService;
 import com.jarias14.tekstratego.service.thinker.dao.ThinkerDAO;
 import com.jarias14.tekstratego.service.thinker.model.Hypothesis;
-import com.jarias14.tekstratego.service.thinker.model.HypothesisStatusEnum;
 import com.jarias14.tekstratego.service.thinker.model.Strategy;
 import com.jarias14.tekstratego.service.thinker.model.Study;
+import com.jarias14.tekstratego.service.thinker.model.Position;
+import com.jarias14.tekstratego.service.thinker.model.TradeAlert;
 import com.jarias14.tekstratego.service.thinker.model.study.AbstractCalculationStudy;
 import com.jarias14.tekstratego.service.thinker.model.study.AbstractOperatorStudy;
 
@@ -58,25 +66,105 @@ public class DefaultThinkerService implements ThinkerService {
     }
 
     @Override
-    public boolean runHypothesis(String hypothesisId) {
+    public List<TradeAlert> getAlerts(String hypothesisId, Calendar date, List<Position> positions) {
+        
+        // init my object to be returned
+        List<TradeAlert> alerts = new ArrayList<TradeAlert>();
         
         // get the hypothesis from memory
-        Hypothesis hypothesis = thinkerDAO.readHypothesis(hypothesisId);
+        Hypothesis hypothesis = getHypothesis(hypothesisId);
+
+        // spoon process
+        for (Stock stock : hypothesis.getStocks()) {
+            
+            List<TradeAlert> newAlerts = getDecision(positions, hypothesis, date, stock);
+            
+            if (newAlerts!= null) {
+                alerts.addAll(newAlerts);
+            }
+        }
+
+        // send those babies back!
+        return alerts;
+    }
+
+    private List<TradeAlert> getDecision(List<Position> positions,
+            Hypothesis hypothesis, Calendar today, Stock stock) {
         
-        // check hypothesis status
-        if (!hypothesis.getStatus().equals(HypothesisStatusEnum.AVAILABLE)) {
-            return false;
+        // init return variable
+        List<TradeAlert> alerts = new ArrayList<TradeAlert>();
+        
+        // get the data needed for all indicators (do this once, here, for performance)
+        Map<String, SortedMap<Calendar, Double>> data = getRequiredData(hypothesis, stock, today);
+        
+        // get the decisions from each strategy
+        for (Strategy strategy : hypothesis.getStrategies().values()) {
+            
+            TradeAlert alert = getDecision(strategy, stock, data);
+            
+            if (alert != null) {
+                alerts.add(alert);
+            }
         }
         
-        // mark as in process
-        hypothesis.setStatus(HypothesisStatusEnum.PROCESSING);
-        thinkerDAO.createHypothesis(hypothesis);
+        return alerts;
+    }
+    
+    private TradeAlert getDecision(Strategy strategy, Stock stock, Map<String, SortedMap<Calendar, Double>> data) {
         
-        // spoon process
-        taskExecutor.execute(new DefaultRunnerService(thinkerDAO, hypothesis));
+        // init return variable
+        TradeAlert alert = null;
+        
+        // if the study returns true, we have a trade alert
+        if (strategy.getStudy().execute(data)) {
+            alert = new TradeAlert(stock, strategy);
+        }
+        
+        return alert;
+    }
 
-        // if we got here, we should be good
-        return true;
+    private Map<String, SortedMap<Calendar, Double>> getRequiredData(
+            Hypothesis hypothesis, Stock stock, Calendar today) {
+        
+        // init return variable
+        Map<String, SortedMap<Calendar, Double>> data = new TreeMap<String, SortedMap<Calendar, Double>>();
+        
+        // init variable to hold number of bars needed from each indicator
+        Map<String, Integer> numOfNecessaryBars = new TreeMap<String, Integer>();
+        
+        // get the number of bars needed for each indicator
+        for (Strategy strategy : hypothesis.getStrategies().values()) {
+            populateNumberOfNecessaryBars(hypothesis, strategy.getStudy(), numOfNecessaryBars);
+        }
+        
+        // get <numOfNecessaryBars> for each indicator
+        for (String indicatorId : numOfNecessaryBars.keySet()) {
+            data.put(indicatorId, thinkerDAO.getIndicatorValues(indicatorId, stock, today, numOfNecessaryBars.get(indicatorId)));
+        }
+        
+        return data;
+    }
+    
+    private void populateNumberOfNecessaryBars(Hypothesis hypothesis, Study parentStudy, Map<String, Integer> numOfNecessaryBars) {
+        
+        // if current study is a operator, then recurse
+        if (parentStudy instanceof AbstractOperatorStudy) {
+            for (Study childStudy : ((AbstractOperatorStudy) parentStudy).getStudies()) {
+                populateNumberOfNecessaryBars(hypothesis, childStudy, numOfNecessaryBars);
+            }
+        }
+
+        // if rootStudy is a calculation, then get the values for it
+        if (parentStudy instanceof AbstractCalculationStudy) {
+            
+            String indicatorId = ((AbstractCalculationStudy) parentStudy).getIndicatorId();
+            
+            Integer indicatorBars = ((AbstractCalculationStudy) parentStudy).getNumberOfBarsBeforeCurrent();
+            
+            if (!numOfNecessaryBars.containsKey(indicatorId) || numOfNecessaryBars.get(indicatorId) < indicatorBars) {
+                numOfNecessaryBars.put(indicatorId, indicatorBars);
+            }
+        }
     }
 
     @Override

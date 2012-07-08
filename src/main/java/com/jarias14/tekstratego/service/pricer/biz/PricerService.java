@@ -10,5 +10,6 @@ public interface PricerService {
     public Indicator createIndicator(Indicator indicator);
     public Indicator retrieveIndicator(String indicatorId);
     public SortedMap<Calendar, Double> calculateIndicator(String indicatorId, String stockId, String startDate, String endDate);
+    public SortedMap<Calendar, Double> calculateIndicatorUsingNumberOfBars(String indicatorId, String stockId, String startDate, int numberOfBars);
 
 }

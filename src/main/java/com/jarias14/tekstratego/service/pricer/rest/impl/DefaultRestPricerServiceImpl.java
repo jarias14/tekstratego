@@ -30,9 +30,15 @@ public class DefaultRestPricerServiceImpl implements RestPricerService {
     }
 
     @Override
-    public IndicatorValuesResource getValues(String indicatorId, String stockId, String startDate, String numberOfBars) {
+    public IndicatorValuesResource getValues(String indicatorId, String stockId, String startDate, String endDate, String numberOfBars) {
         
-        SortedMap<Calendar,Double> values = pricerService.calculateIndicator(indicatorId, stockId, startDate, numberOfBars);
+        SortedMap<Calendar,Double> values = null;
+        
+        if (startDate == null || startDate.equalsIgnoreCase("")) {
+            values = pricerService.calculateIndicatorUsingNumberOfBars(indicatorId, stockId, endDate, Integer.valueOf(numberOfBars));
+        } else {
+            values = pricerService.calculateIndicator(indicatorId, stockId, startDate, endDate);
+        }
         
         IndicatorValuesResource resource = new IndicatorValuesResource(values);
         resource.getLinks().put("self", LinksUtility.getPricerIndicatorLink(indicatorId));

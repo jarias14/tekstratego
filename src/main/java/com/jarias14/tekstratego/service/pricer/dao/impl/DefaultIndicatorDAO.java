@@ -66,4 +66,12 @@ public class DefaultIndicatorDAO implements IndicatorDAO {
     public void setRds(RdsConnector rds) {
         this.rds = rds;
     }
+
+    @Override
+    public Calendar getStartDate(Calendar endDate, int numberOfBars, SizeOfBarsEnum sizeOfBars) {
+        
+        Calendar date = rds.getMarketDate(sizeOfBars, endDate, -1*numberOfBars);
+        
+        return date;
+    }
 }

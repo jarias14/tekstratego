@@ -44,6 +44,19 @@ public abstract class AbstractCalculationStudy implements Study, Serializable {
         return resource;
     }
     
+    public Double getValueFromData(Map<String, SortedMap<Calendar, Double>> data) {
+        
+        SortedMap<Calendar, Double> indicatorValues = data.get(this.getIndicatorId());
+        
+        Object[] keyList = indicatorValues.keySet().toArray();
+        
+        int keyIndex = keyList.length - 1 - this.getNumberOfBarsBeforeCurrent();
+        
+        Double indicatorValue = indicatorValues.get(keyList[keyIndex]);
+        
+        return indicatorValue;
+    }
+    
     @Override
     public String getId() {
         return id;
@@ -92,19 +105,6 @@ public abstract class AbstractCalculationStudy implements Study, Serializable {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
-    }
-
-    public Double getValueFromData(Map<String, SortedMap<Calendar, Double>> data) {
-        
-        SortedMap<Calendar, Double> indicatorValues = data.get(this.getIndicatorId());
-        
-        Object[] keyList = indicatorValues.keySet().toArray();
-        
-        int keyIndex = keyList.length - 1 - this.getNumberOfBarsBeforeCurrent();
-        
-        Double indicatorValue = indicatorValues.get(keyList[keyIndex]);
-        
-        return indicatorValue;
     }
 
 }
