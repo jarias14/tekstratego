@@ -11,12 +11,14 @@ public class LinksUtility {
     private static String port = "8080";
     private static String location = "tekstratego";
     
+    public final static String THINKER_HYPOTHESIS_ALERTS = "/thinker-service/hypothesis/{hypothesis}/alerts/{date}";
     public final static String PRICER_INDICATOR_VALUES = "/pricer-service/indicators/{indicator}/prices/{symbol}";
     public static final String MANAGER_PORTFOLIO_LINK = "/manager-service/portfolio/{portfolio}";
     public static final String MANAGER_PORTFOLIO_SUMBMIT_LINK = "/manager-service/portfolio/{portfolio}/submit";
     public static final String MANAGER_ALERTS_LINK = "/manager-service/portfolio/{portfolio}/alerts";
     public static final String MANAGER_ALERT_LINK = "/manager-service/portfolio/{portfolio}/alert/{alert}";
     public static final String MANAGER_TRANSACTIONS_LINK = "/manager-service/portfolio/{portfolio}/transactions";
+    public static final String TRADER_TRANSACT = "/trader-service/trade/{user}/symbol/{symbol}/amount/{amount}";
 
     public static String getUrl(String template, Map<String,String> replacements, Map<String,String> parameters) {
         String url = getBaseLink().concat(template);

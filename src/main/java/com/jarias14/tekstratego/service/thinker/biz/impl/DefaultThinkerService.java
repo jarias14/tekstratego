@@ -2,6 +2,7 @@ package com.jarias14.tekstratego.service.thinker.biz.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -67,50 +68,42 @@ public class DefaultThinkerService implements ThinkerService {
 
     @Override
     public List<TradeAlert> getAlerts(String hypothesisId, Calendar date, List<Position> positions) {
-        
-        // init my object to be returned
-        List<TradeAlert> alerts = new ArrayList<TradeAlert>();
-        
+
         // get the hypothesis from memory
         Hypothesis hypothesis = getHypothesis(hypothesisId);
 
         // spoon process
-        for (Stock stock : hypothesis.getStocks()) {
-            
-            List<TradeAlert> newAlerts = getDecision(positions, hypothesis, date, stock);
-            
-            if (newAlerts!= null) {
-                alerts.addAll(newAlerts);
-            }
-        }
+        List<TradeAlert> alerts = getDecision(positions, hypothesis, date);
 
         // send those babies back!
         return alerts;
     }
 
     private List<TradeAlert> getDecision(List<Position> positions,
-            Hypothesis hypothesis, Calendar today, Stock stock) {
+            Hypothesis hypothesis, Calendar today) {
         
         // init return variable
         List<TradeAlert> alerts = new ArrayList<TradeAlert>();
         
         // get the data needed for all indicators (do this once, here, for performance)
-        Map<String, SortedMap<Calendar, Double>> data = getRequiredData(hypothesis, stock, today);
+        Map<String, Map<String,SortedMap<Calendar, Double>>> data = getRequiredData(hypothesis, today);
         
         // get the decisions from each strategy
         for (Strategy strategy : hypothesis.getStrategies().values()) {
-            
-            TradeAlert alert = getDecision(strategy, stock, data);
-            
-            if (alert != null) {
-                alerts.add(alert);
+            for (Stock stock : strategy.getStocks()) {
+                
+                TradeAlert alert = getDecision(strategy, stock, data.get(stock.getSymbol()));
+                
+                if (alert != null) {
+                    alerts.add(alert);
+                }
             }
         }
         
         return alerts;
     }
     
-    private TradeAlert getDecision(Strategy strategy, Stock stock, Map<String, SortedMap<Calendar, Double>> data) {
+    private TradeAlert getDecision(Strategy strategy, Stock stock, Map<String,SortedMap<Calendar, Double>> data) {
         
         // init return variable
         TradeAlert alert = null;
@@ -123,11 +116,11 @@ public class DefaultThinkerService implements ThinkerService {
         return alert;
     }
 
-    private Map<String, SortedMap<Calendar, Double>> getRequiredData(
-            Hypothesis hypothesis, Stock stock, Calendar today) {
+    private Map<String, Map<String, SortedMap<Calendar, Double>>> getRequiredData(
+            Hypothesis hypothesis, Calendar today) {
         
         // init return variable
-        Map<String, SortedMap<Calendar, Double>> data = new TreeMap<String, SortedMap<Calendar, Double>>();
+        Map<String, Map<String, SortedMap<Calendar, Double>>> data = new HashMap<String, Map<String, SortedMap<Calendar, Double>>>();
         
         // init variable to hold number of bars needed from each indicator
         Map<String, Integer> numOfNecessaryBars = new TreeMap<String, Integer>();
@@ -139,7 +132,18 @@ public class DefaultThinkerService implements ThinkerService {
         
         // get <numOfNecessaryBars> for each indicator
         for (String indicatorId : numOfNecessaryBars.keySet()) {
-            data.put(indicatorId, thinkerDAO.getIndicatorValues(indicatorId, stock, today, numOfNecessaryBars.get(indicatorId)));
+            for (Strategy strategy : hypothesis.getStrategies().values()) {
+                for (Stock stock : strategy.getStocks()) {
+                    
+                    if (data.get(stock.getSymbol()) == null) {
+                        data.put(stock.getSymbol(), new HashMap<String, SortedMap<Calendar, Double>>());
+                    }
+                    
+                    if (data.get(stock.getSymbol()).get(indicatorId) == null) {
+                        data.get(stock.getSymbol()).put(indicatorId, thinkerDAO.getIndicatorValues(indicatorId, stock, today, numOfNecessaryBars.get(indicatorId)));
+                    }
+                }
+            }
         }
         
         return data;

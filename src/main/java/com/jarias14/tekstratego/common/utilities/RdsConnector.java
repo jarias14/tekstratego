@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Calendar;
 import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -200,6 +202,40 @@ public class RdsConnector {
         }
         
         return resultCal;
+    }
+
+    public SortedSet<Calendar> getMarketDates(Calendar startDate, Calendar endDate) {
+        
+        SortedSet<Calendar> dates = new TreeSet<Calendar>();
+        
+        String queryStartDate = ConverterUtility.toString(startDate);
+        String queryEndDate = ConverterUtility.toString(endDate);
+
+        int sizeOfBarIndex = mapSizeOfBar(SizeOfBarsEnum.ONE_DAY);
+
+        String query = "SELECT date "
+                            + "FROM `PriceBars` WHERE "
+                                + "size = '"  + sizeOfBarIndex + "' AND "
+                                + "symbol = 'ED' AND "
+                                + "date >= '" + queryStartDate + "' AND "
+                                + "date <= '" + queryEndDate + "' AND "
+                            + "ORDER BY date ASC";
+        
+        ResultSet rs = select(query);
+        
+        try {
+            while (rs.next()) {
+                Calendar cal = ConverterUtility.toCalendar(rs.getDate("date"));
+                dates.add(cal);
+            }
+            
+        } catch (Exception e) {
+            System.out.println("error with query " + query);
+        } finally {
+            
+        }
+        
+        return dates;
     }
     
     

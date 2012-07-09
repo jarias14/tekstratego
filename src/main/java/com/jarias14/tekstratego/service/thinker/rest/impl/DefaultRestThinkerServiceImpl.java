@@ -55,11 +55,11 @@ public class DefaultRestThinkerServiceImpl implements RestThinkerService{
     }
 
     @Override
-    public AlertCollectionResource getAlerts(PositionCollectionResource positionsResource, String hypothesisId, String date) {
+    public AlertCollectionResource getAlerts(PositionCollectionResource positionsResource, String hypothesisId, String stock, String date) {
         
         List<Position> positions = new ArrayList<Position>();
         
-        for (PositionResource entry : positionsResource.getPositions()) {
+        for (PositionResource entry : positionsResource.getPositions().values()) {
             positions.add(new Position(entry));
         }
         

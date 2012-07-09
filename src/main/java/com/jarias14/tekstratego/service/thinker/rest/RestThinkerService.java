@@ -49,7 +49,7 @@ public interface RestThinkerService {
     @Path("/hypothesis/{hypothesis-id}/alerts")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public AlertCollectionResource getAlerts(PositionCollectionResource positions, @PathParam("hypothesis-id") String hypothesisId, @QueryParam("date") String date);
+    public AlertCollectionResource getAlerts(PositionCollectionResource positions, @PathParam("hypothesis-id") String hypothesisId, @PathParam("stock") String stock, @QueryParam("date") String date);
     
     /**
      * Creates a strategy for the given hypothesis.
@@ -108,4 +108,5 @@ public interface RestThinkerService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public StudyResource getStudy(@PathParam("hypothesis-id") String hypothesisId, @PathParam("strategy-id") String strategyId, @PathParam("study-id") String studyId);
+
 }

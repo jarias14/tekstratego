@@ -1,8 +1,10 @@
 package com.jarias14.tekstratego.service.thinker.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.jarias14.tekstratego.common.model.AbstractBase;
+import com.jarias14.tekstratego.common.model.Stock;
 import com.jarias14.tekstratego.common.model.TradeTypeEnum;
 import com.jarias14.tekstratego.common.resource.StrategyResource;
 import com.jarias14.tekstratego.service.thinker.model.study.AndStudy;
@@ -17,6 +19,7 @@ public class Strategy extends AbstractBase {
     private BigDecimal maxSecurityInvestment;
     private BigDecimal perTradeInvestment;
     private boolean isStrategyExclusive;
+    private List<Stock> stocks;
     //private BigDecimal minTrade
     private Study study;
     
@@ -96,6 +99,14 @@ public class Strategy extends AbstractBase {
 
     public void setStrategyExclusive(boolean isStrategyExclusive) {
         this.isStrategyExclusive = isStrategyExclusive;
+    }
+
+    public List<Stock> getStocks() {
+        return stocks;
+    }
+
+    public void setStocks(List<Stock> stocks) {
+        this.stocks = stocks;
     }
 
 }
