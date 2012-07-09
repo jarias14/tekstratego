@@ -66,24 +66,4 @@ public interface RestManagerService {
     @Consumes(MediaType.APPLICATION_JSON)
     public AlertCollectionResource getAlerts(@PathParam("portfolio-id") String portfolioId, @QueryParam("sort-by") String sortBy);
     
-    
-    /**
-     * Trades an alert and moves it to the transactions resource.
-     * @return a transaction object
-     */
-    @POST
-    @Path("/portfolio/{portfolio-id}/alerts/{alert-id}/trade")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public TransactionCollectionResource addTransaction(@PathParam("portfolio-id") String portfolioId, @PathParam("alert-id") String alertId);
-    
-    /**
-     * Gets transactions executed by the portfolio.
-     * @return a transaction object
-     */
-    @GET
-    @Path("/portfolio/{portfolio-id}/transactions")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public TransactionCollectionResource getTransactions(@PathParam("portfolio-id") String portfolioId, @QueryParam("sort-by") String sortBy);
 }

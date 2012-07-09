@@ -22,7 +22,7 @@ public class DefaultIndicatorDAO implements IndicatorDAO {
         
         SortedMap<Calendar, Double> prices = rds.getPrices(stock.getExchange(), stock.getSymbol(), sizeOfBar, priceOfBar, startDate, endDate);
         
-        // TODO if empty or null try yahoo and other sources of data http://code.google.com/p/tekstratego/issues/detail?id=1
+        // NICETOHAVE if empty or null try yahoo and other sources of data http://code.google.com/p/tekstratego/issues/detail?id=1
         
         return prices;
     }
@@ -39,7 +39,7 @@ public class DefaultIndicatorDAO implements IndicatorDAO {
 
     @Override
     public void deleteIndicator(String indicatorId) {
-        // TODO allow deletion of indicators
+        // NICETOHAVE allow deletion of indicators
         
     }
     
