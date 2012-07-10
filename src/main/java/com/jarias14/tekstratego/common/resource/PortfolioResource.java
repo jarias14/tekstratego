@@ -8,6 +8,7 @@ public class PortfolioResource extends BaseResource {
     
     private String status;
     private String initialCash;
+    private String availableCash;
     private String startDate;
     private String endDate;
     private Map<String, String> results;
@@ -53,6 +54,14 @@ public class PortfolioResource extends BaseResource {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public String getAvailableCash() {
+        return availableCash;
+    }
+
+    public void setAvailableCash(String availableCash) {
+        this.availableCash = availableCash;
     }
 
 }

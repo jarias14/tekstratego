@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -29,6 +30,7 @@ public class Portfolio extends AbstractBase {
     private Calendar startDate;
     private Calendar endDate;
     private Map<String, BigInteger> results;
+    private BigInteger availableCash;
     
     public Portfolio(PortfolioResource resource) {
         super(resource);
@@ -39,6 +41,9 @@ public class Portfolio extends AbstractBase {
         this.status = StatusEnum.READY;
         this.initialCash = ConverterUtility.toBigInteger(resource.getInitialCash());
         this.startDate = ConverterUtility.toCalendar(resource.getStartDate());
+        this.endDate = ConverterUtility.toCalendar(resource.getEndDate());
+        this.results = new HashMap<String, BigInteger>();
+        this.availableCash = ConverterUtility.toBigInteger(resource.getInitialCash());
     }
 
     @Override
@@ -48,8 +53,15 @@ public class Portfolio extends AbstractBase {
         
         resource.setId(super.getId());
         resource.setStatus(status.name());
-        
         resource.setInitialCash(initialCash.toString());
+        resource.setStartDate(ConverterUtility.toString(this.startDate));
+        resource.setEndDate(ConverterUtility.toString(this.endDate));
+        resource.setAvailableCash(this.availableCash.toString());
+
+        resource.setResults(new HashMap<String,String>());
+        for (Entry<String,BigInteger> result : results.entrySet()) {
+            resource.getResults().put(result.getKey(), result.getValue().toString());
+        }
         
         return resource;
     }
@@ -168,8 +180,11 @@ public class Portfolio extends AbstractBase {
         this.results = results;
     }
 
-    public int getAvailableCash() {
-        // TODO Auto-generated method stub
-        return 0;
+    public BigInteger getAvailableCash() {
+        return availableCash;
+    }
+
+    public void setAvailableCash(BigInteger availableCash) {
+        this.availableCash = availableCash;
     }
 }

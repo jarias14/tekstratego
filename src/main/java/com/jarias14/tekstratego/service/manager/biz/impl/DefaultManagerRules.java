@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.manager.biz.impl;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class DefaultManagerRules implements ManagerRules {
         for (Alert alert : alerts) {
             
             // if no available cash
-            if (portfolio.getAvailableCash() <= 0) {
+            if (portfolio.getAvailableCash().compareTo(BigInteger.ZERO) <= 0) {
                 continue;
             }
             
