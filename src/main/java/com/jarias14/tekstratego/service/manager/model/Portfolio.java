@@ -1,6 +1,6 @@
 package com.jarias14.tekstratego.service.manager.model;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -26,24 +26,25 @@ public class Portfolio extends AbstractBase {
     private SortedMap<Calendar, List<Position>> trades;
     private SortedMap<Calendar, List<Alert>> alerts;
     private StatusEnum status;
-    private BigInteger initialCash;
+    private BigDecimal initialCash;
     private Calendar startDate;
     private Calendar endDate;
-    private Map<String, BigInteger> results;
-    private BigInteger availableCash;
+    private Map<String, BigDecimal> results;
+    private BigDecimal availableCash;
     
     public Portfolio(PortfolioResource resource) {
         super(resource);
 
+        this.hypothesisId = resource.getHypothesisId();
         this.positions = new HashMap<String, Position>();
         this.trades = new TreeMap<Calendar,List<Position>>();
         this.alerts = new TreeMap<Calendar,List<Alert>>();
         this.status = StatusEnum.READY;
-        this.initialCash = ConverterUtility.toBigInteger(resource.getInitialCash());
+        this.initialCash = ConverterUtility.toBigDecimal(resource.getInitialCash());
         this.startDate = ConverterUtility.toCalendar(resource.getStartDate());
         this.endDate = ConverterUtility.toCalendar(resource.getEndDate());
-        this.results = new HashMap<String, BigInteger>();
-        this.availableCash = ConverterUtility.toBigInteger(resource.getInitialCash());
+        this.results = new HashMap<String, BigDecimal>();
+        this.availableCash = ConverterUtility.toBigDecimal(resource.getInitialCash());
     }
 
     @Override
@@ -53,13 +54,14 @@ public class Portfolio extends AbstractBase {
         
         resource.setId(super.getId());
         resource.setStatus(status.name());
+        resource.setHypothesisId(this.hypothesisId);
         resource.setInitialCash(initialCash.toString());
         resource.setStartDate(ConverterUtility.toString(this.startDate));
         resource.setEndDate(ConverterUtility.toString(this.endDate));
         resource.setAvailableCash(this.availableCash.toString());
 
         resource.setResults(new HashMap<String,String>());
-        for (Entry<String,BigInteger> result : results.entrySet()) {
+        for (Entry<String,BigDecimal> result : results.entrySet()) {
             resource.getResults().put(result.getKey(), result.getValue().toString());
         }
         
@@ -74,11 +76,11 @@ public class Portfolio extends AbstractBase {
         this.status = status;
     }
 
-    public BigInteger getInitialCash() {
+    public BigDecimal getInitialCash() {
         return initialCash;
     }
 
-    public void setInitialCash(BigInteger initialCash) {
+    public void setInitialCash(BigDecimal initialCash) {
         this.initialCash = initialCash;
     }
 
@@ -172,19 +174,19 @@ public class Portfolio extends AbstractBase {
         this.endDate = endDate;
     }
 
-    public Map<String, BigInteger> getResults() {
+    public Map<String, BigDecimal> getResults() {
         return results;
     }
 
-    public void setResults(Map<String, BigInteger> results) {
+    public void setResults(Map<String, BigDecimal> results) {
         this.results = results;
     }
 
-    public BigInteger getAvailableCash() {
+    public BigDecimal getAvailableCash() {
         return availableCash;
     }
 
-    public void setAvailableCash(BigInteger availableCash) {
+    public void setAvailableCash(BigDecimal availableCash) {
         this.availableCash = availableCash;
     }
 }

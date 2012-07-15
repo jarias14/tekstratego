@@ -1,6 +1,6 @@
 package com.jarias14.tekstratego.service.manager.model;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 import com.jarias14.tekstratego.common.model.AbstractBase;
 import com.jarias14.tekstratego.common.model.Stock;
@@ -15,10 +15,10 @@ public class Alert extends AbstractBase {
     private String strategyId;
     private String hypothesisId;
     private String description; //textual description of this alert
-    private BigInteger amountToTrade; //how much money to trade on this alert
+    private BigDecimal amountToTrade; //how much money to trade on this alert
     private TradeTypeEnum strategyType; //entry, scale, exit
-    private BigInteger limitPerStock; //how much money to trade on this alert
-    private BigInteger limitForStrategy; //max investment for this strategy
+    private BigDecimal limitPerStock; //how much money to trade on this alert
+    private BigDecimal limitForStrategy; //max investment for this strategy
     private boolean isStrategyExclusive; //strategy only cares about its own transactions
     
     private int tradedShares;
@@ -31,8 +31,8 @@ public class Alert extends AbstractBase {
         this.hypothesisId = resource.getHypothesisId();
         this.description = resource.getDescription();
         this.strategyType = TradeTypeEnum.valueOf(resource.getStrategyType());
-        this.limitPerStock = new BigInteger(resource.getLimitPerStock());
-        this.limitForStrategy = new BigInteger(resource.getLimitForStrategy());
+        this.limitPerStock = new BigDecimal(resource.getLimitPerStock());
+        this.limitForStrategy = new BigDecimal(resource.getLimitForStrategy());
         this.isStrategyExclusive = resource.getIsStrategyExclusive();
         
     }
@@ -87,16 +87,16 @@ public class Alert extends AbstractBase {
     public void setStrategyType(TradeTypeEnum strategyType) {
         this.strategyType = strategyType;
     }
-    public BigInteger getLimitPerStock() {
+    public BigDecimal getLimitPerStock() {
         return limitPerStock;
     }
-    public void setLimitPerStock(BigInteger limitPerStock) {
+    public void setLimitPerStock(BigDecimal limitPerStock) {
         this.limitPerStock = limitPerStock;
     }
-    public BigInteger getLimitForStrategy() {
+    public BigDecimal getLimitForStrategy() {
         return limitForStrategy;
     }
-    public void setLimitForStrategy(BigInteger limitForStrategy) {
+    public void setLimitForStrategy(BigDecimal limitForStrategy) {
         this.limitForStrategy = limitForStrategy;
     }
     public boolean isStrategyExclusive() {
@@ -114,11 +114,11 @@ public class Alert extends AbstractBase {
         this.tradedShares = tradedShares;
     }
 
-    public BigInteger getAmountToTrade() {
+    public BigDecimal getAmountToTrade() {
         return amountToTrade;
     }
 
-    public void setAmountToTrade(BigInteger amountToTrade) {
+    public void setAmountToTrade(BigDecimal amountToTrade) {
         this.amountToTrade = amountToTrade;
     }
 

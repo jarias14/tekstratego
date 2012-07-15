@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import javax.annotation.Resource;
 
@@ -27,16 +24,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.jarias14.tekstratego.common.model.Stock;
 import com.jarias14.tekstratego.common.model.TradeTypeEnum;
-import com.jarias14.tekstratego.common.resource.AlertCollectionResource;
-import com.jarias14.tekstratego.common.resource.AlertResource;
 import com.jarias14.tekstratego.common.resource.IndicatorResource;
 import com.jarias14.tekstratego.common.resource.PortfolioResource;
 import com.jarias14.tekstratego.common.utilities.ConstantsUtility;
 import com.jarias14.tekstratego.common.utilities.MembaseConnector;
-import com.jarias14.tekstratego.service.manager.model.Alert;
 import com.jarias14.tekstratego.service.thinker.dao.impl.DefaultThinkerDAO;
 import com.jarias14.tekstratego.service.thinker.biz.ThinkerService;
-import com.jarias14.tekstratego.service.thinker.dao.ThinkerDAO;
 import com.jarias14.tekstratego.service.thinker.model.Hypothesis;
 import com.jarias14.tekstratego.service.thinker.model.HypothesisStatusEnum;
 import com.jarias14.tekstratego.service.thinker.model.Position;
@@ -76,7 +69,6 @@ public class DefaultRunnerServiceTest {
         hypothesis.getStartDate().set(2010, 02, 01, 0, 0, 0);
         hypothesis.setEndDate(Calendar.getInstance());
         hypothesis.getEndDate().set(2010, 9, 01, 23, 59, 59);
-        hypothesis.setStatus(HypothesisStatusEnum.PROCESSING);
         
         hypothesis.getStocks().add(new Stock("","ED"));
         

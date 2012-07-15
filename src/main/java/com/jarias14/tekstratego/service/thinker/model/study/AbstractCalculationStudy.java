@@ -9,6 +9,16 @@ import com.jarias14.tekstratego.common.resource.StudyResource;
 import com.jarias14.tekstratego.common.utilities.MembaseConnector;
 import com.jarias14.tekstratego.service.thinker.model.Study;
 
+/**
+ *  {
+        "type":"lt",
+        "studyValue":"25.01",
+        "barUnderTest":"0",
+        "indicatorId":"ec393711-a289-47b3-9fb8-0d4c3834c85a"
+    }
+ * @author jarias14
+ *
+ */
 public abstract class AbstractCalculationStudy implements Study, Serializable {
     
     private static final long serialVersionUID = 1L;

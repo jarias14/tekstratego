@@ -7,7 +7,6 @@ import java.util.SortedMap;
 import com.jarias14.tekstratego.common.model.StatusEnum;
 import com.jarias14.tekstratego.common.resource.AlertCollectionResource;
 import com.jarias14.tekstratego.common.resource.PortfolioResource;
-import com.jarias14.tekstratego.common.resource.TransactionCollectionResource;
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.manager.biz.ManagerService;
 import com.jarias14.tekstratego.service.manager.model.Portfolio;

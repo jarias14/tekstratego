@@ -132,4 +132,12 @@ public class DefaultManagerDAO implements ManagerDAO {
         return restTemplate;
     }
 
+    public RdsConnector getRds() {
+        return rds;
+    }
+
+    public void setRds(RdsConnector rds) {
+        this.rds = rds;
+    }
+
 }

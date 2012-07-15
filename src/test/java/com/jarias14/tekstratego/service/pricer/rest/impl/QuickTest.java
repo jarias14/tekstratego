@@ -11,7 +11,6 @@ import org.springframework.http.converter.json.MappingJacksonHttpMessageConverte
 import org.springframework.web.client.RestTemplate;
 
 import org.junit.Ignore;
-import org.junit.Test;
 
 import com.jarias14.tekstratego.common.resource.IndicatorResource;
 

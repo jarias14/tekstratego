@@ -57,6 +57,9 @@ public class DefaultManagerService implements ManagerService {
             
             // copy traded positions to portfolio
             updatePortolio(today, portfolio, succesfulTrades);
+            
+            // save current values - this could be removed
+            managerDAO.writePortfolio(portfolio);
         }
         
         //mark portfolio as executed and save all to memory
@@ -100,6 +103,14 @@ public class DefaultManagerService implements ManagerService {
 
     public void setManagerDAO(ManagerDAO managerDAO) {
         this.managerDAO = managerDAO;
+    }
+
+    public ManagerRules getManagerRules() {
+        return managerRules;
+    }
+
+    public void setManagerRules(ManagerRules managerRules) {
+        this.managerRules = managerRules;
     }
 
 }

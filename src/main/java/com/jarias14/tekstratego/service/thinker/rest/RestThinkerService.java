@@ -46,10 +46,10 @@ public interface RestThinkerService {
      * @return the hypothesis
      */
     @POST
-    @Path("/hypothesis/{hypothesis-id}/alerts")
+    @Path("/hypothesis/{hypothesis-id}/alerts/{date}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public AlertCollectionResource getAlerts(PositionCollectionResource positions, @PathParam("hypothesis-id") String hypothesisId, @PathParam("stock") String stock, @QueryParam("date") String date);
+    public AlertCollectionResource getAlerts(PositionCollectionResource positions, @PathParam("hypothesis-id") String hypothesisId, @PathParam("date") String date);
     
     /**
      * Creates a strategy for the given hypothesis.

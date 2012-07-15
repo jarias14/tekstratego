@@ -18,8 +18,9 @@ public class PositionCollectionResource extends BaseResource {
     
     public PositionCollectionResource(Map<String, Position> model) {
         
+        this.positions = new HashMap<String, PositionResource>();
+        
         for (Entry<String,Position> kv : model.entrySet()) {
-            
             positions.put(kv.getKey(), kv.getValue().toResource());
         }
     }

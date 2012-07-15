@@ -55,7 +55,7 @@ public class DefaultRestThinkerServiceImpl implements RestThinkerService{
     }
 
     @Override
-    public AlertCollectionResource getAlerts(PositionCollectionResource positionsResource, String hypothesisId, String stock, String date) {
+    public AlertCollectionResource getAlerts(PositionCollectionResource positionsResource, String hypothesisId, String date) {
         
         List<Position> positions = new ArrayList<Position>();
         
@@ -102,7 +102,7 @@ public class DefaultRestThinkerServiceImpl implements RestThinkerService{
         
         resource.getLinks().put("hypothesis", LinksUtility.getThinkerHypothesisLink(hypothesisId));
         resource.getLinks().put("self", LinksUtility.getThinkerStrategyLink(hypothesisId, model.getId()));
-        resource.setStudy(LinksUtility.getThinkerStudyLink(hypothesisId, strategyId, "root"));
+        resource.setRootStudy(LinksUtility.getThinkerStudyLink(hypothesisId, strategyId, "root"));
         
         return resource;
     }

@@ -13,6 +13,15 @@ import com.jarias14.tekstratego.common.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
 import com.jarias14.tekstratego.service.pricer.dao.IndicatorDAO;
 
+
+/**
+ * {
+ *   "type": "price",
+ *   "sizeOfBars": "ONE_DAY",
+ *   "priceOfBars": "OPEN"
+ * }
+ * 
+ */
 public class Price extends IndicatorBase {
 
     private static final long serialVersionUID = 1L;

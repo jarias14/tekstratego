@@ -9,6 +9,13 @@ import com.jarias14.tekstratego.common.resource.LinksResource;
 import com.jarias14.tekstratego.common.resource.StudyResource;
 import com.jarias14.tekstratego.service.thinker.model.Study;
 
+/**
+ * {
+    "type":"and"
+   }
+ * @author jarias14
+ *
+ */
 public abstract class AbstractOperatorStudy implements Study , Serializable {
     
     private static final long serialVersionUID = 1L;

@@ -11,7 +11,6 @@ import javax.ws.rs.core.MediaType;
 
 import com.jarias14.tekstratego.common.resource.AlertCollectionResource;
 import com.jarias14.tekstratego.common.resource.PortfolioResource;
-import com.jarias14.tekstratego.common.resource.TransactionCollectionResource;
 
 @Path("/manager-service")
 public interface RestManagerService {

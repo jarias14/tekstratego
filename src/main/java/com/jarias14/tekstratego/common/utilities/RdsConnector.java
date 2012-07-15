@@ -218,7 +218,7 @@ public class RdsConnector {
                                 + "size = '"  + sizeOfBarIndex + "' AND "
                                 + "symbol = 'ED' AND "
                                 + "date >= '" + queryStartDate + "' AND "
-                                + "date <= '" + queryEndDate + "' AND "
+                                + "date <= '" + queryEndDate + "' "
                             + "ORDER BY date ASC";
         
         ResultSet rs = select(query);

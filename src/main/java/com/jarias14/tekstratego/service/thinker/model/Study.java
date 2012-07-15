@@ -6,6 +6,17 @@ import java.util.SortedMap;
 
 import com.jarias14.tekstratego.common.resource.StudyResource;
 
+/**
+ * {
+ *   "type":"and",
+ *   "studyValue":"25.01",
+ *   "barUnderTest":"0",
+ *   "indicatorId":"ec393711-a289-47b3-9fb8-0d4c3834c85a"
+ * }
+ * 
+ * @author jarias14
+ *
+ */
 public interface Study {
     
     public void setId(String id);

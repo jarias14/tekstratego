@@ -1,6 +1,7 @@
 package com.jarias14.tekstratego.service.thinker.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.jarias14.tekstratego.common.model.AbstractBase;
@@ -12,16 +13,15 @@ import com.jarias14.tekstratego.service.thinker.model.study.AndStudy;
 public class Strategy extends AbstractBase {
     
     private static final long serialVersionUID = 1L;
-    
+
+    private Study study;
+    private List<Stock> stocks;
     private TradeTypeEnum type;
     private String description;
     private BigDecimal maxStrategyInvestment;
     private BigDecimal maxSecurityInvestment;
-    private BigDecimal perTradeInvestment;
+    private BigDecimal maxPerTradeInvestment;
     private boolean isStrategyExclusive;
-    private List<Stock> stocks;
-    //private BigDecimal minTrade
-    private Study study;
     
     public Strategy() {
         
@@ -30,17 +30,34 @@ public class Strategy extends AbstractBase {
     public Strategy(StrategyResource resource) {
         super(resource);
         this.type = TradeTypeEnum.valueOf(resource.getType());
-        this.maxStrategyInvestment = BigDecimal.valueOf(Double.valueOf((resource.getAmount())));
+        this.maxStrategyInvestment = BigDecimal.valueOf(Double.valueOf((resource.getMaxStrategyInvestment())));
+        this.maxSecurityInvestment = BigDecimal.valueOf(Double.valueOf((resource.getMaxSecurityInvestment())));
+        this.maxPerTradeInvestment = (BigDecimal.valueOf(Double.valueOf((resource.getMaxPerTradeInvestment()))));
+        this.isStrategyExclusive = Boolean.valueOf(resource.getIsStrategyExclusive());
+        this.description = resource.getDescription();
+        this.stocks = new ArrayList<Stock>();
+        for (String stock : resource.getStocks()) {
+            stocks.add(new Stock("", stock));
+        }
+        
         this.study = new AndStudy();
         this.study.setId("root");
     }
 
     public StrategyResource toResource() {
         StrategyResource resource = new StrategyResource();
-        
+        resource.setType(this.type.name());
+        resource.setMaxStrategyInvestment(this.maxStrategyInvestment.toString());
+        resource.setMaxSecurityInvestment(this.maxSecurityInvestment.toString());
+        resource.setMaxPerTradeInvestment(this.maxPerTradeInvestment.toString());
+        resource.setIsStrategyExclusive(String.valueOf(this.isStrategyExclusive));
+        resource.setDescription(this.description);
+        resource.setStocks(new ArrayList<String>());
+        for (Stock stock : this.stocks) {
+            resource.getStocks().add(stock.getSymbol());
+        }
         resource.setId(super.getId());
         resource.setType(type.toString());
-        resource.setAmount(maxStrategyInvestment.toString());
         
         return resource;
     }
@@ -85,14 +102,6 @@ public class Strategy extends AbstractBase {
         this.maxSecurityInvestment = maxSecurityInvestment;
     }
 
-    public BigDecimal getPerTradeInvestment() {
-        return perTradeInvestment;
-    }
-
-    public void setPerTradeInvestment(BigDecimal perTradeInvestment) {
-        this.perTradeInvestment = perTradeInvestment;
-    }
-
     public boolean isStrategyExclusive() {
         return isStrategyExclusive;
     }
@@ -107,6 +116,14 @@ public class Strategy extends AbstractBase {
 
     public void setStocks(List<Stock> stocks) {
         this.stocks = stocks;
+    }
+
+    public BigDecimal getMaxPerTradeInvestment() {
+        return maxPerTradeInvestment;
+    }
+
+    public void setMaxPerTradeInvestment(BigDecimal maxPerTradeInvestment) {
+        this.maxPerTradeInvestment = maxPerTradeInvestment;
     }
 
 }

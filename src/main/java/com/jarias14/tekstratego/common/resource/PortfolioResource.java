@@ -2,10 +2,24 @@ package com.jarias14.tekstratego.common.resource;
 
 import java.util.Map;
 
+/**
+ * 
+ * {
+ *   "hypothesisId":"7cf694e0-bc5d-4b9c-b58a-2bf4ef659fbb",
+ *   "initialCash":"100000.00",
+ *   "availableCash":"100000.00",
+ *   "startDate":"2010-01-01T00:00:00",
+ *   "endDate":"2011-01-01T00:00:00"
+ * }
+ * 
+ * @author jarias14
+ *
+ */
 public class PortfolioResource extends BaseResource {
 
     private static final long serialVersionUID = 1L;
     
+    private String hypothesisId;
     private String status;
     private String initialCash;
     private String availableCash;
@@ -62,6 +76,14 @@ public class PortfolioResource extends BaseResource {
 
     public void setAvailableCash(String availableCash) {
         this.availableCash = availableCash;
+    }
+
+    public String getHypothesisId() {
+        return hypothesisId;
+    }
+
+    public void setHypothesisId(String hypothesisId) {
+        this.hypothesisId = hypothesisId;
     }
 
 }

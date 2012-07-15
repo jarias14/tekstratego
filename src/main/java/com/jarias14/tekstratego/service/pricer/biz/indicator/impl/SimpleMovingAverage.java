@@ -27,6 +27,18 @@ import com.jarias14.tekstratego.common.model.Stock;
 import com.jarias14.tekstratego.common.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
 
+/**
+ * @author jarias14
+ *
+ * {
+ *   "type": "simple_moving_average",
+ *   "sizeOfBars": "ONE_DAY",
+ *   "priceOfBars": "OPEN",
+ *   "details": {
+ *       "period": "3"
+ *   }
+ * }
+ */
 public class SimpleMovingAverage extends IndicatorBase {
     
     private static final long serialVersionUID = 8192599356783190029L;

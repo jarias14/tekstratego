@@ -77,6 +77,7 @@
 	<bean id="managerDAO"
 		class="com.jarias14.tekstratego.service.manager.dao.impl.DefaultManagerDAO">
 		<property name="memory" ref="membaseConnector" />
+		<property name="rds" ref="tekRdsConnector" />
 		<property name="timeToLiveInSeconds" value="6000" />
 	</bean>
 	
@@ -99,6 +100,7 @@
 	<bean id="managerService"
 		class="com.jarias14.tekstratego.service.manager.biz.impl.DefaultManagerService">
 		<property name="managerDAO" ref="managerDAO" />
+		<property name="managerRules" ref="managerRules" />
 	</bean>
 
 	<!-- END: business layer beans -->
@@ -126,4 +128,9 @@
 	<!-- END: rest layer beans -->
 
 
+	<!-- START: miscellaneous beans -->
+
+	<bean id="managerRules" class="com.jarias14.tekstratego.service.manager.biz.impl.DefaultManagerRules" />
+
+	<!-- END: miscellaneous beans -->
 </beans>

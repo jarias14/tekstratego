@@ -1,6 +1,5 @@
 package com.jarias14.tekstratego.service.thinker.model;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -11,14 +10,12 @@ import com.jarias14.tekstratego.common.model.AbstractBase;
 import com.jarias14.tekstratego.common.model.Stock;
 import com.jarias14.tekstratego.common.resource.HypothesisResource;
 import com.jarias14.tekstratego.common.resource.LinksResource;
-import com.jarias14.tekstratego.common.utilities.ConstantsUtility;
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
 
 public class Hypothesis extends AbstractBase {
     
     private static final long serialVersionUID = 1L;
     
-    private HypothesisStatusEnum status;
     private Map<String, Strategy> strategies;
     private List<Stock> stocks;
     private String portfolioId;
@@ -31,22 +28,12 @@ public class Hypothesis extends AbstractBase {
 
     public Hypothesis(HypothesisResource resource) {
         super(resource);
-        //this.status = HypothesisStatusEnum.valueOf(resource.getStatus());
         this.strategies = new HashMap<String, Strategy>();
         this.portfolioId = resource.getPortfolioId();
-        this.status = HypothesisStatusEnum.AVAILABLE;
         this.stocks = new ArrayList<Stock>();
         this.stocks.add(new Stock("NYSE", "ED"));
         this.startDate = Calendar.getInstance();
         this.endDate = Calendar.getInstance();
-        SimpleDateFormat formatter = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
-        
-        try {
-            this.startDate.setTime(formatter.parse(resource.getStartDate()));
-            this.endDate.setTime(formatter.parse(resource.getEndDate()));
-        } catch (Exception e) {
-            
-        }
     }
     
     public HypothesisResource toResource() {
@@ -54,25 +41,14 @@ public class Hypothesis extends AbstractBase {
         HypothesisResource resource = new HypothesisResource();
         
         resource.setId(super.getId());
-        resource.setStatus(status.toString());
         resource.setPortfolioId(portfolioId);
         resource.setStrategies(new HashMap<String, LinksResource>());
-        resource.setStartDate((new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT)).format(startDate));
-        resource.setEndDate((new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT)).format(endDate));
         
         for (Strategy strategy : strategies.values()) {
             resource.getStrategies().put(strategy.getId(), LinksUtility.getThinkerStrategyLink(super.getId(), strategy.getId()));
         }
         
         return resource;
-    }
-
-    public HypothesisStatusEnum getStatus() {
-        return status;
-    }
-
-    public void setStatus(HypothesisStatusEnum status) {
-        this.status = status;
     }
 
     public Map<String, Strategy> getStrategies() {

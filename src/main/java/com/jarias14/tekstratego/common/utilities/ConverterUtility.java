@@ -1,6 +1,6 @@
 package com.jarias14.tekstratego.common.utilities;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -30,14 +30,14 @@ public class ConverterUtility {
         return calendar;
     }
     
-    public static BigInteger toBigInteger(String number) {
+    public static BigDecimal toBigDecimal(String number) {
         
         Locale in_ID = new Locale("en","US");
 
         DecimalFormat nf = (DecimalFormat)NumberFormat.getInstance(in_ID);
         nf.setParseBigDecimal(true);
 
-        BigInteger bd = (BigInteger) nf.parse(number, new ParsePosition(0));
+        BigDecimal bd = (BigDecimal) nf.parse(number, new ParsePosition(0));
         
         return bd;
     }

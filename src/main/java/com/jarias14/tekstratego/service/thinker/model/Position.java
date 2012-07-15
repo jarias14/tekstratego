@@ -1,6 +1,6 @@
 package com.jarias14.tekstratego.service.thinker.model;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 import com.jarias14.tekstratego.common.model.AbstractBase;
 import com.jarias14.tekstratego.common.model.Stock;
@@ -12,7 +12,7 @@ public class Position extends AbstractBase {
     
     private Stock stock;
     private int numberOfShares;
-    private BigInteger purchaseValue;
+    private BigDecimal purchaseValue;
 
     public Position() {
         
@@ -49,11 +49,11 @@ public class Position extends AbstractBase {
         this.stock = stock;
     }
 
-    public BigInteger getPurchaseValue() {
+    public BigDecimal getPurchaseValue() {
         return purchaseValue;
     }
 
-    public void setPurchaseValue(BigInteger purchaseValue) {
+    public void setPurchaseValue(BigDecimal purchaseValue) {
         this.purchaseValue = purchaseValue;
     }
 
