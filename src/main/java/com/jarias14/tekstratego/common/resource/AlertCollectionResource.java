@@ -24,14 +24,17 @@ public class AlertCollectionResource extends BaseResource {
     
     public <T> AlertCollectionResource(SortedMap<Calendar,List<T>> model) {
         
-        alerts = new TreeMap<String, List<AlertResource>>();
+        this.alerts = new TreeMap<String, List<AlertResource>>();
         
         SimpleDateFormat fmtr = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
         
         for (Calendar cal : model.keySet()) {
+            String newKey = fmtr.format(cal.getTime());
+            
+            this.alerts.put(newKey, new ArrayList<AlertResource>());
+            
             for (Object alert : model.get(cal)) {
                 
-                String newKey = fmtr.format(cal.getTime());
                 AlertResource newValue = (AlertResource)((AbstractBase)alert).toResource(); 
                 
                 if (!this.getAlerts().containsKey(newKey)) {

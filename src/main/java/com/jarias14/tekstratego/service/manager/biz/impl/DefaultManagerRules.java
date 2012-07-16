@@ -24,14 +24,15 @@ public class DefaultManagerRules implements ManagerRules {
             }
             
             // if we have put more money into the stock than the limit per stock
-            if (portfolio.getPositions().get(alert.getStock().getSymbol()).getPurchaseValue().compareTo(alert.getLimitPerStock()) >= 0) {
-                continue;
-            }
+            //if (portfolio.getPositions().get(alert.getStock().getSymbol()).getPurchaseValue().compareTo(alert.getLimitPerStock()) >= 0) {
+            //    continue;
+            //}
             
             // if we get here, we do want to buy...
             Signal signal = new Signal();
-            
             signal.setAmountToTrade(alert.getLimitPerStock());
+            signal.setStock(alert.getStock());
+            filtered.add(signal);
         }
         
         return filtered;

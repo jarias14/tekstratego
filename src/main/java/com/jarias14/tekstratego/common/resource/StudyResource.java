@@ -2,7 +2,17 @@ package com.jarias14.tekstratego.common.resource;
 
 import java.util.Map;
 
-
+/**
+ *
+    {
+        "type":"lt",
+        "studyValue":"25.01",
+        "barUnderTest":"0",
+        "indicatorId":"ec393711-a289-47b3-9fb8-0d4c3834c85a"
+    }
+ * @author jarias14
+ *
+ */
 public class StudyResource extends BaseResource {
    
     private static final long serialVersionUID = 1L;

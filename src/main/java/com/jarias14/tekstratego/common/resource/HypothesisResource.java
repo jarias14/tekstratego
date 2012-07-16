@@ -6,7 +6,6 @@ public class HypothesisResource extends BaseResource {
 
     private static final long serialVersionUID = 1L;
     
-    private String portfolioId;
     private Map<String, LinksResource> strategies;
 
     public HypothesisResource() {
@@ -19,14 +18,6 @@ public class HypothesisResource extends BaseResource {
     
     public void setStrategies(Map<String, LinksResource> strategies) {
         this.strategies = strategies;
-    }
-
-    public String getPortfolioId() {
-        return portfolioId;
-    }
-
-    public void setPortfolioId(String portfolioId) {
-        this.portfolioId = portfolioId;
     }
 
 }

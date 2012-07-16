@@ -65,20 +65,20 @@
 		class="com.jarias14.tekstratego.service.pricer.dao.impl.DefaultIndicatorDAO">
 		<property name="memory" ref="membaseConnector" />
 		<property name="rds" ref="tekRdsConnector" />
-		<property name="timeToLiveInSeconds" value="6000" />
+		<property name="timeToLiveInSeconds" value="600000" />
 	</bean>
 	
 	<bean id="thinkerDAO"
 		class="com.jarias14.tekstratego.service.thinker.dao.impl.DefaultThinkerDAO">
 		<property name="memory" ref="membaseConnector" />
-		<property name="timeToLiveInSeconds" value="6000" />
+		<property name="timeToLiveInSeconds" value="600000" />
 	</bean>
 	
 	<bean id="managerDAO"
 		class="com.jarias14.tekstratego.service.manager.dao.impl.DefaultManagerDAO">
 		<property name="memory" ref="membaseConnector" />
 		<property name="rds" ref="tekRdsConnector" />
-		<property name="timeToLiveInSeconds" value="6000" />
+		<property name="timeToLiveInSeconds" value="600000" />
 	</bean>
 	
 	<!-- END: dao layer -->

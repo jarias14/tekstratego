@@ -31,7 +31,6 @@ import com.jarias14.tekstratego.common.utilities.MembaseConnector;
 import com.jarias14.tekstratego.service.thinker.dao.impl.DefaultThinkerDAO;
 import com.jarias14.tekstratego.service.thinker.biz.ThinkerService;
 import com.jarias14.tekstratego.service.thinker.model.Hypothesis;
-import com.jarias14.tekstratego.service.thinker.model.HypothesisStatusEnum;
 import com.jarias14.tekstratego.service.thinker.model.Position;
 import com.jarias14.tekstratego.service.thinker.model.Strategy;
 import com.jarias14.tekstratego.service.thinker.model.Study;
@@ -64,13 +63,10 @@ public class DefaultRunnerServiceTest {
         hypothesis = new Hypothesis();
         hypothesis.setPortfolioId(createTestPortfolio());
         hypothesis.setStrategies(new HashMap<String,Strategy>());
-        hypothesis.setStocks(new ArrayList<Stock>());
         hypothesis.setStartDate(Calendar.getInstance());
         hypothesis.getStartDate().set(2010, 02, 01, 0, 0, 0);
         hypothesis.setEndDate(Calendar.getInstance());
         hypothesis.getEndDate().set(2010, 9, 01, 23, 59, 59);
-        
-        hypothesis.getStocks().add(new Stock("","ED"));
         
         Strategy strategy = new Strategy();
         hypothesis.getStrategies().put("1234", strategy);
@@ -78,6 +74,8 @@ public class DefaultRunnerServiceTest {
         strategy.setMaxStrategyInvestment(new BigDecimal("2222.33"));
         strategy.setType(TradeTypeEnum.ENTRY);
         strategy.setStudy(new AndStudy());
+        strategy.setStocks(new ArrayList<Stock>());
+        strategy.getStocks().add(new Stock("NYSE", "ED"));
         strategy.setId("1234");
         
         AndStudy rootStudy = (AndStudy) strategy.getStudy();

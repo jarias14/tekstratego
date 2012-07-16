@@ -2,7 +2,27 @@ package com.jarias14.tekstratego.common.resource;
 
 import java.util.Map;
 
-
+/**
+ * 
+ * {
+ *   "type": "price",
+ *   "sizeOfBars": "ONE_DAY",
+ *   "priceOfBars": "OPEN"
+ * }
+ * 
+ * 
+ * {
+ *   "type": "simple_moving_average",
+ *   "sizeOfBars": "ONE_DAY",
+ *   "priceOfBars": "OPEN",
+ *   "details": {
+ *       "period": "3"
+ *   }
+ * }
+ * 
+ * @author jarias14
+ *
+ */
 public class IndicatorResource extends BaseResource {
     
     private static final long serialVersionUID = 3749994184149195859L;
