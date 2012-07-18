@@ -18,7 +18,7 @@ public class LinksUtility {
     public static final String MANAGER_ALERTS_LINK = "/manager-service/portfolio/{portfolio}/alerts";
     public static final String MANAGER_ALERT_LINK = "/manager-service/portfolio/{portfolio}/alert/{alert}";
     public static final String MANAGER_TRANSACTIONS_LINK = "/manager-service/portfolio/{portfolio}/transactions";
-    public static final String TRADER_TRANSACT = "/trader-service/trade/{symbol}/amount/{amount}";
+    public static final String TRADER_TRANSACT = "/trader-service/trade/symbol/{symbol}/shares/{shares}";
     public static final String PRICER_INDICATOR = "/pricer-service/indicators";
 
     public static String getUrl(String template, Map<String,String> replacements, Map<String,String> parameters) {

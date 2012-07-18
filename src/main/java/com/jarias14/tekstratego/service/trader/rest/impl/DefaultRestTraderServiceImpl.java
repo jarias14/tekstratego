@@ -18,7 +18,7 @@ import com.jarias14.tekstratego.service.trader.rest.RestTraderService;
 public class DefaultRestTraderServiceImpl implements RestTraderService {
 
     @Override
-    public TransactionResource createIndicator(String symbol, String shares, String isBackTesting, String barTime, String barSize) {
+    public TransactionResource createTrade(String symbol, String shares, String isBackTesting, String barTime, String barSize) {
         
         Map<String,String> replacements = new HashMap<String,String>();
         replacements.put("type", "price");
@@ -41,6 +41,7 @@ public class DefaultRestTraderServiceImpl implements RestTraderService {
                 getRestTemplate().postForObject(url, null, IndicatorValuesResource.class);
         
         TransactionResource resource = new TransactionResource();
+        resource.setSharesPrice(String.valueOf(values.getValues().get(values.getValues().firstKey())));
         resource.setSharesNumber(shares);
         resource.setSharesPrice(String.valueOf(values.getValues().get(barTime)));
         return resource;

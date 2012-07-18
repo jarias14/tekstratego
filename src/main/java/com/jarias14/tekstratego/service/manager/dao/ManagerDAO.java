@@ -20,6 +20,6 @@ public interface ManagerDAO {
 
     public List<Alert> getAlerts(String hypothesisId, Calendar today, Map<String, Position> positions);
 
-    public List<Position> transact(List<Signal> signals);
+    public List<Position> transact(List<Signal> signals, Calendar today);
 
 }

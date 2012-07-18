@@ -32,6 +32,12 @@ public class DefaultManagerRules implements ManagerRules {
             Signal signal = new Signal();
             signal.setAmountToTrade(alert.getLimitPerStock());
             signal.setStock(alert.getStock());
+            signal.setStrategyType(alert.getStrategyType());
+            signal.setLimitForStrategy(alert.getLimitForStrategy());
+            signal.setLimitPerStock(signal.getLimitPerStock());
+            signal.setDescription(alert.getDescription());
+            signal.setHypothesisId(alert.getHypothesisId());
+            signal.setStrategyId(alert.getStrategyId());
             filtered.add(signal);
         }
         

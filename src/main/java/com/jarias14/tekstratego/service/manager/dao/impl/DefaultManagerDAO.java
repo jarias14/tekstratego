@@ -90,7 +90,7 @@ public class DefaultManagerDAO implements ManagerDAO {
     }
 
     @Override
-    public List<Position> transact(List<Signal> signals) {
+    public List<Position> transact(List<Signal> signals, Calendar date) {
         
         List<Position> positions = new ArrayList<Position>();
         
@@ -101,11 +101,13 @@ public class DefaultManagerDAO implements ManagerDAO {
 
             // prepare rest call
             Map<String,String> replacements = new HashMap<String,String>();
-            replacements.put("user", "abc123");
             replacements.put("symbol", signal.getStock().getSymbol());
             replacements.put("amount", signal.getAmountToTrade().toString());
             
             Map<String,String> parameters = new HashMap<String,String>();
+            parameters.put("is-back-testing", "true");
+            parameters.put("bar-size", "ONE_DAY");
+            parameters.put("bar-time", ConverterUtility.toString(date));
             
             String url = LinksUtility.getUrl(LinksUtility.TRADER_TRANSACT, replacements, parameters);
             

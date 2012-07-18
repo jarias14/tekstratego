@@ -21,6 +21,6 @@ public interface RestTraderService {
     @Path("/trade/{symbol}/shares/{shares}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public TransactionResource createIndicator(@PathParam("symbol") String symbol, @PathParam("shares") String shares, @QueryParam("back-testing") String isBackTesting, @QueryParam("barTime") String barTime, @QueryParam("barSize") String barSize);
+    public TransactionResource createTrade(@PathParam("symbol") String symbol, @PathParam("shares") String shares, @QueryParam("is-back-testing") String isBackTesting, @QueryParam("bar-time") String barTime, @QueryParam("bar-size") String barSize);
 
 }

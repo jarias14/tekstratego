@@ -53,7 +53,7 @@ public class DefaultManagerService implements ManagerService {
             List<Signal> filteredAlerts = managerRules.filter(portfolio, hypothesisAlerts);
             
             // try to make the transactions
-            List<Position> succesfulTrades = managerDAO.transact(filteredAlerts);
+            List<Position> succesfulTrades = managerDAO.transact(filteredAlerts, today);
             
             // copy traded positions to portfolio
             updatePortolio(today, portfolio, succesfulTrades);
