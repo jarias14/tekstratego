@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.jarias14.tekstratego.common.resource.TransactionResource;
 
-@Path("trader-service")
+@Path("/trader-service")
 public interface RestTraderService {
 
     /**
@@ -18,9 +18,9 @@ public interface RestTraderService {
      * @return the list of prices for the request.
      */
     @POST
-    @Path("/trade/{symbol}/shares/{shares}")
+    @Path("/trade/{symbol}/amount/{amount}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public TransactionResource createTrade(@PathParam("symbol") String symbol, @PathParam("shares") String shares, @QueryParam("is-back-testing") String isBackTesting, @QueryParam("bar-time") String barTime, @QueryParam("bar-size") String barSize);
+    public TransactionResource createTrade(@PathParam("symbol") String symbol, @PathParam("amount") String amount, @QueryParam("is-back-testing") String isBackTesting, @QueryParam("bar-time") String barTime, @QueryParam("bar-size") String barSize);
 
 }

@@ -83,8 +83,8 @@ public class RdsConnector {
 
         SimpleDateFormat formatter = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
         
-        String queryStartDate = formatter.format(startDate.getTime());
-        String queryEndDate = formatter.format(endDate.getTime());
+        String queryStartDate = formatter.format(startDate.getTime()).split("T")[0];
+        String queryEndDate = formatter.format(endDate.getTime()).split("T")[0];
         
         SortedMap<Calendar, Double> priceBars = new TreeMap<Calendar, Double>();
         
@@ -94,8 +94,8 @@ public class RdsConnector {
                             + "FROM `PriceBars` WHERE "
                                 + "size = '"  + sizeOfBarIndex + "' AND "
                                 + "symbol = '"  + symbol + "' AND "
-                                + "date >= '"   + queryStartDate + "' AND "
-                                + "date <= '"   + queryEndDate + "' "
+                                + "DATE(date) >= '"   + queryStartDate + "' AND "
+                                + "DATE(date) <= '"   + queryEndDate + "' "
                             + "ORDER BY date ASC";
         
         ResultSet rs = select(query);
@@ -159,7 +159,7 @@ public class RdsConnector {
 
         SimpleDateFormat formatter = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
         
-        String queryDate = formatter.format(date.getTime());
+        String queryDate = formatter.format(date.getTime()).split("T")[0];
         
         int sizeOfBarIndex = mapSizeOfBar(sizeOfBars);
 
@@ -179,7 +179,7 @@ public class RdsConnector {
                             + "FROM `PriceBars` WHERE "
                                 + "size = '"  + sizeOfBarIndex + "' AND "
                                 + "symbol = 'ED' AND "
-                                + "date "+ operator + " '" + queryDate + "' "
+                                + "DATE(date) "+ operator + " '" + queryDate + "' "
                             + "ORDER BY date " + order +" LIMIT "+ (numberOfBars+1);
         
         ResultSet rs = select(query);
@@ -208,8 +208,8 @@ public class RdsConnector {
         
         SortedSet<Calendar> dates = new TreeSet<Calendar>();
         
-        String queryStartDate = ConverterUtility.toString(startDate);
-        String queryEndDate = ConverterUtility.toString(endDate);
+        String queryStartDate = ConverterUtility.toString(startDate).split("T")[0];
+        String queryEndDate = ConverterUtility.toString(endDate).split("T")[0];
 
         int sizeOfBarIndex = mapSizeOfBar(SizeOfBarsEnum.ONE_DAY);
 
@@ -217,8 +217,8 @@ public class RdsConnector {
                             + "FROM `PriceBars` WHERE "
                                 + "size = '"  + sizeOfBarIndex + "' AND "
                                 + "symbol = 'ED' AND "
-                                + "date >= '" + queryStartDate + "' AND "
-                                + "date <= '" + queryEndDate + "' "
+                                + "DATE(date) >= '" + queryStartDate + "' AND "
+                                + "DATE(date) <= '" + queryEndDate + "' "
                             + "ORDER BY date ASC";
         
         ResultSet rs = select(query);

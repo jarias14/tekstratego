@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.manager.dao.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import com.jarias14.tekstratego.common.resource.AlertCollectionResource;
 import com.jarias14.tekstratego.common.resource.AlertResource;
 import com.jarias14.tekstratego.common.resource.PositionCollectionResource;
+import com.jarias14.tekstratego.common.resource.TransactionResource;
 import com.jarias14.tekstratego.common.utilities.ConverterUtility;
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.common.utilities.MembaseConnector;
@@ -112,11 +114,16 @@ public class DefaultManagerDAO implements ManagerDAO {
             String url = LinksUtility.getUrl(LinksUtility.TRADER_TRANSACT, replacements, parameters);
             
             // make rest call
-            PositionCollectionResource responseResource =
-                    getRestTemplate().postForObject(url, resource, PositionCollectionResource.class);
+            TransactionResource transaction =
+                    getRestTemplate().postForObject(url, resource, TransactionResource.class);
+            
+            Position position = new Position();
+            position.setStock(signal.getStock());
+            position.setNumberOfShares(Integer.parseInt(transaction.getSharesNumber()));
+            position.setPurchaseValue(ConverterUtility.toBigDecimal(transaction.getSharesPrice()));
             
             // convert response to model object
-            positions.addAll(responseResource.toModel().values());
+            positions.add(position);
 
         }
         

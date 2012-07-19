@@ -1,6 +1,7 @@
 package com.jarias14.tekstratego.service.manager.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -126,9 +127,11 @@ public class Portfolio extends AbstractBase {
         for (Position newTrade : newTrades) {
             
             // shares = previous number + new number
-            int numberOfShares =
-                    this.positions.get(newTrade.getStock().getSymbol()).getNumberOfShares()
-                    + newTrade.getNumberOfShares();
+            int numberOfShares = newTrade.getNumberOfShares();
+            
+            if (this.positions.containsKey(newTrade.getStock().getSymbol())) {
+                numberOfShares = numberOfShares + this.positions.get(newTrade.getStock().getSymbol()).getNumberOfShares();
+            }
             
             if (numberOfShares == 0) {
                 
@@ -136,8 +139,22 @@ public class Portfolio extends AbstractBase {
                 this.positions.remove(newTrade.getStock().getSymbol());
             } else {
                 
-                // if it is != 0, then set the new number 
-                this.positions.get(newTrade.getStock().getSymbol()).setNumberOfShares(numberOfShares);
+                // if it is != 0, then set the new number
+                if (this.positions.containsKey(newTrade.getStock().getSymbol())) {
+                    BigDecimal currentAvgCost = this.positions.get(newTrade.getStock().getSymbol()).getPurchaseValue()
+                            .multiply(new BigDecimal(this.positions.get(newTrade.getStock().getSymbol()).getNumberOfShares()));
+                    BigDecimal tradeAvgCost = newTrade.getPurchaseValue()
+                            .multiply(new BigDecimal(newTrade.getNumberOfShares()));
+                    BigDecimal newAvgCost = (currentAvgCost.add(tradeAvgCost));
+                    newAvgCost = newAvgCost.divide(new BigDecimal(numberOfShares), 2, RoundingMode.HALF_UP);
+                    
+                    newTrade.setPurchaseValue(newAvgCost);
+                    newTrade.setNumberOfShares(numberOfShares);
+                    this.positions.get(newTrade.getStock().getSymbol()).setNumberOfShares(numberOfShares);
+                } else {
+                    this.positions.put(newTrade.getStock().getSymbol(), newTrade);
+                }
+                
             }
             
             // add trade to the list of trades

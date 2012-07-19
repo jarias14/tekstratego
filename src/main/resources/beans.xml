@@ -109,6 +109,10 @@
 
 	<!-- START: rest layer beans -->
 
+	<bean id="restTraderService"
+		class="com.jarias14.tekstratego.service.trader.rest.impl.DefaultRestTraderServiceImpl">
+	</bean>
+
 	<bean id="restPricerService"
 		class="com.jarias14.tekstratego.service.pricer.rest.impl.DefaultRestPricerServiceImpl">
 		<property name="pricerService" ref="defaultPricerService" />

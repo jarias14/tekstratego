@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import com.jarias14.tekstratego.common.model.StatusEnum;
@@ -48,6 +49,11 @@ public class DefaultManagerService implements ManagerService {
             
             // get all the alerts for the day
             List<Alert> hypothesisAlerts = managerDAO.getAlerts(portfolio.getHypothesisId(), today, portfolio.getPositions());
+            
+            //save alerts
+            SortedMap<Calendar, List<Alert>> alertsToSave = new TreeMap<Calendar, List<Alert>>();
+            alertsToSave.put(today, hypothesisAlerts);
+            portfolio.addAlerts(alertsToSave);
             
             // filter out what to trade with the manager rules
             List<Signal> filteredAlerts = managerRules.filter(portfolio, hypothesisAlerts);

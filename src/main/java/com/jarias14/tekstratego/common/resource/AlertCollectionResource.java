@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import com.jarias14.tekstratego.common.model.AbstractBase;
 import com.jarias14.tekstratego.common.utilities.ConstantsUtility;
+import com.jarias14.tekstratego.common.utilities.ConverterUtility;
 import com.jarias14.tekstratego.service.manager.model.Alert;
 
 public class AlertCollectionResource extends BaseResource {
@@ -52,22 +53,16 @@ public class AlertCollectionResource extends BaseResource {
         SortedMap<Calendar,List<Alert>> model = new TreeMap<Calendar,List<Alert>>();
         
         for (String key : this.getAlerts().keySet()) {
+            
+            Calendar keyCalendar = ConverterUtility.toCalendar(key); 
+            
+            model.put(keyCalendar, new ArrayList<Alert>());
+            
             for (AlertResource alertResource : this.getAlerts().get(key)) {
                 
                 Alert alert = new Alert(alertResource);
-                
-                Calendar cal = Calendar.getInstance();
-                try {
-                    cal.setTime(fmtr.parse(key));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                
-                if (!model.containsKey(cal)) {
-                    model.put(cal, new ArrayList<Alert>());
-                }
-                
-                model.get(cal).add(alert);
+                                
+                model.get(keyCalendar).add(alert);
             }
         }
         

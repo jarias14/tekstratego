@@ -18,32 +18,40 @@ import com.jarias14.tekstratego.service.trader.rest.RestTraderService;
 public class DefaultRestTraderServiceImpl implements RestTraderService {
 
     @Override
-    public TransactionResource createTrade(String symbol, String shares, String isBackTesting, String barTime, String barSize) {
+    public TransactionResource createTrade(String symbol, String amount, String isBackTesting, String barTime, String barSize) {
         
-        Map<String,String> replacements = new HashMap<String,String>();
-        replacements.put("type", "price");
-        replacements.put("sizeOfBars", "ONE_DAY");
-        replacements.put("priceOfBars", "LOW");
         
-        String url = LinksUtility.getUrl(LinksUtility.PRICER_INDICATOR, replacements, new HashMap<String,String>());
+        String postUrl = "http://localhost:8080/tekstratego/pricer-service/indicators";
         
-        IndicatorResource indicator = getRestTemplate().postForObject(url, null, IndicatorResource.class);
+        IndicatorResource request = new IndicatorResource();
+        request.setDetails(new HashMap<String, String>());
+        request.setPriceOfBars("LOW");
+        request.setType("price");
+        request.setSizeOfBars(barSize);
         
+        IndicatorResource indicator = getRestTemplate().postForObject(postUrl, request, IndicatorResource.class);
         
         // prepare rest call
-        replacements = new HashMap<String,String>();
+        Map<String,String> replacements = new HashMap<String,String>();
         replacements.put("indicator", indicator.getId());
+        replacements.put("symbol", symbol);
         
-        url = LinksUtility.getUrl(LinksUtility.PRICER_INDICATOR_VALUES, replacements, new HashMap<String,String>());
+        Map<String,String> parameters = new HashMap<String,String>();
+        parameters.put("endDate", barTime);
+        parameters.put("numberOfBars", "0");
+        
+        String url = LinksUtility.getUrl(LinksUtility.PRICER_INDICATOR_VALUES, replacements, parameters);
         
         // make rest call
         IndicatorValuesResource values =
-                getRestTemplate().postForObject(url, null, IndicatorValuesResource.class);
+                getRestTemplate().getForObject(url, IndicatorValuesResource.class);
+        
+        Double sharesPrice = values.getValues().get(values.getValues().firstKey());
+        Integer sharesBought = (int) Math.floor((Double.valueOf(amount) / sharesPrice));
         
         TransactionResource resource = new TransactionResource();
-        resource.setSharesPrice(String.valueOf(values.getValues().get(values.getValues().firstKey())));
-        resource.setSharesNumber(shares);
-        resource.setSharesPrice(String.valueOf(values.getValues().get(barTime)));
+        resource.setSharesPrice(String.valueOf(sharesPrice));
+        resource.setSharesNumber(String.valueOf(sharesBought));
         return resource;
     }
     
