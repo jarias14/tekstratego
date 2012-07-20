@@ -32,6 +32,10 @@ public class DefaultManagerRules implements ManagerRules {
                 }
             }
             
+            // if would exceed our max investment
+            if (portfolio.getAvailableCash().compareTo(alert.getAmountToTrade()) > 0) {
+                continue;
+            }
             
             // if we get here, we do want to buy...
             Alert signal = new Alert();
