@@ -108,6 +108,14 @@ public class LinksUtility {
         
         return new LinksResource(link);
     }
+
+    public static LinksResource getManagerSignalsLink(String portfolioId) {
+        
+        String link = getBaseLink().concat("/manager-service/portfolio/{PORTFOLIO-ID}/signals");
+        link = link.replace("{PORTFOLIO-ID}", portfolioId);
+        
+        return new LinksResource(link);
+    }
     
     
     

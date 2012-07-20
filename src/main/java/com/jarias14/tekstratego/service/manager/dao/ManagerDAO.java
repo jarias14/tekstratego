@@ -7,7 +7,6 @@ import java.util.SortedSet;
 
 import com.jarias14.tekstratego.service.manager.model.Alert;
 import com.jarias14.tekstratego.service.manager.model.Portfolio;
-import com.jarias14.tekstratego.service.manager.model.Signal;
 import com.jarias14.tekstratego.service.thinker.model.Position;
 
 public interface ManagerDAO {
@@ -20,6 +19,6 @@ public interface ManagerDAO {
 
     public List<Alert> getAlerts(String hypothesisId, Calendar today, Map<String, Position> positions);
 
-    public List<Position> transact(List<Signal> signals, Calendar today);
+    public List<Position> transact(List<Alert> signals, Calendar today);
 
 }

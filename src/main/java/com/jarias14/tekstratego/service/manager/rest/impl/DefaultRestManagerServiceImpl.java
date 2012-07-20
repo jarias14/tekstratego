@@ -2,16 +2,19 @@ package com.jarias14.tekstratego.service.manager.rest.impl;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 
 import com.jarias14.tekstratego.common.model.StatusEnum;
 import com.jarias14.tekstratego.common.resource.AlertCollectionResource;
 import com.jarias14.tekstratego.common.resource.PortfolioResource;
+import com.jarias14.tekstratego.common.resource.TransactionCollectionResource;
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.manager.biz.ManagerService;
 import com.jarias14.tekstratego.service.manager.model.Portfolio;
 import com.jarias14.tekstratego.service.manager.rest.RestManagerService;
 import com.jarias14.tekstratego.service.manager.model.Alert;
+import com.jarias14.tekstratego.service.thinker.model.Position;
 
 public class DefaultRestManagerServiceImpl implements RestManagerService {
     
@@ -75,6 +78,32 @@ public class DefaultRestManagerServiceImpl implements RestManagerService {
         AlertCollectionResource resource = new AlertCollectionResource(model);
         
         resource.getLinks().put("self", LinksUtility.getManagerAlertsLink(portfolioId));
+        resource.getLinks().put("portfolio", LinksUtility.getManagerPortfolioLink(portfolioId));
+        
+        return resource;
+    }
+
+    @Override
+    public AlertCollectionResource getSignals(String portfolioId, String sortBy) {
+        
+        SortedMap<Calendar,List<Alert>> model = managerService.getSignals(portfolioId, sortBy);
+        
+        AlertCollectionResource resource = new AlertCollectionResource(model);
+        
+        resource.getLinks().put("self", LinksUtility.getManagerSignalsLink(portfolioId));
+        resource.getLinks().put("portfolio", LinksUtility.getManagerPortfolioLink(portfolioId));
+        
+        return resource;
+    }
+
+    @Override
+    public TransactionCollectionResource getTrades(String portfolioId, String sortBy) {
+        
+        Map<Calendar, List<Position>> model = managerService.getTrades(portfolioId, sortBy);
+        
+        TransactionCollectionResource resource = new TransactionCollectionResource(model);
+        
+        resource.getLinks().put("self", LinksUtility.getManagerSignalsLink(portfolioId));
         resource.getLinks().put("portfolio", LinksUtility.getManagerPortfolioLink(portfolioId));
         
         return resource;

@@ -1,6 +1,5 @@
 package com.jarias14.tekstratego.service.manager.dao.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -24,7 +23,6 @@ import com.jarias14.tekstratego.common.utilities.RdsConnector;
 import com.jarias14.tekstratego.service.manager.dao.ManagerDAO;
 import com.jarias14.tekstratego.service.manager.model.Alert;
 import com.jarias14.tekstratego.service.manager.model.Portfolio;
-import com.jarias14.tekstratego.service.manager.model.Signal;
 import com.jarias14.tekstratego.service.thinker.model.Position;
 
 public class DefaultManagerDAO implements ManagerDAO {
@@ -92,11 +90,11 @@ public class DefaultManagerDAO implements ManagerDAO {
     }
 
     @Override
-    public List<Position> transact(List<Signal> signals, Calendar date) {
+    public List<Position> transact(List<Alert> signals, Calendar date) {
         
         List<Position> positions = new ArrayList<Position>();
         
-        for (Signal signal : signals) {
+        for (Alert signal : signals) {
             
             // create msg body (resource)
             AlertResource resource = signal.toResource();

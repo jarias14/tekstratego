@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.jarias14.tekstratego.common.resource.AlertCollectionResource;
 import com.jarias14.tekstratego.common.resource.PortfolioResource;
+import com.jarias14.tekstratego.common.resource.TransactionCollectionResource;
 
 @Path("/manager-service")
 public interface RestManagerService {
@@ -56,7 +57,7 @@ public interface RestManagerService {
     public AlertCollectionResource addAlerts(@PathParam("portfolio-id") String portfolioId, AlertCollectionResource alerts);
     
     /**
-     * Gets trade alerts from the portfolio.
+     * Gets alerts from the portfolio.
      * @return a list of trade alerts
      */
     @GET
@@ -64,5 +65,26 @@ public interface RestManagerService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public AlertCollectionResource getAlerts(@PathParam("portfolio-id") String portfolioId, @QueryParam("sort-by") String sortBy);
+
+    /**
+     * Gets signals from the portfolio.
+     * @return a list of trade alerts
+     */
+    @GET
+    @Path("/portfolio/{portfolio-id}/signals")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public AlertCollectionResource getSignals(@PathParam("portfolio-id") String portfolioId, @QueryParam("sort-by") String sortBy);
+    
+    /**
+     * Gets trades from the portfolio.
+     * @return a list of trade alerts
+     */
+    @GET
+    @Path("/portfolio/{portfolio-id}/trades")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public TransactionCollectionResource getTrades(@PathParam("portfolio-id") String portfolioId, @QueryParam("sort-by") String sortBy);
+    
     
 }

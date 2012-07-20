@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.UUID;
 
 import com.jarias14.tekstratego.common.model.StatusEnum;
@@ -13,7 +12,6 @@ import com.jarias14.tekstratego.service.manager.biz.ManagerService;
 import com.jarias14.tekstratego.service.manager.dao.ManagerDAO;
 import com.jarias14.tekstratego.service.manager.model.Alert;
 import com.jarias14.tekstratego.service.manager.model.Portfolio;
-import com.jarias14.tekstratego.service.manager.model.Signal;
 import com.jarias14.tekstratego.service.thinker.model.Position;
 
 public class DefaultManagerService implements ManagerService {
@@ -48,24 +46,16 @@ public class DefaultManagerService implements ManagerService {
         for (Calendar today : dates) {
             
             // get all the alerts for the day
-            List<Alert> hypothesisAlerts = managerDAO.getAlerts(portfolio.getHypothesisId(), today, portfolio.getPositions());
-            
-            //save alerts
-            SortedMap<Calendar, List<Alert>> alertsToSave = new TreeMap<Calendar, List<Alert>>();
-            alertsToSave.put(today, hypothesisAlerts);
-            portfolio.addAlerts(alertsToSave);
+            List<Alert> alerts = managerDAO.getAlerts(portfolio.getHypothesisId(), today, portfolio.getPositions());
+            portfolio.getAlerts().put(today, alerts);
             
             // filter out what to trade with the manager rules
-            List<Signal> filteredAlerts = managerRules.filter(portfolio, hypothesisAlerts);
+            List<Alert> signals = managerRules.filter(portfolio, alerts);
+            portfolio.getSignals().put(today, signals);
             
             // try to make the transactions
-            List<Position> succesfulTrades = managerDAO.transact(filteredAlerts, today);
-            
-            // copy traded positions to portfolio
-            updatePortolio(today, portfolio, succesfulTrades);
-            
-            // save current values - this could be removed
-            managerDAO.writePortfolio(portfolio);
+            List<Position> trades = managerDAO.transact(signals, today);
+            portfolio.getTrades().put(today, trades);
         }
         
         //mark portfolio as executed and save all to memory
@@ -74,10 +64,6 @@ public class DefaultManagerService implements ManagerService {
         
         // send back the portfolio
         return getPortfolio(portfolio.getId());
-    }
-
-    private void updatePortolio(Calendar today, Portfolio portfolio, List<Position> trades) {
-        portfolio.addTrades(today, trades);
     }
 
     @Override
@@ -101,6 +87,16 @@ public class DefaultManagerService implements ManagerService {
     @Override
     public SortedMap<Calendar,List<Alert>> getAlerts(String portfolioId, String sortBy) {
         return getPortfolio(portfolioId).getAlerts();
+    }
+
+    @Override
+    public SortedMap<Calendar, List<Alert>> getSignals(String portfolioId, String sortBy) {
+        return getPortfolio(portfolioId).getSignals();
+    }
+
+    @Override
+    public SortedMap<Calendar, List<Position>> getTrades(String portfolioId, String sortBy) {
+        return getPortfolio(portfolioId).getTrades();
     }
 
     public ManagerDAO getManagerDAO() {

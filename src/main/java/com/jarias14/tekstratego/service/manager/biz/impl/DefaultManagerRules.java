@@ -7,14 +7,13 @@ import java.util.List;
 import com.jarias14.tekstratego.service.manager.biz.ManagerRules;
 import com.jarias14.tekstratego.service.manager.model.Alert;
 import com.jarias14.tekstratego.service.manager.model.Portfolio;
-import com.jarias14.tekstratego.service.manager.model.Signal;
 
 public class DefaultManagerRules implements ManagerRules {
 
     @Override
-    public List<Signal> filter(Portfolio portfolio, List<Alert> alerts) {
+    public List<Alert> filter(Portfolio portfolio, List<Alert> alerts) {
         
-        List<Signal> filtered = new ArrayList<Signal>();
+        List<Alert> filtered = new ArrayList<Alert>();
         
         for (Alert alert : alerts) {
             
@@ -24,12 +23,18 @@ public class DefaultManagerRules implements ManagerRules {
             }
             
             // if we have put more money into the stock than the limit per stock
-            //if (portfolio.getPositions().get(alert.getStock().getSymbol()).getPurchaseValue().compareTo(alert.getLimitPerStock()) >= 0) {
-            //    continue;
-            //}
+            if (portfolio.getPositions().containsKey(alert.getStock().getSymbol())) {
+                BigDecimal averagePrice = portfolio.getPositions().get(alert.getStock().getSymbol()).getPurchaseValue();
+                BigDecimal totalPrice = averagePrice.multiply(new BigDecimal(portfolio.getPositions().get(alert.getStock().getSymbol()).getNumberOfShares()));
+                
+                if (totalPrice.compareTo(alert.getLimitPerStock()) >= 0) {
+                    continue;
+                }
+            }
+            
             
             // if we get here, we do want to buy...
-            Signal signal = new Signal();
+            Alert signal = new Alert();
             signal.setAmountToTrade(alert.getLimitPerStock());
             signal.setStock(alert.getStock());
             signal.setStrategyType(alert.getStrategyType());

@@ -25,6 +25,7 @@ public class Portfolio extends AbstractBase {
 
     private Map<String, Position> positions;
     private SortedMap<Calendar, List<Position>> trades;
+    private SortedMap<Calendar, List<Alert>> signals;
     private SortedMap<Calendar, List<Alert>> alerts;
     private StatusEnum status;
     private BigDecimal initialCash;
@@ -39,6 +40,7 @@ public class Portfolio extends AbstractBase {
         this.hypothesisId = resource.getHypothesisId();
         this.positions = new HashMap<String, Position>();
         this.trades = new TreeMap<Calendar,List<Position>>();
+        this.signals = new TreeMap<Calendar,List<Alert>>();
         this.alerts = new TreeMap<Calendar,List<Alert>>();
         this.status = StatusEnum.READY;
         this.initialCash = ConverterUtility.toBigDecimal(resource.getInitialCash());
@@ -103,14 +105,6 @@ public class Portfolio extends AbstractBase {
             
             this.alerts.get(cal).addAll(alerts.get(cal));
         }
-    }
-    
-    public SortedMap<Calendar, List<Position>> getTrades() {
-        return trades;
-    }
-
-    public void setTrades(SortedMap<Calendar, List<Position>> trades) {
-        this.trades = trades;
     }
     
     public Map<String, Position> getPositions() {
@@ -205,5 +199,21 @@ public class Portfolio extends AbstractBase {
 
     public void setAvailableCash(BigDecimal availableCash) {
         this.availableCash = availableCash;
+    }
+
+    public SortedMap<Calendar, List<Alert>> getSignals() {
+        return signals;
+    }
+
+    public void setSignals(SortedMap<Calendar, List<Alert>> signals) {
+        this.signals = signals;
+    }
+
+    public SortedMap<Calendar, List<Position>> getTrades() {
+        return trades;
+    }
+
+    public void setTrades(SortedMap<Calendar, List<Position>> trades) {
+        this.trades = trades;
     }
 }
