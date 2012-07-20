@@ -36,6 +36,10 @@ public class DefaultManagerService implements ManagerService {
     @Override
     public Portfolio submitPortfolio(Portfolio portfolio, Calendar startDate, Calendar endDate) {
         
+        if (!StatusEnum.READY.equals(portfolio.getStatus())) {
+            return null;
+        }
+        
         // mark portfolio as in progress
         portfolio.setStatus(StatusEnum.PROCESSING);
         managerDAO.writePortfolio(portfolio);
