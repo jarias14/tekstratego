@@ -25,6 +25,7 @@ public class TransactionCollectionResource extends BaseResource {
             
             for (Position position : entry.getValue()) {
                 TransactionResource trans = new TransactionResource();
+                trans.setStock(position.getStock().getSymbol());
                 trans.setSharesNumber(String.valueOf(position.getNumberOfShares()));
                 trans.setSharesPrice(position.getPurchaseValue().toString());
                 entryTransactions.add(trans);

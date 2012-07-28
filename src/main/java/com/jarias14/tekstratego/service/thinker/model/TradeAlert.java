@@ -26,6 +26,7 @@ public class TradeAlert extends AbstractBase {
         resource.setHypothesisId(hypothesisId);
         resource.setDescription(strategy.getDescription());
         resource.setStrategyType(strategy.getType().name());
+        resource.setLimitPerTrade(strategy.getMaxSecurityInvestment().toString());
         resource.setLimitPerStock(strategy.getMaxSecurityInvestment().toString());
         resource.setLimitForStrategy(strategy.getMaxStrategyInvestment().toString());
         resource.setIsStrategyExclusive(strategy.isStrategyExclusive());

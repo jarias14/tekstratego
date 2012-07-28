@@ -1,6 +1,5 @@
 package com.jarias14.tekstratego.common.resource;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,8 +47,7 @@ public class AlertCollectionResource extends BaseResource {
     }
     
     public SortedMap<Calendar,List<Alert>> toModel() {
-
-        SimpleDateFormat fmtr = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
+        
         SortedMap<Calendar,List<Alert>> model = new TreeMap<Calendar,List<Alert>>();
         
         for (String key : this.getAlerts().keySet()) {

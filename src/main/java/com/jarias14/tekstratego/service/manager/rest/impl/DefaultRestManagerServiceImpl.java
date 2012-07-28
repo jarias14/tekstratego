@@ -49,6 +49,8 @@ public class DefaultRestManagerServiceImpl implements RestManagerService {
         
         resource.getLinks().put("self", LinksUtility.getManagerPortfolioLink(portfolioId));
         resource.getLinks().put("alerts", LinksUtility.getManagerAlertsLink(portfolioId));
+        resource.getLinks().put("signals", LinksUtility.getManagerSignalsLink(portfolioId));
+        resource.getLinks().put("trades", LinksUtility.getManagerTradesLink(portfolioId));
         
         if (StatusEnum.READY.equals(model.getStatus())) {
             resource.getLinks().put("transactions", LinksUtility.getManagerTransactionsLink(portfolioId));

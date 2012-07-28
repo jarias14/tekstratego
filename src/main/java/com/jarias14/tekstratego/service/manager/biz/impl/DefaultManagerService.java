@@ -1,7 +1,9 @@
 package com.jarias14.tekstratego.service.manager.biz.impl;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.UUID;
@@ -60,6 +62,8 @@ public class DefaultManagerService implements ManagerService {
             // try to make the transactions
             List<Position> trades = managerDAO.transact(signals, today);
             portfolio.getTrades().put(today, trades);
+            
+            updatePortfolio(portfolio, trades);
         }
         
         //mark portfolio as executed and save all to memory
@@ -68,6 +72,48 @@ public class DefaultManagerService implements ManagerService {
         
         // send back the portfolio
         return getPortfolio(portfolio.getId());
+    }
+
+    private void updatePortfolio(Portfolio portfolio, List<Position> trades) {
+        
+        Map<String, Position> positions = portfolio.getPositions();
+        
+        for (Position trade : trades) {
+            
+            BigDecimal tradeNumberOfShares = new BigDecimal(trade.getNumberOfShares());
+            BigDecimal tradePriceOfShares = trade.getPurchaseValue();
+            
+            // update position 
+            if (positions.containsKey(trade.getStock().getSymbol())) {
+                BigDecimal curNumberOfShares = new BigDecimal(positions.get(trade.getStock().getSymbol()).getNumberOfShares());
+                BigDecimal curPriceOfShares = positions.get(trade.getStock().getSymbol()).getPurchaseValue();
+                
+                BigDecimal newNumberOfShares = curNumberOfShares.add(tradeNumberOfShares);
+                BigDecimal newPriceOfShares =
+                        ((curNumberOfShares.multiply(curPriceOfShares))
+                        .add(tradeNumberOfShares.multiply(tradePriceOfShares)))
+                        .divide(newNumberOfShares);
+                
+                if (newNumberOfShares.compareTo(BigDecimal.ZERO) != 0) { 
+                    positions.get(trade.getStock().getSymbol()).setNumberOfShares(newNumberOfShares.intValueExact());
+                    positions.get(trade.getStock().getSymbol()).setPurchaseValue(newPriceOfShares);
+                } else {
+                    positions.remove(trade.getStock().getSymbol());
+                }
+                
+            } else {
+                Position pos = new Position();
+                pos.setStock(trade.getStock());
+                pos.setNumberOfShares(tradeNumberOfShares.intValueExact());
+                pos.setPurchaseValue(tradePriceOfShares);
+                positions.put(trade.getStock().getSymbol(), pos);
+            }
+            
+            // update available cash
+            portfolio.setAvailableCash(portfolio.getAvailableCash().subtract(tradeNumberOfShares.multiply(tradePriceOfShares)));
+            
+        }
+        
     }
 
     @Override

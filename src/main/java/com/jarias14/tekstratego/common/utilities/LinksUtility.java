@@ -116,6 +116,14 @@ public class LinksUtility {
         
         return new LinksResource(link);
     }
+
+    public static LinksResource getManagerTradesLink(String portfolioId) {
+        
+        String link = getBaseLink().concat("/manager-service/portfolio/{PORTFOLIO-ID}/trades");
+        link = link.replace("{PORTFOLIO-ID}", portfolioId);
+        
+        return new LinksResource(link);
+    }
     
     
     

@@ -15,10 +15,10 @@ public class Alert extends AbstractBase {
     private String strategyId;
     private String hypothesisId;
     private String description; //textual description of this alert
-    private BigDecimal amountToTrade; //how much money to trade on this alert
     private TradeTypeEnum strategyType; //entry, scale, exit
     private BigDecimal limitPerStock; //how much money to trade on this alert
     private BigDecimal limitForStrategy; //max investment for this strategy
+    private BigDecimal limitPerTrade; //how much money to trade on this alert
     private boolean isStrategyExclusive; //strategy only cares about its own transactions
     
     private int tradedShares;
@@ -31,6 +31,7 @@ public class Alert extends AbstractBase {
         this.hypothesisId = resource.getHypothesisId();
         this.description = resource.getDescription();
         this.strategyType = TradeTypeEnum.valueOf(resource.getStrategyType());
+        this.limitPerTrade = new BigDecimal(resource.getLimitPerTrade());
         this.limitPerStock = new BigDecimal(resource.getLimitPerStock());
         this.limitForStrategy = new BigDecimal(resource.getLimitForStrategy());
         this.isStrategyExclusive = resource.getIsStrategyExclusive();
@@ -50,6 +51,7 @@ public class Alert extends AbstractBase {
         resource.setHypothesisId(hypothesisId);
         resource.setDescription(description);
         resource.setStrategyType(strategyType.name());
+        resource.setLimitPerTrade(limitPerTrade.toString());
         resource.setLimitPerStock(limitPerStock.toString());
         resource.setLimitForStrategy(limitForStrategy.toString());
         resource.setIsStrategyExclusive(isStrategyExclusive);
@@ -114,12 +116,12 @@ public class Alert extends AbstractBase {
         this.tradedShares = tradedShares;
     }
 
-    public BigDecimal getAmountToTrade() {
-        return amountToTrade;
+    public BigDecimal getLimitPerTrade() {
+        return limitPerTrade;
     }
 
-    public void setAmountToTrade(BigDecimal amountToTrade) {
-        this.amountToTrade = amountToTrade;
+    public void setLimitPerTrade(BigDecimal limitPerTrade) {
+        this.limitPerTrade = limitPerTrade;
     }
 
 }

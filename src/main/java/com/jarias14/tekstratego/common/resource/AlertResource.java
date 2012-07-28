@@ -10,6 +10,7 @@ public class AlertResource extends BaseResource {
     private String hypothesisId;
     private String description; //textual description of this alert
     private String strategyType; //entry, scale, exit
+    private String limitPerTrade; //how much to trade 
     private String limitPerStock; //how much money to trade on this alert
     private String limitForStrategy; //max investment for this strategy
     private Boolean isStrategyExclusive; //strategy only cares about its own transactions
@@ -81,6 +82,14 @@ public class AlertResource extends BaseResource {
 
     public void setIsStrategyExclusive(Boolean isStrategyExclusive) {
         this.isStrategyExclusive = isStrategyExclusive;
+    }
+
+    public String getLimitPerTrade() {
+        return limitPerTrade;
+    }
+
+    public void setLimitPerTrade(String limitPerTrade) {
+        this.limitPerTrade = limitPerTrade;
     }
 
 }

@@ -102,7 +102,7 @@ public class DefaultManagerDAO implements ManagerDAO {
             // prepare rest call
             Map<String,String> replacements = new HashMap<String,String>();
             replacements.put("symbol", signal.getStock().getSymbol());
-            replacements.put("amount", signal.getAmountToTrade().toString());
+            replacements.put("amount", signal.getLimitPerTrade().toString());
             
             Map<String,String> parameters = new HashMap<String,String>();
             parameters.put("is-back-testing", "true");

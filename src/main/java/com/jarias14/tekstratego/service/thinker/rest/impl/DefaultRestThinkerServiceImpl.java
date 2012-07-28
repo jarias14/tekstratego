@@ -15,6 +15,7 @@ import com.jarias14.tekstratego.common.resource.PositionResource;
 import com.jarias14.tekstratego.common.resource.StrategyResource;
 import com.jarias14.tekstratego.common.resource.StudyResource;
 import com.jarias14.tekstratego.common.utilities.ConstantsUtility;
+import com.jarias14.tekstratego.common.utilities.ConverterUtility;
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.thinker.biz.ThinkerService;
 import com.jarias14.tekstratego.service.thinker.model.Hypothesis;
@@ -64,20 +65,13 @@ public class DefaultRestThinkerServiceImpl implements RestThinkerService{
         }
         
         // convert date to calendar object
-        SimpleDateFormat fmtr = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
-        Calendar cal = Calendar.getInstance();
-        try {
-            cal.setTimeInMillis(fmtr.parse(date).getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Calendar cal = ConverterUtility.toCalendar(date);
         
         // get alerts from service layer
         List<TradeAlert> alerts = thinkerService.getAlerts(hypothesisId, cal, positions);
         
         // prepare response
         SortedMap<Calendar, List<TradeAlert>> alertsMap = new TreeMap<Calendar, List<TradeAlert>>();
-        
         alertsMap.put(cal, alerts);
         
         AlertCollectionResource responseAlerts = new AlertCollectionResource(alertsMap);
