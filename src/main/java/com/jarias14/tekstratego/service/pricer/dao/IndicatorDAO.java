@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.pricer.dao;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.SortedMap;
 
@@ -16,7 +17,7 @@ public interface IndicatorDAO {
     
     public void deleteIndicator(String indicatorId);
     
-    public SortedMap<Calendar, Double> readPrices(Stock stock, SizeOfBarsEnum sizeOfBar,
+    public SortedMap<Calendar, BigDecimal> readPrices(Stock stock, SizeOfBarsEnum sizeOfBar,
             PriceOfBarsEnum priceOfBar, Calendar startDate, Calendar endDate);
     
     public Calendar getStartDate(Calendar endDate, int numberOfBars,

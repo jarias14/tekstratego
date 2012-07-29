@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.thinker.dao.impl;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,7 +41,7 @@ public class DefaultThinkerDAO implements ThinkerDAO {
     }
     
     @Override
-    public SortedMap<Calendar, Double> getIndicatorValues(String indicatorId, Stock stock, Calendar startDate, Calendar endDate) {
+    public SortedMap<Calendar, BigDecimal> getIndicatorValues(String indicatorId, Stock stock, Calendar startDate, Calendar endDate) {
         
         Map<String,String> replacements = new HashMap<String,String>();
         replacements.put("indicator", indicatorId);
@@ -58,7 +59,7 @@ public class DefaultThinkerDAO implements ThinkerDAO {
     }
 
     @Override
-    public SortedMap<Calendar, Double> getIndicatorValues(String indicatorId, Stock stock, Calendar date, Integer numberOfBars) {
+    public SortedMap<Calendar, BigDecimal> getIndicatorValues(String indicatorId, Stock stock, Calendar date, Integer numberOfBars) {
         
         Map<String,String> replacements = new HashMap<String,String>();
         replacements.put("indicator", indicatorId);

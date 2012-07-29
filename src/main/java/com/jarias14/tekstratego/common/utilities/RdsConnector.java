@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.common.utilities;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -79,14 +80,14 @@ public class RdsConnector {
     }
     
     
-    public SortedMap<Calendar, Double> getPrices(String exchange, String symbol, SizeOfBarsEnum sizeOfBar, PriceOfBarsEnum priceOfBar, Calendar startDate, Calendar endDate) {
+    public SortedMap<Calendar, BigDecimal> getPrices(String exchange, String symbol, SizeOfBarsEnum sizeOfBar, PriceOfBarsEnum priceOfBar, Calendar startDate, Calendar endDate) {
 
         SimpleDateFormat formatter = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
         
         String queryStartDate = formatter.format(startDate.getTime()).split("T")[0];
         String queryEndDate = formatter.format(endDate.getTime()).split("T")[0];
         
-        SortedMap<Calendar, Double> priceBars = new TreeMap<Calendar, Double>();
+        SortedMap<Calendar, BigDecimal> priceBars = new TreeMap<Calendar, BigDecimal>();
         
         int sizeOfBarIndex = mapSizeOfBar(sizeOfBar);
         
@@ -105,7 +106,7 @@ public class RdsConnector {
                 Calendar cal = Calendar.getInstance();
                 java.sql.Date date = rs.getDate("date");
                 cal.setTimeInMillis(date.getTime());
-                priceBars.put(cal, rs.getDouble(priceOfBar.toString().toLowerCase()));
+                priceBars.put(cal, new BigDecimal(rs.getDouble(priceOfBar.toString().toLowerCase())));
             }
         } catch (Exception e) {
             System.out.println("error with query " + query);

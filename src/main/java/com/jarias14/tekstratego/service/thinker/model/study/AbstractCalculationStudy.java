@@ -1,11 +1,13 @@
 package com.jarias14.tekstratego.service.thinker.model.study;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.SortedMap;
 
 import com.jarias14.tekstratego.common.resource.StudyResource;
+import com.jarias14.tekstratego.common.utilities.ConverterUtility;
 import com.jarias14.tekstratego.common.utilities.MembaseConnector;
 import com.jarias14.tekstratego.service.thinker.model.Study;
 
@@ -29,7 +31,7 @@ public abstract class AbstractCalculationStudy implements Study, Serializable {
     private String parentId;
 
     private String indicatorId;
-    private Double studyValue;
+    private BigDecimal studyValue;
     private int numberOfBarsBeforeCurrent;
     
     public AbstractCalculationStudy() {
@@ -39,7 +41,7 @@ public abstract class AbstractCalculationStudy implements Study, Serializable {
     public AbstractCalculationStudy(StudyResource resource) {
         this.id = resource.getId();
         this.indicatorId = resource.getIndicatorId();
-        this.studyValue = Double.valueOf(resource.getStudyValue());
+        this.studyValue = ConverterUtility.toBigDecimal(resource.getStudyValue());
         this.numberOfBarsBeforeCurrent = Integer.parseInt(resource.getBarUnderTest());
     }
     
@@ -54,15 +56,15 @@ public abstract class AbstractCalculationStudy implements Study, Serializable {
         return resource;
     }
     
-    public Double getValueFromData(Map<String, SortedMap<Calendar, Double>> data) {
+    public BigDecimal getValueFromData(Map<String, SortedMap<Calendar, BigDecimal>> data) {
         
-        SortedMap<Calendar, Double> indicatorValues = data.get(this.getIndicatorId());
+        SortedMap<Calendar, BigDecimal> indicatorValues = data.get(this.getIndicatorId());
         
         Object[] keyList = indicatorValues.keySet().toArray();
         
         int keyIndex = keyList.length - 1 - this.getNumberOfBarsBeforeCurrent();
         
-        Double indicatorValue = indicatorValues.get(keyList[keyIndex]);
+        BigDecimal indicatorValue = indicatorValues.get(keyList[keyIndex]);
         
         return indicatorValue;
     }
@@ -101,11 +103,11 @@ public abstract class AbstractCalculationStudy implements Study, Serializable {
         this.numberOfBarsBeforeCurrent = numberOfBarsBeforeCurrent;
     }
 
-    public Double getStudyValue() {
+    public BigDecimal getStudyValue() {
         return studyValue;
     }
 
-    public void setStudyValue(Double studyValue) {
+    public void setStudyValue(BigDecimal studyValue) {
         this.studyValue = studyValue;
     }
 

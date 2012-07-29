@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.pricer.biz.impl;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,7 +46,7 @@ public class DefaultPricerService implements PricerService {
     }
 
     @Override
-    public SortedMap<Calendar, Double> calculateIndicator(String indicatorId, String stockSymbol,
+    public SortedMap<Calendar, BigDecimal> calculateIndicator(String indicatorId, String stockSymbol,
             String startDate, String endDate) {
         
         SimpleDateFormat sdf = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);
@@ -74,7 +75,7 @@ public class DefaultPricerService implements PricerService {
     }
 
     @Override
-    public SortedMap<Calendar, Double> calculateIndicatorUsingNumberOfBars(
+    public SortedMap<Calendar, BigDecimal> calculateIndicatorUsingNumberOfBars(
             String indicatorId, String stockSymbol, String endDate, int numberOfBars) {
         
         SimpleDateFormat sdf = new SimpleDateFormat(ConstantsUtility.DATE_TIME_FORMAT);

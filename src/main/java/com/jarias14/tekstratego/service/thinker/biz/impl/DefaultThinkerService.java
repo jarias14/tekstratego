@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.thinker.biz.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -85,8 +86,8 @@ public class DefaultThinkerService implements ThinkerService {
         // init return variable
         List<TradeAlert> alerts = new ArrayList<TradeAlert>();
         
-        // get the data needed for all indicators (do this once, here, for performance)
-        Map<String, Map<String,SortedMap<Calendar, Double>>> data = getRequiredData(hypothesis, today);
+        // get the indicator data needed for all studies (do this once, here, for performance)
+        Map<String, Map<String,SortedMap<Calendar, BigDecimal>>> data = getRequiredData(hypothesis, today);
         
         // get the decisions from each strategy
         for (Strategy strategy : hypothesis.getStrategies().values()) {
@@ -103,7 +104,7 @@ public class DefaultThinkerService implements ThinkerService {
         return alerts;
     }
     
-    private TradeAlert getDecision(Strategy strategy, Stock stock, Map<String,SortedMap<Calendar, Double>> data) {
+    private TradeAlert getDecision(Strategy strategy, Stock stock, Map<String,SortedMap<Calendar, BigDecimal>> data) {
         
         // init return variable
         TradeAlert alert = null;
@@ -116,11 +117,11 @@ public class DefaultThinkerService implements ThinkerService {
         return alert;
     }
 
-    private Map<String, Map<String, SortedMap<Calendar, Double>>> getRequiredData(
+    private Map<String, Map<String, SortedMap<Calendar, BigDecimal>>> getRequiredData(
             Hypothesis hypothesis, Calendar today) {
         
         // init return variable
-        Map<String, Map<String, SortedMap<Calendar, Double>>> data = new HashMap<String, Map<String, SortedMap<Calendar, Double>>>();
+        Map<String, Map<String, SortedMap<Calendar, BigDecimal>>> data = new HashMap<String, Map<String, SortedMap<Calendar, BigDecimal>>>();
         
         // init variable to hold number of bars needed from each indicator
         Map<String, Integer> numOfNecessaryBars = new TreeMap<String, Integer>();
@@ -136,7 +137,7 @@ public class DefaultThinkerService implements ThinkerService {
                 for (Stock stock : strategy.getStocks()) {
                     
                     if (data.get(stock.getSymbol()) == null) {
-                        data.put(stock.getSymbol(), new HashMap<String, SortedMap<Calendar, Double>>());
+                        data.put(stock.getSymbol(), new HashMap<String, SortedMap<Calendar, BigDecimal>>());
                     }
                     
                     if (data.get(stock.getSymbol()).get(indicatorId) == null) {

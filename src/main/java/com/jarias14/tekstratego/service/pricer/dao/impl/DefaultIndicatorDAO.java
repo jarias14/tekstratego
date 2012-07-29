@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.pricer.dao.impl;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.SortedMap;
 
@@ -18,9 +19,9 @@ public class DefaultIndicatorDAO implements IndicatorDAO {
     private int timeToLiveInSeconds;
 
     @Override
-    public SortedMap<Calendar, Double> readPrices(Stock stock, SizeOfBarsEnum sizeOfBar, PriceOfBarsEnum priceOfBar,Calendar startDate, Calendar endDate) {
+    public SortedMap<Calendar, BigDecimal> readPrices(Stock stock, SizeOfBarsEnum sizeOfBar, PriceOfBarsEnum priceOfBar,Calendar startDate, Calendar endDate) {
         
-        SortedMap<Calendar, Double> prices = rds.getPrices(stock.getExchange(), stock.getSymbol(), sizeOfBar, priceOfBar, startDate, endDate);
+        SortedMap<Calendar, BigDecimal> prices = rds.getPrices(stock.getExchange(), stock.getSymbol(), sizeOfBar, priceOfBar, startDate, endDate);
         
         // NICETOHAVE if empty or null try yahoo and other sources of data http://code.google.com/p/tekstratego/issues/detail?id=1
         

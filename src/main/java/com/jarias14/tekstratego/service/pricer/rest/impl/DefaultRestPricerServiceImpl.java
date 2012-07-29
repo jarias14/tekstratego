@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.pricer.rest.impl;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.SortedMap;
 
@@ -32,7 +33,7 @@ public class DefaultRestPricerServiceImpl implements RestPricerService {
     @Override
     public IndicatorValuesResource getValues(String indicatorId, String stockId, String startDate, String endDate, String numberOfBars) {
         
-        SortedMap<Calendar,Double> values = null;
+        SortedMap<Calendar,BigDecimal> values = null;
         
         if (startDate == null || startDate.equalsIgnoreCase("")) {
             values = pricerService.calculateIndicatorUsingNumberOfBars(indicatorId, stockId, endDate, Integer.valueOf(numberOfBars));

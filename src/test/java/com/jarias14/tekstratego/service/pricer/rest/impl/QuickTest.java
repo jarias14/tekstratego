@@ -27,9 +27,9 @@ public class QuickTest {
         
         HypothesisResource hypothesis = createHypothesis(restTemplate);
         
-        StrategyResource strategy = createStrategy(restTemplate, hypothesis.getId());
+        StrategyResource buyStrategy = createStrategy(restTemplate, hypothesis.getId());
         
-        StudyResource study = createStudy(restTemplate, indicator.getId(), hypothesis.getId(), strategy.getId());
+        StudyResource buyStudy = createStudy(restTemplate, indicator.getId(), hypothesis.getId(), buyStrategy.getId());
         
         PortfolioResource portfolio = createPortfolio(restTemplate, hypothesis.getId());
         

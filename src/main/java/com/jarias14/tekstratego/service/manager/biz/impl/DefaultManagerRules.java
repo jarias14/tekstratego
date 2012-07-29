@@ -20,28 +20,28 @@ public class DefaultManagerRules implements ManagerRules {
             
             if (TradeTypeEnum.ENTRY.equals(alert.getStrategyType())) {
                 
-                if (checkAvailableCash(portfolio)
-                        && !checkIfPortfolioContainsSecurity(portfolio, alert)
-                        && checkAlertLimitIsWithinAvailableCash(portfolio, alert)) {
+                if (isCashAvailable(portfolio)
+                        && !doesPortfolioContainStock(portfolio, alert)
+                        && isCashAvailableForThisTrade(portfolio, alert)) {
                     
-                    filtered.add(filterEntryTrade(alert));
+                    //filtered.add(filterEntryTrade(alert));
                     filtered.add(getSignal(alert));
                 }
                 
             } else if (TradeTypeEnum.EXIT.equals(alert.getStrategyType())) {
                 
-                if (checkIfPortfolioContainsSecurity(portfolio, alert)) {
+                if (doesPortfolioContainStock(portfolio, alert)) {
                     
-                    filtered.add(filterEntryTrade(alert));
+                    //filtered.add(filterEntryTrade(alert));
                     filtered.add(getSignal(alert));
                 }
                 
             } else if (TradeTypeEnum.SCALE.equals(alert.getStrategyType())) {
                 
-                if (checkIfPortfolioContainsSecurity(portfolio, alert)
-                        && checkAvailableCashForSecurity(portfolio, alert)) {
+                if (doesPortfolioContainStock(portfolio, alert)
+                        && isLimitInvestmentPerStockReached(portfolio, alert)) {
                     
-                    filtered.add(filterEntryTrade(alert));
+                    //filtered.add(filterEntryTrade(alert));
                     filtered.add(getSignal(alert));
                 }
                 
@@ -52,7 +52,7 @@ public class DefaultManagerRules implements ManagerRules {
         return filtered;
     }
 
-    private boolean checkIfPortfolioContainsSecurity(Portfolio portfolio, Alert alert) {
+    private boolean doesPortfolioContainStock(Portfolio portfolio, Alert alert) {
         
         if (portfolio.getPositions().get(alert.getStock().getSymbol()) != null) {
             return true;
@@ -61,7 +61,7 @@ public class DefaultManagerRules implements ManagerRules {
         return false;
     }
 
-    private boolean checkAlertLimitIsWithinAvailableCash(Portfolio portfolio, Alert alert) {
+    private boolean isCashAvailableForThisTrade(Portfolio portfolio, Alert alert) {
         
         // if would exceed our max investment
         if (portfolio.getAvailableCash().compareTo(alert.getLimitPerTrade()) < 0) {
@@ -75,20 +75,20 @@ public class DefaultManagerRules implements ManagerRules {
         return null;
     }
     
-    private boolean checkAvailableCashForSecurity(Portfolio portfolio, Alert alert) {
+    private boolean isLimitInvestmentPerStockReached(Portfolio portfolio, Alert alert) {
         // if we have put more money into the stock than the limit per stock
         if (portfolio.getPositions().containsKey(alert.getStock().getSymbol())) {
             BigDecimal averagePrice = portfolio.getPositions().get(alert.getStock().getSymbol()).getPurchaseValue();
             BigDecimal totalPrice = averagePrice.multiply(new BigDecimal(portfolio.getPositions().get(alert.getStock().getSymbol()).getNumberOfShares()));
             
             if (totalPrice.compareTo(alert.getLimitPerStock()) >= 0) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
     
-    private boolean checkAvailableCash(Portfolio portfolio) {
+    private boolean isCashAvailable(Portfolio portfolio) {
         if (portfolio.getAvailableCash().compareTo(BigDecimal.ZERO) <= 0) {
             return false;
         }

@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.common.utilities;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.SortedMap;
@@ -36,7 +37,7 @@ public class RdsConnectorTest {
         endDate.set(2010, 6, 10, 23, 59, 59);
         
         //this thing goes up to but not including the last one
-        SortedMap<Calendar, Double> prices = rds.getPrices(exchange, symbol, sizeOfBar, priceOfBar, startDate, endDate);
+        SortedMap<Calendar, BigDecimal> prices = rds.getPrices(exchange, symbol, sizeOfBar, priceOfBar, startDate, endDate);
         
         Calendar date = Calendar.getInstance();
         date.set(2010, 6, 9, 0, 0, 0);

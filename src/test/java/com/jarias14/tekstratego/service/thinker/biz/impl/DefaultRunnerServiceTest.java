@@ -86,7 +86,7 @@ public class DefaultRunnerServiceTest {
         smaStudy.setIndicatorId(indicatorId);
         smaStudy.setNumberOfBarsBeforeCurrent(0);
         smaStudy.setParentId("root");
-        smaStudy.setStudyValue(48.36);
+        smaStudy.setStudyValue(new BigDecimal(48.36));
 
         rootStudy.getStudies().add(smaStudy);
         
@@ -94,7 +94,7 @@ public class DefaultRunnerServiceTest {
         smaStudy2.setIndicatorId(indicatorId);
         smaStudy2.setNumberOfBarsBeforeCurrent(0);
         smaStudy2.setParentId("root");
-        smaStudy2.setStudyValue(48.38);
+        smaStudy2.setStudyValue(new BigDecimal(48.38));
         
         rootStudy.getStudies().add(smaStudy2);
         

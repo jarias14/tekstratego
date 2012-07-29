@@ -18,6 +18,7 @@
 
 package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -50,31 +51,31 @@ public class SimpleMovingAverage extends IndicatorBase {
     }
     
     @Override
-    public SortedMap<Calendar, Double> calculate(Stock stock, Calendar startDate, Calendar endDate) {
+    public SortedMap<Calendar, BigDecimal> calculate(Stock stock, Calendar startDate, Calendar endDate) {
         
-        SortedMap<Calendar, Double> priceHistory = getPriceHistory(stock, startDate, endDate);
+        SortedMap<Calendar, BigDecimal> priceHistory = getPriceHistory(stock, startDate, endDate);
         
-        SortedMap<Calendar, Double> values = calculate(priceHistory, startDate, endDate);
+        SortedMap<Calendar, BigDecimal> values = calculate(priceHistory, startDate, endDate);
         
         return values;
     }
     
-    private SortedMap<Calendar, Double> calculate(SortedMap<Calendar, Double> prices, Calendar startDate, Calendar endDate) {
+    private SortedMap<Calendar, BigDecimal> calculate(SortedMap<Calendar, BigDecimal> prices, Calendar startDate, Calendar endDate) {
         
-        SortedMap<Calendar, Double> values = new TreeMap<Calendar, Double>();
+        SortedMap<Calendar, BigDecimal> values = new TreeMap<Calendar, BigDecimal>();
         
         Object[] valueList = prices.values().toArray();
         Object[] keyList = prices.keySet().toArray();
         
-        double sum = 0;
+        BigDecimal sum = BigDecimal.ZERO;
         
         for (int i = 0; i < valueList.length; i++) {
             
-            sum = sum + (Double) valueList[i];
-            sum = sum - (Double) (i >= period ? valueList[i-period] : 0.0);
+            sum = sum.add((BigDecimal) valueList[i]);
+            sum = sum.subtract((i >= period ? (BigDecimal)valueList[i-period] : BigDecimal.ZERO));
             
             if (((Calendar)keyList[i]).compareTo(startDate) >= 0 && ((Calendar)keyList[i]).compareTo(endDate) <= 0) {
-                Double value = sum / period; 
+                BigDecimal value = sum.divide(new BigDecimal(period)); 
                 values.put((Calendar) keyList[i], value);
             }
         }
@@ -83,7 +84,7 @@ public class SimpleMovingAverage extends IndicatorBase {
         
     }
 
-    private SortedMap<Calendar, Double> getPriceHistory(Stock stock, Calendar startDate, Calendar endDate) {
+    private SortedMap<Calendar, BigDecimal> getPriceHistory(Stock stock, Calendar startDate, Calendar endDate) {
         
         Calendar priceHistoryStartDate = (Calendar) startDate.clone();
         priceHistoryStartDate.add(this.getSizeOfBars().getTimeUnit(), -this.getSizeOfBars().getTimeValue()*period*2);
@@ -94,7 +95,7 @@ public class SimpleMovingAverage extends IndicatorBase {
         priceIndicator.setSizeOfBars(this.getSizeOfBars());
         priceIndicator.setPriceOfBars(this.getPriceOfBars());
         
-        SortedMap<Calendar, Double> priceHistory = priceIndicator.calculate(stock, priceHistoryStartDate, priceHistoryEndDate);
+        SortedMap<Calendar, BigDecimal> priceHistory = priceIndicator.calculate(stock, priceHistoryStartDate, priceHistoryEndDate);
         
         return priceHistory;
     }

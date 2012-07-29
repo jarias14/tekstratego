@@ -1,5 +1,7 @@
 package com.jarias14.tekstratego.service.trader.rest.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import com.jarias14.tekstratego.common.resource.IndicatorResource;
 import com.jarias14.tekstratego.common.resource.IndicatorValuesResource;
 import com.jarias14.tekstratego.common.resource.TransactionResource;
+import com.jarias14.tekstratego.common.utilities.ConverterUtility;
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.trader.rest.RestTraderService;
 
@@ -46,8 +49,8 @@ public class DefaultRestTraderServiceImpl implements RestTraderService {
         IndicatorValuesResource values =
                 getRestTemplate().getForObject(url, IndicatorValuesResource.class);
         
-        Double sharesPrice = values.getValues().get(values.getValues().firstKey());
-        Integer sharesBought = (int) Math.floor((Double.valueOf(amount) / sharesPrice));
+        BigDecimal sharesPrice = values.getValues().get(values.getValues().firstKey());
+        Integer sharesBought = ConverterUtility.toBigDecimal(amount).divide(sharesPrice, 10, RoundingMode.HALF_UP).intValue();
         
         TransactionResource resource = new TransactionResource();
         resource.setSharesPrice(String.valueOf(sharesPrice));

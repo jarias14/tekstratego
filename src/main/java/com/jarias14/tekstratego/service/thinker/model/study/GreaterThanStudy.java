@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.thinker.model.study;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.SortedMap;
@@ -19,9 +20,9 @@ public class GreaterThanStudy extends AbstractCalculationStudy {
     }
     
     @Override
-    public boolean execute(Map<String, SortedMap<Calendar, Double>> data) {
+    public boolean execute(Map<String, SortedMap<Calendar, BigDecimal>> data) {
         
-        return super.getValueFromData(data) > this.getStudyValue();
+        return (super.getValueFromData(data).compareTo(this.getStudyValue())) > 0;
     }
     
     @Override

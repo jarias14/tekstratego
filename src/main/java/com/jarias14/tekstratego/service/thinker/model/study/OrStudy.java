@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.thinker.model.study;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.SortedMap;
@@ -20,7 +21,7 @@ public class OrStudy extends AbstractOperatorStudy {
     }
     
     @Override
-    public boolean execute(Map<String, SortedMap<Calendar, Double>> indicatorValues) {
+    public boolean execute(Map<String, SortedMap<Calendar, BigDecimal>> indicatorValues) {
         
         boolean result = false;
         

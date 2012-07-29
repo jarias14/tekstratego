@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -33,16 +34,16 @@ public class Price extends IndicatorBase {
     }
     
     @Override
-    public SortedMap<Calendar, Double> calculate(Stock stock, Calendar startDate, Calendar endDate) {
+    public SortedMap<Calendar, BigDecimal> calculate(Stock stock, Calendar startDate, Calendar endDate) {
         
-        SortedMap<Calendar, Double> values = new TreeMap<Calendar, Double>();
+        SortedMap<Calendar, BigDecimal> values = new TreeMap<Calendar, BigDecimal>();
         
         populateValues(values, stock, startDate, endDate, this.getSizeOfBars());
         
         return values;
     }
     
-    private void populateValues(SortedMap<Calendar, Double> values, Stock stock, Calendar startDate, Calendar endDate, SizeOfBarsEnum sizeOfBars) {
+    private void populateValues(SortedMap<Calendar, BigDecimal> values, Stock stock, Calendar startDate, Calendar endDate, SizeOfBarsEnum sizeOfBars) {
         
         // NICETOHAVE: create singleton factory for DAOs
         IndicatorDAO dao = (IndicatorDAO) ContextLoader.getCurrentWebApplicationContext().getBean("realIndicatorDAO");
