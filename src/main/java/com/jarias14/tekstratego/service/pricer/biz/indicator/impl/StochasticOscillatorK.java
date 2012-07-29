@@ -6,9 +6,13 @@ import java.util.Calendar;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.springframework.web.context.ContextLoader;
+
 import com.jarias14.tekstratego.common.model.PriceOfBarsEnum;
+import com.jarias14.tekstratego.common.model.SizeOfBarsEnum;
 import com.jarias14.tekstratego.common.model.Stock;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
+import com.jarias14.tekstratego.service.pricer.dao.IndicatorDAO;
 
 public class StochasticOscillatorK extends IndicatorBase {
 
@@ -95,9 +99,11 @@ public class StochasticOscillatorK extends IndicatorBase {
     
     private SortedMap<Calendar, BigDecimal> getPriceHistory(Stock stock, Calendar startDate, Calendar endDate, PriceOfBarsEnum priceOfBars) {
         
-        Calendar priceHistoryStartDate = (Calendar) startDate.clone();
-        priceHistoryStartDate.add(this.getSizeOfBars().getTimeUnit(), -this.getSizeOfBars().getTimeValue()*period*2);
+        IndicatorDAO dao = (IndicatorDAO) ContextLoader.getCurrentWebApplicationContext().getBean("realIndicatorDAO");
+        Calendar priceHistoryStartDate = dao.getStartDate(endDate, period-1, SizeOfBarsEnum.ONE_DAY);
         Calendar priceHistoryEndDate = (Calendar) endDate.clone();
+        //Calendar priceHistoryStartDate = (Calendar) startDate.clone();
+        //priceHistoryStartDate.add(this.getSizeOfBars().getTimeUnit(), -this.getSizeOfBars().getTimeValue()*period*2);
         
         Price priceIndicator = new Price();
         priceIndicator.setSizeOfBars(this.getSizeOfBars());
