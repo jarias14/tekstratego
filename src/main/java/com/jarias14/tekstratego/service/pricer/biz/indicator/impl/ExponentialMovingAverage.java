@@ -19,21 +19,19 @@
 package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.springframework.web.context.ContextLoader;
-
-import com.jarias14.tekstratego.common.model.SizeOfBarsEnum;
 import com.jarias14.tekstratego.common.model.Stock;
 import com.jarias14.tekstratego.common.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
-import com.jarias14.tekstratego.service.pricer.dao.IndicatorDAO;
 
 /**
  * @author jarias14
+ * @source http://www.iexplain.org/ema-how-to-calculate/
  *
  * {
  *   "type": "simple_moving_average",
@@ -44,13 +42,13 @@ import com.jarias14.tekstratego.service.pricer.dao.IndicatorDAO;
  *   }
  * }
  */
-public class SimpleMovingAverage extends IndicatorBase {
+public class ExponentialMovingAverage extends IndicatorBase {
     
     private static final long serialVersionUID = 8192599356783190029L;
     
     private int period;
 
-    public SimpleMovingAverage() {
+    public ExponentialMovingAverage() {
         
     }
     
@@ -71,21 +69,26 @@ public class SimpleMovingAverage extends IndicatorBase {
         Object[] valueList = prices.values().toArray();
         Object[] keyList = prices.keySet().toArray();
         
-        // sum up first values
-        BigDecimal sum = BigDecimal.ZERO;
-        for (int i = 0; i < period-1; i++) {
-            sum = sum.add((BigDecimal)valueList[i]);
-            //values.put((Calendar)keyList[i], (BigDecimal)valueList[i]);
-        }
+        // Start by calculating k for the given timeframe. 2 / (22 + 1) = 0,0869
+        BigDecimal k = new BigDecimal(2.0 / (period+1));
         
-        for (int i = period-1; i < valueList.length; i++) {
-            sum = sum.add((BigDecimal) valueList[i]);
-            
-            BigDecimal value = sum.divide(new BigDecimal(period));
-            
-            values.put((Calendar) keyList[i], value);
-            
-            sum = sum.subtract((BigDecimal)valueList[i-period+1]);
+        // Add the closing prices for the first 22 days together and divide them by the number of periods
+        BigDecimal ema = BigDecimal.ZERO;
+        ema = ema.setScale(2, RoundingMode.HALF_EVEN);
+        for (int i = 0; i < period; i++) {
+            ema = ema.add((BigDecimal)valueList[i]);
+            // set value as ema for the first few days
+            values.put((Calendar)keyList[i], (BigDecimal)valueList[i]);
+        }
+        ema = ema.divide(new BigDecimal(period));
+        values.put((Calendar)keyList[period-1], ema);
+        
+        // YouÕre now ready to start getting the first EMA day by
+        // taking the following dayÕs (day 23) closing price multiplied by k,
+        // then multiply the previous dayÕs moving average by (1-k) and add the two.
+        for (int i = period; i < keyList.length; i++) {
+            ema = (((BigDecimal)valueList[i]).multiply(k)).add((values.get(keyList[i-1]).multiply(((new BigDecimal(1)).subtract(k)))));
+            values.put((Calendar)keyList[i], ema);
         }
         
         return values;
@@ -94,9 +97,10 @@ public class SimpleMovingAverage extends IndicatorBase {
 
     private SortedMap<Calendar, BigDecimal> getPriceHistory(Stock stock, Calendar startDate, Calendar endDate) {
         
-        IndicatorDAO dao = (IndicatorDAO) ContextLoader.getCurrentWebApplicationContext().getBean("realIndicatorDAO");
-        Calendar priceHistoryStartDate = dao.getStartDate(endDate, period-1, SizeOfBarsEnum.ONE_DAY);
+        Calendar priceHistoryStartDate = (Calendar) startDate.clone();
+        priceHistoryStartDate.add(this.getSizeOfBars().getTimeUnit(), -this.getSizeOfBars().getTimeValue()*period*2);
         Calendar priceHistoryEndDate = (Calendar) endDate.clone();
+        priceHistoryEndDate.add(this.getSizeOfBars().getTimeUnit(), this.getSizeOfBars().getTimeValue()*period*2);
         
         Price priceIndicator = new Price();
         priceIndicator.setSizeOfBars(this.getSizeOfBars());
