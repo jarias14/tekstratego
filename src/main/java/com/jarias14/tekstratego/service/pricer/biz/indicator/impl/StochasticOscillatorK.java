@@ -1,6 +1,7 @@
 package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -29,7 +30,7 @@ public class StochasticOscillatorK extends IndicatorBase {
         return values;
     }
 
-    private SortedMap<Calendar, BigDecimal> calculate(SortedMap<Calendar, BigDecimal> lows, SortedMap<Calendar, BigDecimal> highs, SortedMap<Calendar, BigDecimal> closes, Calendar startDate, Calendar endDate) {
+    public SortedMap<Calendar, BigDecimal> calculate(SortedMap<Calendar, BigDecimal> lows, SortedMap<Calendar, BigDecimal> highs, SortedMap<Calendar, BigDecimal> closes, Calendar startDate, Calendar endDate) {
         
         // %K = 100*SUM (CLOSE - MIN (LOW, Pk), Sk) / SUM (MAX (HIGH, Pk) - MIN (LOW, Pk)), Sk)
         
@@ -40,15 +41,19 @@ public class StochasticOscillatorK extends IndicatorBase {
         Object[] closeList = closes.values().toArray();
         Object[] keyList = highs.keySet().toArray();
         
-        for (int i = period; i < keyList.length; i++) {
+        for (int i = period-1; i < keyList.length; i++) {
             
             //find all variables
-            BigDecimal lowest = findLowestPrice((BigDecimal[])lowsList, i);
-            BigDecimal highest = findHighestPrice((BigDecimal[])highsList, i);
-            BigDecimal close = (BigDecimal)closeList[i];
+            BigDecimal lowest = findLowestPrice(lowsList, i);
+            BigDecimal highest = findHighestPrice(highsList, i);
+            BigDecimal close = (BigDecimal)closeList[i-period+1];
             
             //find our value
-            BigDecimal value = (new BigDecimal(100)).multiply((close.subtract(lowest)).divide((highest.subtract(lowest))));
+            BigDecimal closeMinusLow = close.subtract(lowest);
+            BigDecimal highMinusLow = highest.subtract(lowest);
+            BigDecimal oneHundred = new BigDecimal(100);
+            
+            BigDecimal value = oneHundred.multiply(closeMinusLow).divide(highMinusLow, 4, RoundingMode.HALF_EVEN);
             
             //put it on the list
             values.put((Calendar) keyList[i], value);
@@ -58,30 +63,30 @@ public class StochasticOscillatorK extends IndicatorBase {
         
     }
     
-    private BigDecimal findLowestPrice(BigDecimal[] prices, int index) {
+    private BigDecimal findLowestPrice(Object[] prices, int index) {
         
-        BigDecimal lowest = prices[index];
+        BigDecimal lowest = (BigDecimal)prices[index-period+1];
         
-        for (int i = index-smoothing+1; i <= index; i++) {
+        for (int i = index-period+1; i <= index; i++) {
             
-            if (prices[i].compareTo(lowest) < 0) {
+            if (((BigDecimal)prices[i]).compareTo(lowest) < 0) {
                 
-                lowest = prices[i];
+                lowest = (BigDecimal)prices[i];
             }
         }
         
         return lowest;
     }
     
-    private BigDecimal findHighestPrice(BigDecimal[] prices, int index) {
+    private BigDecimal findHighestPrice(Object[] prices, int index) {
         
-        BigDecimal highest = prices[index];
+        BigDecimal highest = (BigDecimal)prices[index-period+1];
         
-        for (int i = index-smoothing+1; i <= index; i++) {
+        for (int i = index-period+1; i <= index; i++) {
             
-            if (prices[i].compareTo(highest) > 0) {
+            if (((BigDecimal)prices[i]).compareTo(highest) > 0) {
                 
-                highest = prices[i];
+                highest = (BigDecimal)prices[i];
             }
         }
         
@@ -93,7 +98,6 @@ public class StochasticOscillatorK extends IndicatorBase {
         Calendar priceHistoryStartDate = (Calendar) startDate.clone();
         priceHistoryStartDate.add(this.getSizeOfBars().getTimeUnit(), -this.getSizeOfBars().getTimeValue()*period*2);
         Calendar priceHistoryEndDate = (Calendar) endDate.clone();
-        priceHistoryEndDate.add(this.getSizeOfBars().getTimeUnit(), this.getSizeOfBars().getTimeValue()*period*2);
         
         Price priceIndicator = new Price();
         priceIndicator.setSizeOfBars(this.getSizeOfBars());

@@ -33,12 +33,21 @@ public class SimpleMovingAverageTest {
         Object[] expectedValues = getExpectedSMA().values().toArray();
         
         for (int i = 0; i < actualValues.length; i++) {
+            
+
+            BigDecimal expected = ((BigDecimal)expectedValues[i]).setScale(2, RoundingMode.HALF_EVEN);
+            BigDecimal actual = ((BigDecimal)actualValues[i]).setScale(2, RoundingMode.HALF_EVEN);
+            
+            Assert.assertTrue(expected.equals(actual));
+            
+            /*
             System.out.println((BigDecimal)expectedValues[i] + " " + (BigDecimal)actualValues[i]);
             BigDecimal expected = ((BigDecimal)expectedValues[i]).setScale(2, RoundingMode.HALF_EVEN);
             BigDecimal actual = ((BigDecimal)actualValues[i]).setScale(2, RoundingMode.HALF_EVEN);
             System.out.println(expected + " " + actual);
             System.out.println(expected.compareTo(actual));
             Assert.assertTrue(expected.doubleValue() - actual.doubleValue() <= .011 && expected.doubleValue() - actual.doubleValue() >= -.011);
+            */
         }
         
         Assert.assertEquals(expectedValues.length, actualValues.length);
@@ -56,27 +65,27 @@ public class SimpleMovingAverageTest {
         //smaData.put(getCalendar(i++), new BigDecimal(22.23));
         //smaData.put(getCalendar(i++), new BigDecimal(22.43));
         //smaData.put(getCalendar(i++), new BigDecimal(22.24));
-        smaData.put(getCalendar(i++), new BigDecimal(22.22));
-        smaData.put(getCalendar(i++), new BigDecimal(22.21));
-        smaData.put(getCalendar(i++), new BigDecimal(22.23));
-        smaData.put(getCalendar(i++), new BigDecimal(22.26));
-        smaData.put(getCalendar(i++), new BigDecimal(22.31));
-        smaData.put(getCalendar(i++), new BigDecimal(22.42));
-        smaData.put(getCalendar(i++), new BigDecimal(22.61));
-        smaData.put(getCalendar(i++), new BigDecimal(22.77));
-        smaData.put(getCalendar(i++), new BigDecimal(22.91));
-        smaData.put(getCalendar(i++), new BigDecimal(23.08));
-        smaData.put(getCalendar(i++), new BigDecimal(23.21));
-        smaData.put(getCalendar(i++), new BigDecimal(23.38));
-        smaData.put(getCalendar(i++), new BigDecimal(23.53));
-        smaData.put(getCalendar(i++), new BigDecimal(23.65));
-        smaData.put(getCalendar(i++), new BigDecimal(23.71));
-        smaData.put(getCalendar(i++), new BigDecimal(23.69));
-        smaData.put(getCalendar(i++), new BigDecimal(23.61));
-        smaData.put(getCalendar(i++), new BigDecimal(23.51));
-        smaData.put(getCalendar(i++), new BigDecimal(23.43));
-        smaData.put(getCalendar(i++), new BigDecimal(23.28));
-        smaData.put(getCalendar(i++), new BigDecimal(23.13));
+        smaData.put(getCalendar(i++), new BigDecimal(22.2248));
+        smaData.put(getCalendar(i++), new BigDecimal(22.2128));
+        smaData.put(getCalendar(i++), new BigDecimal(22.2327));
+        smaData.put(getCalendar(i++), new BigDecimal(22.2624));
+        smaData.put(getCalendar(i++), new BigDecimal(22.3061));
+        smaData.put(getCalendar(i++), new BigDecimal(22.4232));
+        smaData.put(getCalendar(i++), new BigDecimal(22.6150));
+        smaData.put(getCalendar(i++), new BigDecimal(22.7669));
+        smaData.put(getCalendar(i++), new BigDecimal(22.9069));
+        smaData.put(getCalendar(i++), new BigDecimal(23.0777));
+        smaData.put(getCalendar(i++), new BigDecimal(23.2118));
+        smaData.put(getCalendar(i++), new BigDecimal(23.3786));
+        smaData.put(getCalendar(i++), new BigDecimal(23.5266));
+        smaData.put(getCalendar(i++), new BigDecimal(23.6538));
+        smaData.put(getCalendar(i++), new BigDecimal(23.7114));
+        smaData.put(getCalendar(i++), new BigDecimal(23.6856));
+        smaData.put(getCalendar(i++), new BigDecimal(23.6130));
+        smaData.put(getCalendar(i++), new BigDecimal(23.5057));
+        smaData.put(getCalendar(i++), new BigDecimal(23.4323));
+        smaData.put(getCalendar(i++), new BigDecimal(23.2773));
+        smaData.put(getCalendar(i++), new BigDecimal(23.1312));
         return smaData;
         
     }
@@ -84,36 +93,36 @@ public class SimpleMovingAverageTest {
     private SortedMap<Calendar, BigDecimal> getTestData() {
         int i = 0;
         SortedMap<Calendar, BigDecimal> testData = new TreeMap<Calendar, BigDecimal>();
-        testData.put(getCalendar(i++), new BigDecimal(22.27));
-        testData.put(getCalendar(i++), new BigDecimal(22.19));
-        testData.put(getCalendar(i++), new BigDecimal(22.08));
-        testData.put(getCalendar(i++), new BigDecimal(22.17));
-        testData.put(getCalendar(i++), new BigDecimal(22.18));
-        testData.put(getCalendar(i++), new BigDecimal(22.13));
-        testData.put(getCalendar(i++), new BigDecimal(22.23));
-        testData.put(getCalendar(i++), new BigDecimal(22.43));
-        testData.put(getCalendar(i++), new BigDecimal(22.24));
-        testData.put(getCalendar(i++), new BigDecimal(22.29));
-        testData.put(getCalendar(i++), new BigDecimal(22.15));
-        testData.put(getCalendar(i++), new BigDecimal(22.39));
-        testData.put(getCalendar(i++), new BigDecimal(22.38));
-        testData.put(getCalendar(i++), new BigDecimal(22.61));
-        testData.put(getCalendar(i++), new BigDecimal(23.36));
-        testData.put(getCalendar(i++), new BigDecimal(24.05));
-        testData.put(getCalendar(i++), new BigDecimal(23.75));
-        testData.put(getCalendar(i++), new BigDecimal(23.83));
-        testData.put(getCalendar(i++), new BigDecimal(23.95));
-        testData.put(getCalendar(i++), new BigDecimal(23.63));
-        testData.put(getCalendar(i++), new BigDecimal(23.82));
-        testData.put(getCalendar(i++), new BigDecimal(23.87));
-        testData.put(getCalendar(i++), new BigDecimal(23.65));
-        testData.put(getCalendar(i++), new BigDecimal(23.19));
-        testData.put(getCalendar(i++), new BigDecimal(23.10));
-        testData.put(getCalendar(i++), new BigDecimal(23.33));
-        testData.put(getCalendar(i++), new BigDecimal(22.68));
-        testData.put(getCalendar(i++), new BigDecimal(23.10));
-        testData.put(getCalendar(i++), new BigDecimal(22.40));
-        testData.put(getCalendar(i++), new BigDecimal(22.17));
+        testData.put(getCalendar(i++), new BigDecimal(22.2734));
+        testData.put(getCalendar(i++), new BigDecimal(22.1940));
+        testData.put(getCalendar(i++), new BigDecimal(22.0847));
+        testData.put(getCalendar(i++), new BigDecimal(22.1741));
+        testData.put(getCalendar(i++), new BigDecimal(22.1840));
+        testData.put(getCalendar(i++), new BigDecimal(22.1344));
+        testData.put(getCalendar(i++), new BigDecimal(22.2337));
+        testData.put(getCalendar(i++), new BigDecimal(22.4323));
+        testData.put(getCalendar(i++), new BigDecimal(22.2436));
+        testData.put(getCalendar(i++), new BigDecimal(22.2933));
+        testData.put(getCalendar(i++), new BigDecimal(22.1542));
+        testData.put(getCalendar(i++), new BigDecimal(22.3926));
+        testData.put(getCalendar(i++), new BigDecimal(22.3816));
+        testData.put(getCalendar(i++), new BigDecimal(22.6109));
+        testData.put(getCalendar(i++), new BigDecimal(23.3558));
+        testData.put(getCalendar(i++), new BigDecimal(24.0519));
+        testData.put(getCalendar(i++), new BigDecimal(23.7530));
+        testData.put(getCalendar(i++), new BigDecimal(23.8324));
+        testData.put(getCalendar(i++), new BigDecimal(23.9516));
+        testData.put(getCalendar(i++), new BigDecimal(23.6338));
+        testData.put(getCalendar(i++), new BigDecimal(23.8225));
+        testData.put(getCalendar(i++), new BigDecimal(23.8722));
+        testData.put(getCalendar(i++), new BigDecimal(23.6537));
+        testData.put(getCalendar(i++), new BigDecimal(23.1870));
+        testData.put(getCalendar(i++), new BigDecimal(23.0976));
+        testData.put(getCalendar(i++), new BigDecimal(23.3260));
+        testData.put(getCalendar(i++), new BigDecimal(22.6805));
+        testData.put(getCalendar(i++), new BigDecimal(23.0976));
+        testData.put(getCalendar(i++), new BigDecimal(22.4025));
+        testData.put(getCalendar(i++), new BigDecimal(22.1725));
         return testData;
     }
     

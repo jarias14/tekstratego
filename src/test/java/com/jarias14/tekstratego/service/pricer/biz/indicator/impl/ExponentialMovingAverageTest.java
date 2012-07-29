@@ -33,47 +33,55 @@ public class ExponentialMovingAverageTest {
         Object[] expectedValues = getExpectedEMA().values().toArray();
         
         for (int i = 0; i < actualValues.length; i++) {
+
+            BigDecimal expected = ((BigDecimal)expectedValues[i]).setScale(2, RoundingMode.HALF_EVEN);
+            BigDecimal actual = ((BigDecimal)actualValues[i]).setScale(2, RoundingMode.HALF_EVEN);
+            
+            Assert.assertTrue(expected.equals(actual));
+            
+            /*
             System.out.println((BigDecimal)expectedValues[i] + " " + (BigDecimal)actualValues[i]);
             BigDecimal expected = ((BigDecimal)expectedValues[i]).setScale(2, RoundingMode.HALF_EVEN);
             BigDecimal actual = ((BigDecimal)actualValues[i]).setScale(2, RoundingMode.HALF_EVEN);
             System.out.println(expected + " " + actual);
             Assert.assertTrue(expected.compareTo(actual) < .01 && expected.compareTo(actual) > -.01);
+            */
         }
     }
     
     private SortedMap<Calendar, BigDecimal> getExpectedEMA() {
         int i = 0;
         SortedMap<Calendar, BigDecimal> emaData = new TreeMap<Calendar, BigDecimal>();
-        emaData.put(getCalendar(i++), new BigDecimal(22.27));
-        emaData.put(getCalendar(i++), new BigDecimal(22.19));
-        emaData.put(getCalendar(i++), new BigDecimal(22.08));
-        emaData.put(getCalendar(i++), new BigDecimal(22.17));
-        emaData.put(getCalendar(i++), new BigDecimal(22.18));
-        emaData.put(getCalendar(i++), new BigDecimal(22.13));
-        emaData.put(getCalendar(i++), new BigDecimal(22.23));
-        emaData.put(getCalendar(i++), new BigDecimal(22.43));
-        emaData.put(getCalendar(i++), new BigDecimal(22.24));
-        emaData.put(getCalendar(i++), new BigDecimal(22.22));
-        emaData.put(getCalendar(i++), new BigDecimal(22.21));
-        emaData.put(getCalendar(i++), new BigDecimal(22.24));
-        emaData.put(getCalendar(i++), new BigDecimal(22.27));
-        emaData.put(getCalendar(i++), new BigDecimal(22.33));
-        emaData.put(getCalendar(i++), new BigDecimal(22.52));
-        emaData.put(getCalendar(i++), new BigDecimal(22.80));
-        emaData.put(getCalendar(i++), new BigDecimal(22.97));
-        emaData.put(getCalendar(i++), new BigDecimal(23.13));
-        emaData.put(getCalendar(i++), new BigDecimal(23.28));
-        emaData.put(getCalendar(i++), new BigDecimal(23.34));
-        emaData.put(getCalendar(i++), new BigDecimal(23.43));
-        emaData.put(getCalendar(i++), new BigDecimal(23.51));
-        emaData.put(getCalendar(i++), new BigDecimal(23.54));
-        emaData.put(getCalendar(i++), new BigDecimal(23.47));
-        emaData.put(getCalendar(i++), new BigDecimal(23.40));
-        emaData.put(getCalendar(i++), new BigDecimal(23.39));
-        emaData.put(getCalendar(i++), new BigDecimal(23.26));
-        emaData.put(getCalendar(i++), new BigDecimal(23.23));
-        emaData.put(getCalendar(i++), new BigDecimal(23.08));
-        emaData.put(getCalendar(i++), new BigDecimal(22.92));
+        emaData.put(getCalendar(i++), new BigDecimal(22.2734));
+        emaData.put(getCalendar(i++), new BigDecimal(22.1940));
+        emaData.put(getCalendar(i++), new BigDecimal(22.0847));
+        emaData.put(getCalendar(i++), new BigDecimal(22.1741));
+        emaData.put(getCalendar(i++), new BigDecimal(22.1840));
+        emaData.put(getCalendar(i++), new BigDecimal(22.1344));
+        emaData.put(getCalendar(i++), new BigDecimal(22.2337));
+        emaData.put(getCalendar(i++), new BigDecimal(22.4323));
+        emaData.put(getCalendar(i++), new BigDecimal(22.2436));
+        emaData.put(getCalendar(i++), new BigDecimal(22.2248));
+        emaData.put(getCalendar(i++), new BigDecimal(22.2119));
+        emaData.put(getCalendar(i++), new BigDecimal(22.2448));
+        emaData.put(getCalendar(i++), new BigDecimal(22.2697));
+        emaData.put(getCalendar(i++), new BigDecimal(22.3317));
+        emaData.put(getCalendar(i++), new BigDecimal(22.5179));
+        emaData.put(getCalendar(i++), new BigDecimal(22.7968));
+        emaData.put(getCalendar(i++), new BigDecimal(22.9707));
+        emaData.put(getCalendar(i++), new BigDecimal(23.1273));
+        emaData.put(getCalendar(i++), new BigDecimal(23.2772));
+        emaData.put(getCalendar(i++), new BigDecimal(23.3420));
+        emaData.put(getCalendar(i++), new BigDecimal(23.4294));
+        emaData.put(getCalendar(i++), new BigDecimal(23.5099));
+        emaData.put(getCalendar(i++), new BigDecimal(23.5361));
+        emaData.put(getCalendar(i++), new BigDecimal(23.4726));
+        emaData.put(getCalendar(i++), new BigDecimal(23.4044));
+        emaData.put(getCalendar(i++), new BigDecimal(23.3902));
+        emaData.put(getCalendar(i++), new BigDecimal(23.2611));
+        emaData.put(getCalendar(i++), new BigDecimal(23.2314));
+        emaData.put(getCalendar(i++), new BigDecimal(23.0807));
+        emaData.put(getCalendar(i++), new BigDecimal(22.9156));
         return emaData;
         
     }
@@ -81,36 +89,36 @@ public class ExponentialMovingAverageTest {
     private SortedMap<Calendar, BigDecimal> getTestData() {
         int i = 0;
         SortedMap<Calendar, BigDecimal> testData = new TreeMap<Calendar, BigDecimal>();
-        testData.put(getCalendar(i++), new BigDecimal(22.27));
-        testData.put(getCalendar(i++), new BigDecimal(22.19));
-        testData.put(getCalendar(i++), new BigDecimal(22.08));
-        testData.put(getCalendar(i++), new BigDecimal(22.17));
-        testData.put(getCalendar(i++), new BigDecimal(22.18));
-        testData.put(getCalendar(i++), new BigDecimal(22.13));
-        testData.put(getCalendar(i++), new BigDecimal(22.23));
-        testData.put(getCalendar(i++), new BigDecimal(22.43));
-        testData.put(getCalendar(i++), new BigDecimal(22.24));
-        testData.put(getCalendar(i++), new BigDecimal(22.29));
-        testData.put(getCalendar(i++), new BigDecimal(22.15));
-        testData.put(getCalendar(i++), new BigDecimal(22.39));
-        testData.put(getCalendar(i++), new BigDecimal(22.38));
-        testData.put(getCalendar(i++), new BigDecimal(22.61));
-        testData.put(getCalendar(i++), new BigDecimal(23.36));
-        testData.put(getCalendar(i++), new BigDecimal(24.05));
-        testData.put(getCalendar(i++), new BigDecimal(23.75));
-        testData.put(getCalendar(i++), new BigDecimal(23.83));
-        testData.put(getCalendar(i++), new BigDecimal(23.95));
-        testData.put(getCalendar(i++), new BigDecimal(23.63));
-        testData.put(getCalendar(i++), new BigDecimal(23.82));
-        testData.put(getCalendar(i++), new BigDecimal(23.87));
-        testData.put(getCalendar(i++), new BigDecimal(23.65));
-        testData.put(getCalendar(i++), new BigDecimal(23.19));
-        testData.put(getCalendar(i++), new BigDecimal(23.10));
-        testData.put(getCalendar(i++), new BigDecimal(23.33));
-        testData.put(getCalendar(i++), new BigDecimal(22.68));
-        testData.put(getCalendar(i++), new BigDecimal(23.10));
-        testData.put(getCalendar(i++), new BigDecimal(22.40));
-        testData.put(getCalendar(i++), new BigDecimal(22.17));
+        testData.put(getCalendar(i++), new BigDecimal(22.2734));
+        testData.put(getCalendar(i++), new BigDecimal(22.1940));
+        testData.put(getCalendar(i++), new BigDecimal(22.0847));
+        testData.put(getCalendar(i++), new BigDecimal(22.1741));
+        testData.put(getCalendar(i++), new BigDecimal(22.1840));
+        testData.put(getCalendar(i++), new BigDecimal(22.1344));
+        testData.put(getCalendar(i++), new BigDecimal(22.2337));
+        testData.put(getCalendar(i++), new BigDecimal(22.4323));
+        testData.put(getCalendar(i++), new BigDecimal(22.2436));
+        testData.put(getCalendar(i++), new BigDecimal(22.2933));
+        testData.put(getCalendar(i++), new BigDecimal(22.1542));
+        testData.put(getCalendar(i++), new BigDecimal(22.3926));
+        testData.put(getCalendar(i++), new BigDecimal(22.3816));
+        testData.put(getCalendar(i++), new BigDecimal(22.6109));
+        testData.put(getCalendar(i++), new BigDecimal(23.3558));
+        testData.put(getCalendar(i++), new BigDecimal(24.0519));
+        testData.put(getCalendar(i++), new BigDecimal(23.7530));
+        testData.put(getCalendar(i++), new BigDecimal(23.8324));
+        testData.put(getCalendar(i++), new BigDecimal(23.9516));
+        testData.put(getCalendar(i++), new BigDecimal(23.6338));
+        testData.put(getCalendar(i++), new BigDecimal(23.8225));
+        testData.put(getCalendar(i++), new BigDecimal(23.8722));
+        testData.put(getCalendar(i++), new BigDecimal(23.6537));
+        testData.put(getCalendar(i++), new BigDecimal(23.1870));
+        testData.put(getCalendar(i++), new BigDecimal(23.0976));
+        testData.put(getCalendar(i++), new BigDecimal(23.3260));
+        testData.put(getCalendar(i++), new BigDecimal(22.6805));
+        testData.put(getCalendar(i++), new BigDecimal(23.0976));
+        testData.put(getCalendar(i++), new BigDecimal(22.4025));
+        testData.put(getCalendar(i++), new BigDecimal(22.1725));
         return testData;
     }
     
