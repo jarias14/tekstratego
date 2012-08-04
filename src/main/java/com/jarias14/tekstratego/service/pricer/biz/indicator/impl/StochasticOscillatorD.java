@@ -3,72 +3,46 @@ package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 import org.springframework.web.context.ContextLoader;
 
-import com.jarias14.tekstratego.common.model.PriceOfBarsEnum;
 import com.jarias14.tekstratego.common.model.SizeOfBarsEnum;
 import com.jarias14.tekstratego.common.model.Stock;
-import com.jarias14.tekstratego.common.resource.IndicatorResource;
-import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
 import com.jarias14.tekstratego.service.pricer.dao.IndicatorDAO;
 
-
-/**
- * {
- *   "type": "price",
- *   "sizeOfBars": "ONE_DAY",
- *   "priceOfBars": "OPEN"
- * }
- * 
- */
-public class StochasticOscillatorD extends IndicatorBase {
+public class StochasticOscillatorD extends StochasticOscillatorK {
 
     private static final long serialVersionUID = 1L;
-    
-    private PriceOfBarsEnum priceOfBars;
 
-    public StochasticOscillatorD() {
-        
-    }
-    
+    private int smoothing;
+
     @Override
     public SortedMap<Calendar, BigDecimal> calculate(Stock stock, Calendar startDate, Calendar endDate) {
+
+        IndicatorDAO dao = (IndicatorDAO) ContextLoader.getCurrentWebApplicationContext().getBean("realIndicatorDAO");
+        Calendar priceHistoryStartDate = dao.getStartDate(startDate, smoothing-1, SizeOfBarsEnum.ONE_DAY);
         
-        SortedMap<Calendar, BigDecimal> values = new TreeMap<Calendar, BigDecimal>();
+        SortedMap<Calendar, BigDecimal> D = super.calculate(stock, priceHistoryStartDate, endDate);
         
-        populateValues(values, stock, startDate, endDate, this.getSizeOfBars());
+        SimpleMovingAverage sma = new SimpleMovingAverage();
+        sma.setPeriod(this.smoothing);
+        sma.setPriceOfBars(getPriceOfBars());
+        sma.setSizeOfBars(getSizeOfBars());
+        
+        SortedMap<Calendar, BigDecimal> values = sma.calculate(D, startDate, endDate); 
+        
+        BigDecimal lastKey = values.get(endDate);
+        values = values.subMap(startDate, endDate);
+        values.put(endDate, lastKey);
         
         return values;
     }
-    
-    private void populateValues(SortedMap<Calendar, BigDecimal> values, Stock stock, Calendar startDate, Calendar endDate, SizeOfBarsEnum sizeOfBars) {
-        
-        // NICETOHAVE: create singleton factory for DAOs
-        IndicatorDAO dao = (IndicatorDAO) ContextLoader.getCurrentWebApplicationContext().getBean("realIndicatorDAO");
 
-        values.putAll(dao.readPrices(stock, sizeOfBars, this.priceOfBars, startDate, endDate));
+    public int getSmoothing() {
+        return smoothing;
     }
 
-    public IndicatorResource toResource() {
-        
-        // populate resource from base class
-        IndicatorResource resource = super.toResource();
-        
-        return resource;
-    }
-    
-    public void fromResource(IndicatorResource resource) {
-        this.priceOfBars = PriceOfBarsEnum.valueOf(resource.getPriceOfBars().toUpperCase());
-        super.fromResource(resource);
-    }
-
-    public PriceOfBarsEnum getPriceOfBars() {
-        return priceOfBars;
-    }
-
-    public void setPriceOfBars(PriceOfBarsEnum priceOfBars) {
-        this.priceOfBars = priceOfBars;
+    public void setSmoothing(int smoothing) {
+        this.smoothing = smoothing;
     }
 }

@@ -44,8 +44,8 @@ public class RdsConnectorTest {
         date.set(Calendar.MILLISECOND, 0);
 
         Assert.assertEquals(68, prices.size());
-        Assert.assertEquals(24.27, prices.get(date));
-        Assert.assertEquals(24.27, prices.get(prices.lastKey()));
+        Assert.assertEquals(new BigDecimal(24.27), prices.get(date));
+        Assert.assertEquals(new BigDecimal(24.27), prices.get(prices.lastKey()));
         
     }
 }

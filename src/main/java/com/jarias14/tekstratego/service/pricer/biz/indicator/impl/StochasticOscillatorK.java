@@ -20,8 +20,6 @@ public class StochasticOscillatorK extends IndicatorBase {
     
     private int period;
 
-    private int smoothing;
-
     @Override
     public SortedMap<Calendar, BigDecimal> calculate(Stock stock, Calendar startDate, Calendar endDate) {
 
@@ -120,13 +118,5 @@ public class StochasticOscillatorK extends IndicatorBase {
 
     public void setPeriod(int period) {
         this.period = period;
-    }
-
-    public int getSmoothing() {
-        return smoothing;
-    }
-
-    public void setSmoothing(int smoothing) {
-        this.smoothing = smoothing;
     }
 }

@@ -10,13 +10,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class StochasticOscillatorKTest {
+public class StochasticOscillatorDTest {
 
-    private StochasticOscillatorK sma;
+    private StochasticOscillatorD sto;
     
     @Before
     public void setUp() {
-        sma = new StochasticOscillatorK();
+        sto = new StochasticOscillatorD();
     }
     
     @Test
@@ -26,8 +26,10 @@ public class StochasticOscillatorKTest {
         test = test.setScale(2, RoundingMode.HALF_EVEN);
         
         
-        sma.setPeriod(14);
-        Object[] actualValues = sma.calculate(getLows(), getHighs(), getCloses(), Calendar.getInstance(), Calendar.getInstance()).values().toArray();
+        sto.setPeriod(14);
+        sto.setSmoothing(3);
+        
+        Object[] actualValues = sto.calculate(getLows(), getHighs(), getCloses(), Calendar.getInstance(), Calendar.getInstance()).values().toArray();
         Object[] expectedValues = getExpectedResults().values().toArray();
         
         for (int i = 0; i < actualValues.length; i++) {
