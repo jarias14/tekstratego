@@ -101,11 +101,21 @@ public class QuickTest {
         
         String postUrl = "http://localhost:8080/tekstratego/pricer-service/indicators";
         
+        /*
         IndicatorResource request = new IndicatorResource();
         request.setDetails(new HashMap<String, String>());
         request.getDetails().put("period", "4");
         request.setPriceOfBars("OPEN");
         request.setType("simple_moving_average");
+        request.setSizeOfBars("ONE_DAY");
+        */
+        
+        IndicatorResource request = new IndicatorResource();
+        request.setDetails(new HashMap<String, String>());
+        request.getDetails().put("period", "14");
+        request.getDetails().put("smoothing", "3");
+        request.setPriceOfBars("OPEN");
+        request.setType("stochastic_oscillator_d");
         request.setSizeOfBars("ONE_DAY");
         
         IndicatorResource indicator = restTemplate.postForObject(postUrl, request, IndicatorResource.class);

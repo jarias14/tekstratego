@@ -5,8 +5,11 @@ import java.util.HashMap;
 
 import com.jarias14.tekstratego.common.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator;
+import com.jarias14.tekstratego.service.pricer.biz.indicator.impl.ExponentialMovingAverage;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.impl.Price;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.impl.SimpleMovingAverage;
+import com.jarias14.tekstratego.service.pricer.biz.indicator.impl.StochasticOscillatorD;
+import com.jarias14.tekstratego.service.pricer.biz.indicator.impl.StochasticOscillatorK;
 
 /*
  * http://www.oodesign.com/factory-pattern.html
@@ -16,8 +19,11 @@ public class IndicatorFactory {
     private static final HashMap<String, Class<? extends Indicator>> INDICATOR_MAP = new HashMap<String, Class<? extends Indicator>>();
     
     static {
-        INDICATOR_MAP.put("simple_moving_average", (Class<? extends Indicator>) SimpleMovingAverage.class);
         INDICATOR_MAP.put("price", (Class<? extends Indicator>) Price.class);
+        INDICATOR_MAP.put("simple_moving_average", (Class<? extends Indicator>) SimpleMovingAverage.class);
+        INDICATOR_MAP.put("exponential_moving_average", (Class<? extends Indicator>) ExponentialMovingAverage.class);
+        INDICATOR_MAP.put("stochastic_oscillator_d", (Class<? extends Indicator>) StochasticOscillatorD.class);
+        INDICATOR_MAP.put("stochastic_oscillator_k", (Class<? extends Indicator>) StochasticOscillatorK.class);
     }
 
     public static Indicator getIndicator(IndicatorResource resource) {

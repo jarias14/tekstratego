@@ -2,12 +2,14 @@ package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.SortedMap;
 
 import org.springframework.web.context.ContextLoader;
 
 import com.jarias14.tekstratego.common.model.SizeOfBarsEnum;
 import com.jarias14.tekstratego.common.model.Stock;
+import com.jarias14.tekstratego.common.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.pricer.dao.IndicatorDAO;
 
 public class StochasticOscillatorD extends StochasticOscillatorK {
@@ -29,11 +31,8 @@ public class StochasticOscillatorD extends StochasticOscillatorK {
         sma.setPriceOfBars(getPriceOfBars());
         sma.setSizeOfBars(getSizeOfBars());
         
-        SortedMap<Calendar, BigDecimal> values = sma.calculate(D, startDate, endDate); 
-        
-        BigDecimal lastKey = values.get(endDate);
+        SortedMap<Calendar, BigDecimal> values = sma.calculate(D, startDate, endDate);
         values = values.subMap(startDate, endDate);
-        values.put(endDate, lastKey);
         
         return values;
     }
@@ -44,5 +43,25 @@ public class StochasticOscillatorD extends StochasticOscillatorK {
 
     public void setSmoothing(int smoothing) {
         this.smoothing = smoothing;
+    }
+    
+
+    public IndicatorResource toResource() {
+        
+        // populate resource from base class
+        IndicatorResource resource = super.toResource();
+        
+        // populate resource from this class
+        HashMap<String, String> details = new HashMap<String, String>();
+        details.put("period", String.valueOf(super.getPeriod()));
+        details.put("smoothing", String.valueOf(smoothing));
+        resource.setDetails(details);
+        
+        return resource;
+    }
+
+    public void fromResource(IndicatorResource resource) {
+        super.fromResource(resource);
+        smoothing = Integer.parseInt((String)resource.getDetails().get("smoothing"));
     }
 }

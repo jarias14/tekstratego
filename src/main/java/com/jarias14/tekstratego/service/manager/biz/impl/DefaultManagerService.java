@@ -1,6 +1,7 @@
 package com.jarias14.tekstratego.service.manager.biz.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +93,7 @@ public class DefaultManagerService implements ManagerService {
                 BigDecimal newPriceOfShares =
                         ((curNumberOfShares.multiply(curPriceOfShares))
                         .add(tradeNumberOfShares.multiply(tradePriceOfShares)))
-                        .divide(newNumberOfShares);
+                        .divide(newNumberOfShares, 4, RoundingMode.HALF_EVEN);
                 
                 if (newNumberOfShares.compareTo(BigDecimal.ZERO) != 0) { 
                     positions.get(trade.getStock().getSymbol()).setNumberOfShares(newNumberOfShares.intValueExact());

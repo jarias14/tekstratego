@@ -50,7 +50,7 @@ public class DefaultRestTraderServiceImpl implements RestTraderService {
                 getRestTemplate().getForObject(url, IndicatorValuesResource.class);
         
         BigDecimal sharesPrice = values.getValues().get(values.getValues().firstKey());
-        Integer sharesBought = ConverterUtility.toBigDecimal(amount).divide(sharesPrice, 10, RoundingMode.HALF_UP).intValue();
+        Integer sharesBought = ConverterUtility.toBigDecimal(amount).divide(sharesPrice, 4, RoundingMode.HALF_UP).intValue();
         
         TransactionResource resource = new TransactionResource();
         resource.setSharesPrice(String.valueOf(sharesPrice));

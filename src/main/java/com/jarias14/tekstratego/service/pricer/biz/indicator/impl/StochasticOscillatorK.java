@@ -3,6 +3,7 @@ package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -11,6 +12,7 @@ import org.springframework.web.context.ContextLoader;
 import com.jarias14.tekstratego.common.model.PriceOfBarsEnum;
 import com.jarias14.tekstratego.common.model.SizeOfBarsEnum;
 import com.jarias14.tekstratego.common.model.Stock;
+import com.jarias14.tekstratego.common.resource.IndicatorResource;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorBase;
 import com.jarias14.tekstratego.service.pricer.dao.IndicatorDAO;
 
@@ -67,9 +69,12 @@ public class StochasticOscillatorK extends IndicatorBase {
     
     private BigDecimal findLowestPrice(Object[] prices, int index) {
         
-        BigDecimal lowest = (BigDecimal)prices[index-period+1];
+        int startIndex = Math.max(index-period+1, 0);
+        int endIndex = index;
         
-        for (int i = index-period+1; i <= index; i++) {
+        BigDecimal lowest = (BigDecimal)prices[startIndex];
+        
+        for (int i = startIndex; i <= endIndex; i++) {
             
             if (((BigDecimal)prices[i]).compareTo(lowest) < 0) {
                 
@@ -98,7 +103,7 @@ public class StochasticOscillatorK extends IndicatorBase {
     private SortedMap<Calendar, BigDecimal> getPriceHistory(Stock stock, Calendar startDate, Calendar endDate, PriceOfBarsEnum priceOfBars) {
         
         IndicatorDAO dao = (IndicatorDAO) ContextLoader.getCurrentWebApplicationContext().getBean("realIndicatorDAO");
-        Calendar priceHistoryStartDate = dao.getStartDate(endDate, period-1, SizeOfBarsEnum.ONE_DAY);
+        Calendar priceHistoryStartDate = dao.getStartDate(startDate, period-1, SizeOfBarsEnum.ONE_DAY);
         Calendar priceHistoryEndDate = (Calendar) endDate.clone();
         //Calendar priceHistoryStartDate = (Calendar) startDate.clone();
         //priceHistoryStartDate.add(this.getSizeOfBars().getTimeUnit(), -this.getSizeOfBars().getTimeValue()*period*2);
@@ -118,5 +123,23 @@ public class StochasticOscillatorK extends IndicatorBase {
 
     public void setPeriod(int period) {
         this.period = period;
+    }
+
+    public IndicatorResource toResource() {
+        
+        // populate resource from base class
+        IndicatorResource resource = super.toResource();
+        
+        // populate resource from this class
+        HashMap<String, String> details = new HashMap<String, String>();
+        details.put("period", String.valueOf(period));
+        resource.setDetails(details);
+        
+        return resource;
+    }
+    
+    public void fromResource(IndicatorResource resource) {
+        super.fromResource(resource);
+        period = Integer.parseInt((String)resource.getDetails().get("period"));
     }
 }

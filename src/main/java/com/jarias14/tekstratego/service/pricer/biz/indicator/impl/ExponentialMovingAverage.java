@@ -80,7 +80,7 @@ public class ExponentialMovingAverage extends IndicatorBase {
             // set value as ema for the first few days
             values.put((Calendar)keyList[i], (BigDecimal)valueList[i]);
         }
-        ema = ema.divide(new BigDecimal(period));
+        ema = ema.divide(new BigDecimal(period), 4, RoundingMode.HALF_EVEN);
         values.put((Calendar)keyList[period-1], ema);
         
         // You’re now ready to start getting the first EMA day by

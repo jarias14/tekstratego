@@ -19,6 +19,7 @@
 package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -81,7 +82,7 @@ public class SimpleMovingAverage extends IndicatorBase {
         for (int i = period-1; i < valueList.length; i++) {
             sum = sum.add((BigDecimal) valueList[i]);
             
-            BigDecimal value = sum.divide(new BigDecimal(period));
+            BigDecimal value = sum.divide(new BigDecimal(period), 4, RoundingMode.HALF_EVEN);
             
             values.put((Calendar) keyList[i], value);
             
