@@ -21,7 +21,7 @@ import com.jarias14.tekstratego.service.trader.rest.RestTraderService;
 public class DefaultRestTraderServiceImpl implements RestTraderService {
 
     @Override
-    public TransactionResource createTrade(String symbol, String amount, String isBackTesting, String barTime, String barSize) {
+    public TransactionResource createTrade(String symbol, String type, String amount, String isBackTesting, String barTime, String barSize) {
         
         
         String postUrl = "http://localhost:8080/tekstratego/pricer-service/indicators";
@@ -50,7 +50,9 @@ public class DefaultRestTraderServiceImpl implements RestTraderService {
                 getRestTemplate().getForObject(url, IndicatorValuesResource.class);
         
         BigDecimal sharesPrice = values.getValues().get(values.getValues().firstKey());
-        Integer sharesBought = ConverterUtility.toBigDecimal(amount).divide(sharesPrice, 4, RoundingMode.HALF_UP).intValue();
+        Integer sharesBought =
+                 (type.equalsIgnoreCase("shares") ?
+                         ConverterUtility.toBigDecimal(amount).intValue() : ConverterUtility.toBigDecimal(amount).divide(sharesPrice, 4, RoundingMode.HALF_UP).intValue());
         
         TransactionResource resource = new TransactionResource();
         resource.setSharesPrice(String.valueOf(sharesPrice));

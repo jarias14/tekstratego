@@ -24,7 +24,6 @@ public class DefaultManagerRules implements ManagerRules {
                         && !doesPortfolioContainStock(portfolio, alert)
                         && isCashAvailableForThisTrade(portfolio, alert)) {
                     
-                    //filtered.add(filterEntryTrade(alert));
                     filtered.add(getSignal(alert));
                 }
                 
@@ -32,11 +31,10 @@ public class DefaultManagerRules implements ManagerRules {
                 
                 if (doesPortfolioContainStock(portfolio, alert)) {
                     
-                    //filtered.add(filterEntryTrade(alert));
                     filtered.add(getSignal(alert));
                 }
                 
-            } else if (TradeTypeEnum.SCALE.equals(alert.getStrategyType())) {
+            }/* else if (TradeTypeEnum.SCALE.equals(alert.getStrategyType())) {
                 
                 if (doesPortfolioContainStock(portfolio, alert)
                         && isLimitInvestmentPerStockReached(portfolio, alert)) {
@@ -45,7 +43,7 @@ public class DefaultManagerRules implements ManagerRules {
                     filtered.add(getSignal(alert));
                 }
                 
-            }
+            }*/
             
         }
         
@@ -68,11 +66,6 @@ public class DefaultManagerRules implements ManagerRules {
             return false;
         }
         return true;
-    }
-
-    private Alert filterEntryTrade(Alert alert) {
-        // TODO Auto-generated method stub
-        return null;
     }
     
     private boolean isLimitInvestmentPerStockReached(Portfolio portfolio, Alert alert) {
@@ -108,6 +101,8 @@ public class DefaultManagerRules implements ManagerRules {
         signal.setDescription(alert.getDescription());
         signal.setHypothesisId(alert.getHypothesisId());
         signal.setStrategyId(alert.getStrategyId());
+        signal.setStrategyExclusive(alert.isStrategyExclusive());
+        signal.setTradedShares(alert.getTradedShares());
         
         return signal;
     }

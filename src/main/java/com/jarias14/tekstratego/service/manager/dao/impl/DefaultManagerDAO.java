@@ -12,6 +12,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import com.jarias14.tekstratego.common.model.TradeTypeEnum;
 import com.jarias14.tekstratego.common.resource.AlertCollectionResource;
 import com.jarias14.tekstratego.common.resource.AlertResource;
 import com.jarias14.tekstratego.common.resource.PositionCollectionResource;
@@ -86,7 +87,15 @@ public class DefaultManagerDAO implements ManagerDAO {
         SortedMap<Calendar, List<Alert>> responseModel = responseResource.toModel();
         
         // there has to only be one object in the map, so we return the first List<Alert>
-        return responseModel.get(responseModel.firstKey());
+        List<Alert> alerts = responseModel.get(responseModel.firstKey());
+        
+        for (Alert alert : alerts) {
+            if (alert.getStrategyType().equals(TradeTypeEnum.EXIT) && positions.containsKey(alert.getStock().getSymbol())) {
+                alert.setTradedShares(positions.get(alert.getStock().getSymbol()).getNumberOfShares());
+            }
+        }
+        
+        return alerts;
     }
 
     @Override
@@ -102,7 +111,12 @@ public class DefaultManagerDAO implements ManagerDAO {
             // prepare rest call
             Map<String,String> replacements = new HashMap<String,String>();
             replacements.put("symbol", signal.getStock().getSymbol());
-            replacements.put("amount", signal.getLimitPerTrade().toString());
+            replacements.put("type",
+                    signal.getStrategyType().equals(TradeTypeEnum.ENTRY) ?
+                            "cash":"shares");
+            replacements.put("amount",
+                    signal.getStrategyType().equals(TradeTypeEnum.ENTRY) ?
+                            signal.getLimitPerTrade().toString() : String.valueOf(signal.getTradedShares()));
             
             Map<String,String> parameters = new HashMap<String,String>();
             parameters.put("is-back-testing", "true");
@@ -115,9 +129,11 @@ public class DefaultManagerDAO implements ManagerDAO {
             TransactionResource transaction =
                     getRestTemplate().postForObject(url, resource, TransactionResource.class);
             
+            Integer symbolInt = signal.getStrategyType().equals(TradeTypeEnum.EXIT) ? -1 : 1;
+            
             Position position = new Position();
             position.setStock(signal.getStock());
-            position.setNumberOfShares(Integer.parseInt(transaction.getSharesNumber()));
+            position.setNumberOfShares(symbolInt*Integer.parseInt(transaction.getSharesNumber()));
             position.setPurchaseValue(ConverterUtility.toBigDecimal(transaction.getSharesPrice()));
             
             // convert response to model object

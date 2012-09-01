@@ -18,9 +18,9 @@ public interface RestTraderService {
      * @return the list of prices for the request.
      */
     @POST
-    @Path("/trade/{symbol}/amount/{amount}")
+    @Path("/trade/{symbol}/type/{type}/amount/{amount}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public TransactionResource createTrade(@PathParam("symbol") String symbol, @PathParam("amount") String amount, @QueryParam("is-back-testing") String isBackTesting, @QueryParam("bar-time") String barTime, @QueryParam("bar-size") String barSize);
+    public TransactionResource createTrade(@PathParam("symbol") String symbol, @PathParam("type") String type, @PathParam("amount") String amount, @QueryParam("is-back-testing") String isBackTesting, @QueryParam("bar-time") String barTime, @QueryParam("bar-size") String barSize);
 
 }

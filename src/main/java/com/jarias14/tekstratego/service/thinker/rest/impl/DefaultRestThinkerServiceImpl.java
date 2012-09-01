@@ -1,7 +1,5 @@
 package com.jarias14.tekstratego.service.thinker.rest.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -14,7 +12,6 @@ import com.jarias14.tekstratego.common.resource.PositionCollectionResource;
 import com.jarias14.tekstratego.common.resource.PositionResource;
 import com.jarias14.tekstratego.common.resource.StrategyResource;
 import com.jarias14.tekstratego.common.resource.StudyResource;
-import com.jarias14.tekstratego.common.utilities.ConstantsUtility;
 import com.jarias14.tekstratego.common.utilities.ConverterUtility;
 import com.jarias14.tekstratego.common.utilities.LinksUtility;
 import com.jarias14.tekstratego.service.thinker.biz.ThinkerService;

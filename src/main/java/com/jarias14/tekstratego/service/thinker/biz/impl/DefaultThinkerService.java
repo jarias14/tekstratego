@@ -80,8 +80,7 @@ public class DefaultThinkerService implements ThinkerService {
         return alerts;
     }
 
-    private List<TradeAlert> getDecision(List<Position> positions,
-            Hypothesis hypothesis, Calendar today) {
+    private List<TradeAlert> getDecision(List<Position> positions, Hypothesis hypothesis, Calendar today) {
         
         // init return variable
         List<TradeAlert> alerts = new ArrayList<TradeAlert>();

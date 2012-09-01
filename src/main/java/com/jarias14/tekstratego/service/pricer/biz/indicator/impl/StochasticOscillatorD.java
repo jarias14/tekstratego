@@ -23,8 +23,9 @@ public class StochasticOscillatorD extends StochasticOscillatorK {
 
         IndicatorDAO dao = (IndicatorDAO) ContextLoader.getCurrentWebApplicationContext().getBean("realIndicatorDAO");
         Calendar priceHistoryStartDate = dao.getStartDate(startDate, smoothing-1, SizeOfBarsEnum.ONE_DAY);
+        Calendar priceHistoryEndDate = dao.getStartDate(endDate, -1, SizeOfBarsEnum.ONE_DAY);
         
-        SortedMap<Calendar, BigDecimal> D = super.calculate(stock, priceHistoryStartDate, endDate);
+        SortedMap<Calendar, BigDecimal> D = super.calculate(stock, priceHistoryStartDate, priceHistoryEndDate);
         
         SimpleMovingAverage sma = new SimpleMovingAverage();
         sma.setPeriod(this.smoothing);
@@ -32,7 +33,7 @@ public class StochasticOscillatorD extends StochasticOscillatorK {
         sma.setSizeOfBars(getSizeOfBars());
         
         SortedMap<Calendar, BigDecimal> values = sma.calculate(D, startDate, endDate);
-        values = values.subMap(startDate, endDate);
+        values = values.subMap(startDate, priceHistoryEndDate);
         
         return values;
     }

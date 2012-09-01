@@ -90,15 +90,19 @@ public class DefaultManagerService implements ManagerService {
                 BigDecimal curPriceOfShares = positions.get(trade.getStock().getSymbol()).getPurchaseValue();
                 
                 BigDecimal newNumberOfShares = curNumberOfShares.add(tradeNumberOfShares);
-                BigDecimal newPriceOfShares =
-                        ((curNumberOfShares.multiply(curPriceOfShares))
-                        .add(tradeNumberOfShares.multiply(tradePriceOfShares)))
-                        .divide(newNumberOfShares, 4, RoundingMode.HALF_EVEN);
+                positions.get(trade.getStock().getSymbol()).setNumberOfShares(newNumberOfShares.intValueExact());
                 
-                if (newNumberOfShares.compareTo(BigDecimal.ZERO) != 0) { 
-                    positions.get(trade.getStock().getSymbol()).setNumberOfShares(newNumberOfShares.intValueExact());
+                // if they are both positive number of shares or both negative number of shares
+                if (trade.getNumberOfShares() > 0 == curNumberOfShares.compareTo(BigDecimal.ZERO) > 0) {
+                    BigDecimal newPriceOfShares =
+                            ((curNumberOfShares.multiply(curPriceOfShares))
+                            .add(tradeNumberOfShares.multiply(tradePriceOfShares)))
+                            .divide(newNumberOfShares, 4, RoundingMode.HALF_EVEN);
+                    
                     positions.get(trade.getStock().getSymbol()).setPurchaseValue(newPriceOfShares);
-                } else {
+                }
+                
+                if (newNumberOfShares.compareTo(BigDecimal.ZERO) == 0) { 
                     positions.remove(trade.getStock().getSymbol());
                 }
                 

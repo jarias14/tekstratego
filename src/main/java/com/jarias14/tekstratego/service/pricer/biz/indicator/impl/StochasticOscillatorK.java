@@ -50,7 +50,7 @@ public class StochasticOscillatorK extends IndicatorBase {
             //find all variables
             BigDecimal lowest = findLowestPrice(lowsList, i);
             BigDecimal highest = findHighestPrice(highsList, i);
-            BigDecimal close = (BigDecimal)closeList[i-period+1];
+            BigDecimal close = (BigDecimal)closeList[i];
             
             //find our value
             BigDecimal closeMinusLow = close.subtract(lowest);
@@ -63,7 +63,7 @@ public class StochasticOscillatorK extends IndicatorBase {
             values.put((Calendar) keyList[i], value);
         }
         
-        return values;
+        return values.subMap(startDate, endDate);
         
     }
     
