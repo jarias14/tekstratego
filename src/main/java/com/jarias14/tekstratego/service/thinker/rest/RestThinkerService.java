@@ -19,8 +19,8 @@ import com.jarias14.tekstratego.common.resource.StudyResource;
 public interface RestThinkerService {
 
     /**
-     * Creates an instance of a hypothesis.
-     * @return the created indicator with a selfLink the client can use.
+     * Creates an hypothesis object.
+     * @return HypothesisResource - the created hypothesis object with a selfLink the client can use for reference.
      */
     @POST
     @Path("/hypothesis")
@@ -29,9 +29,9 @@ public interface RestThinkerService {
     public HypothesisResource createHypothesis(HypothesisResource hypothesis);
     
     /**
-     * Returns the resource for the requested hypothesis.
+     * Retrieves the resource for the requested hypothesis object.
      * @param hypothesisId is the identifier for the requested hypothesis
-     * @return the hypothesis
+     * @return HypothesisResource - the hypothesis
      */
     @GET
     @Path("/hypothesis/{hypothesis-id}")
@@ -43,7 +43,7 @@ public interface RestThinkerService {
      * Makes the hypothesis do all the necessary calculations. This will place the hypothesis
      * in PROCESSING status until it completes all the calculations.
      * @param hypothesisId is the identifier for the requested hypothesis
-     * @return the hypothesis
+     * @return AlertCollectionResource - the hypothesis
      */
     @POST
     @Path("/hypothesis/{hypothesis-id}/alerts/{date}")
@@ -52,9 +52,9 @@ public interface RestThinkerService {
     public AlertCollectionResource getAlerts(PositionCollectionResource positions, @PathParam("hypothesis-id") String hypothesisId, @PathParam("date") String date);
     
     /**
-     * Creates a strategy for the given hypothesis.
+     * Creates a strategy object for the given hypothesis.
      * @param hypothesisId - the identifier for the hypothesis
-     * @return
+     * @return StrategyResource - the strategy object with a self link for reference
      */
     @POST
     @Path("/hypothesis/{hypothesis-id}/strategies")
@@ -65,7 +65,7 @@ public interface RestThinkerService {
     /**
      * Provides a list of strategies in the hypothesis.
      * @param hypothesisId identifier for the hypothesis
-     * @return the list of strategies part of the hypothesis
+     * @return Set<BaseResource> - the list of strategies part of the hypothesis
      
     @GET
     @Path("/hypothesis/{hypothesis-id}/strategies")
@@ -77,7 +77,7 @@ public interface RestThinkerService {
     /**
      * Provides the requested strategy.
      * @param type - is the indicator to be created.
-     * @return the created indicator with a selfLink the client can use.
+     * @return StrategyResource - the created indicator with a selfLink the client can use.
      */
     @GET
     @Path("/hypothesis/{hypothesis-id}/strategies/{strategy-id}")
@@ -88,7 +88,7 @@ public interface RestThinkerService {
     /**
      * Provides the requested strategy.
      * @param type - is the indicator to be created.
-     * @return the created indicator with a selfLink the client can use.
+     * @return StudyResource - the created indicator with a selfLink the client can use.
      */
     @POST
     @Path("/hypothesis/{hypothesis-id}/strategies/{strategy-id}/studies")
@@ -101,7 +101,7 @@ public interface RestThinkerService {
      * @param hypothesisId - is the hypothesis id where the study lives in
      * @param strategyId - is the strategy id that owns the study
      * @param studyId - is the study id to look for
-     * @return the requested study
+     * @return StudyResource - the requested study
      */
     @GET
     @Path("/hypothesis/{hypothesis-id}/strategies/{strategy-id}/studies/{study-id}")

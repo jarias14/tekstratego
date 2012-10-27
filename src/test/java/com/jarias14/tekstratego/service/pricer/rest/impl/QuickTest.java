@@ -23,7 +23,9 @@ public class QuickTest {
         
         RestTemplate restTemplate = getRestTemplate();
         
-        IndicatorResource indicator = createIndicator(restTemplate);
+        IndicatorResource indicatorSTO = createIndicator(restTemplate);
+        
+        IndicatorResource indicatorSMA = createSMAIndicator(restTemplate);
         
         HypothesisResource hypothesis = createHypothesis(restTemplate);
         
@@ -31,9 +33,11 @@ public class QuickTest {
         
         StrategyResource sellStrategy = createSellStrategy(restTemplate, hypothesis.getId());
         
-        StudyResource buyStudy = createStudy("lt", "10.00", "0", restTemplate, indicator.getId(), hypothesis.getId(), buyStrategy.getId());
+        StudyResource buyStudy = createStudy("lt", "10.00", "0", restTemplate, indicatorSTO.getId(), hypothesis.getId(), buyStrategy.getId());
         
-        StudyResource sellStudy = createStudy("gt", "90.00", "0", restTemplate, indicator.getId(), hypothesis.getId(), sellStrategy.getId());
+        StudyResource buyStudy2 = createStudy("lt", "10.00", "0", restTemplate, indicatorSMA.getId(), hypothesis.getId(), buyStrategy.getId());
+        
+        StudyResource sellStudy = createStudy("gt", "90.00", "0", restTemplate, indicatorSTO.getId(), hypothesis.getId(), sellStrategy.getId());
         
         PortfolioResource portfolio = createPortfolio(restTemplate, hypothesis.getId());
         
@@ -82,7 +86,7 @@ public class QuickTest {
         request.setMaxPerTradeInvestment("5000");
         request.setIsStrategyExclusive("true");
         request.setStocks(new ArrayList<String>());
-        request.getStocks().add("MSFT");
+        //request.getStocks().add("MSFT");
         request.getStocks().add("GOOG");
         
         StrategyResource strategy = restTemplate.postForObject(postUrl, request, StrategyResource.class);
@@ -102,7 +106,7 @@ public class QuickTest {
         request.setMaxPerTradeInvestment("5000");
         request.setIsStrategyExclusive("true");
         request.setStocks(new ArrayList<String>());
-        request.getStocks().add("MSFT");
+        //request.getStocks().add("MSFT");
         request.getStocks().add("GOOG");
         
         StrategyResource strategy = restTemplate.postForObject(postUrl, request, StrategyResource.class);
@@ -120,7 +124,21 @@ public class QuickTest {
         
         return hypothesis;
     }
-
+    private IndicatorResource createSMAIndicator(RestTemplate restTemplate) {
+        
+        String postUrl = "http://localhost:8080/tekstratego/pricer-service/indicators";
+        
+        IndicatorResource request = new IndicatorResource();
+        request.setDetails(new HashMap<String, String>());
+        request.getDetails().put("period", "4");
+        request.setPriceOfBars("OPEN");
+        request.setType("simple_moving_average");
+        request.setSizeOfBars("ONE_DAY");
+        
+        IndicatorResource indicator = restTemplate.postForObject(postUrl, request, IndicatorResource.class);
+        
+        return indicator;
+    }
     private IndicatorResource createIndicator(RestTemplate restTemplate) {
         
         String postUrl = "http://localhost:8080/tekstratego/pricer-service/indicators";

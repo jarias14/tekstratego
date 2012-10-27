@@ -15,7 +15,7 @@ public interface RestTraderService {
 
     /**
      * Performs a trade and returns the executed price after transaction costs.
-     * @return the list of prices for the request.
+     * @return TransactionResource - the list of prices for the request.
      */
     @POST
     @Path("/trade/{symbol}/type/{type}/amount/{amount}")

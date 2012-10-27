@@ -18,7 +18,7 @@ public interface RestManagerService {
     
     /**
      * Creates a portfolio for the client.
-     * @return a portfolio instance.
+     * @return PortfolioResource - a portfolio instance.
      */
     @POST
     @Path("/portfolio")
@@ -28,7 +28,7 @@ public interface RestManagerService {
     
     /**
      * Examines portfolio with the given alerts
-     * @return a portfolio instance.
+     * @return PortfolioResource - a portfolio instance.
      */
     @POST
     @Path("/portfolio/{portfolio-id}/submit")
@@ -38,7 +38,7 @@ public interface RestManagerService {
 
     /**
      * Returns an existing portfolio object.
-     * @return a portfolio object.
+     * @return PortfolioResource - a portfolio object.
      */
     @GET
     @Path("/portfolio/{portfolio-id}")
@@ -48,7 +48,7 @@ public interface RestManagerService {
     
     /**
      * Adds a trade alert for the portfolio to consider.
-     * @return list of trade alerts
+     * @return AlertCollectionResource - list of trade alerts
      */
     @POST
     @Path("/portfolio/{portfolio-id}/alerts")
@@ -58,7 +58,7 @@ public interface RestManagerService {
     
     /**
      * Gets alerts from the portfolio.
-     * @return a list of trade alerts
+     * @return AlertCollectionResource - a list of trade alerts
      */
     @GET
     @Path("/portfolio/{portfolio-id}/alerts")
@@ -68,7 +68,7 @@ public interface RestManagerService {
 
     /**
      * Gets signals from the portfolio.
-     * @return a list of trade alerts
+     * @return AlertCollectionResource - a list of trade alerts
      */
     @GET
     @Path("/portfolio/{portfolio-id}/signals")
@@ -78,7 +78,7 @@ public interface RestManagerService {
     
     /**
      * Gets trades from the portfolio.
-     * @return a list of trade alerts
+     * @return TransactionCollectionResource - a list of trade alerts
      */
     @GET
     @Path("/portfolio/{portfolio-id}/trades")

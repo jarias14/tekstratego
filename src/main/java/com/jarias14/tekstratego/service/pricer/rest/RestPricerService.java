@@ -17,7 +17,7 @@ public interface RestPricerService {
     
     /**
      * Creates an indicator given the stock and the body.
-     * @return the list of prices for the request.
+     * @return IndicatorResource - the list of prices for the request.
      */
     @POST
     @Path("/indicators")
@@ -27,7 +27,7 @@ public interface RestPricerService {
     
     /**
      * Creates an indicator given the stock and the body.
-     * @return the list of prices for the request.
+     * @return IndicatorResource - the list of prices for the request.
      */
     @GET
     @Path("/indicators/{indicator-id}")
@@ -37,7 +37,7 @@ public interface RestPricerService {
     
     /**
      * Gets the list of prices for the given stock and indicator.
-     * @return the list of prices for the request.
+     * @return IndicatorValuesResource - the list of prices for the request.
      */
     @GET
     @Path("/indicators/{indicator-id}/prices/{stock-id}")
