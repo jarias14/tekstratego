@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .settings
 .idea
 stacktrace.log
@@ -5,3 +6,11 @@ target
 /plugins
 /web-app/plugins
 /web-app/WEB-INF/classes
+=======
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+>>>>>>> 00a8c00f47569a60b8e9e253631be06fd522e892
