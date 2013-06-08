@@ -13,6 +13,7 @@ import java.util.TreeSet;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Logger;
 
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.rds.AmazonRDS;
@@ -56,6 +57,8 @@ public class RdsConnector {
             con = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
             e.printStackTrace();
+            //at this point the db probably doesn't have you in the
+            //security group.
         }
     }
     

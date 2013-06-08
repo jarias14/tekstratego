@@ -25,19 +25,29 @@ public class QuickTest {
         
         IndicatorResource indicatorSTO = createIndicator(restTemplate);
         
-        IndicatorResource indicatorSMA = createSMAIndicator(restTemplate);
+        IndicatorResource indicatorPRICE = createPriceIndicator(restTemplate);
         
         HypothesisResource hypothesis = createHypothesis(restTemplate);
         
         StrategyResource buyStrategy = createBuyStrategy(restTemplate, hypothesis.getId());
         
         StrategyResource sellStrategy = createSellStrategy(restTemplate, hypothesis.getId());
-        
-        StudyResource buyStudy = createStudy("lt", "10.00", "0", restTemplate, indicatorSTO.getId(), hypothesis.getId(), buyStrategy.getId());
-        
-        StudyResource buyStudy2 = createStudy("lt", "10.00", "0", restTemplate, indicatorSMA.getId(), hypothesis.getId(), buyStrategy.getId());
-        
-        StudyResource sellStudy = createStudy("gt", "90.00", "0", restTemplate, indicatorSTO.getId(), hypothesis.getId(), sellStrategy.getId());
+
+        StudyResource orStudy = createStudyAndOr("or", restTemplate, hypothesis.getId(), buyStrategy.getId(), "root");
+
+        // buy studios (up)
+        StudyResource andStudy = createStudyAndOr("and", restTemplate, hypothesis.getId(), buyStrategy.getId(), orStudy.getId());
+        StudyResource buyStudyUp1 = createStudy("lt", "15.00", "0", restTemplate, indicatorSTO.getId(), hypothesis.getId(), buyStrategy.getId(), andStudy.getId());
+        StudyResource buyStudyUp2 = createStudy("gt", "5.00", "0", restTemplate, indicatorSTO.getId(), hypothesis.getId(), buyStrategy.getId(), andStudy.getId());
+        StudyResource buyStudy2 = createStudy("gt", "10.00", "0", restTemplate, indicatorPRICE.getId(), hypothesis.getId(), buyStrategy.getId(), andStudy.getId());
+
+        // buy studios (dn)
+        StudyResource andStudyDn = createStudyAndOr("and", restTemplate, hypothesis.getId(), buyStrategy.getId(), orStudy.getId());
+        StudyResource buyStudyDn = createStudy("lt", "5.00", "0", restTemplate, indicatorSTO.getId(), hypothesis.getId(), buyStrategy.getId(), andStudyDn.getId());
+        StudyResource buyStudy2Dn = createStudy("gt", "10.00", "0", restTemplate, indicatorPRICE.getId(), hypothesis.getId(), buyStrategy.getId(), andStudyDn.getId());
+
+        // sell studios
+        StudyResource sellStudy = createStudy("gt", "90.00", "0", restTemplate, indicatorSTO.getId(), hypothesis.getId(), sellStrategy.getId(), "root");
         
         PortfolioResource portfolio = createPortfolio(restTemplate, hypothesis.getId());
         
@@ -50,8 +60,8 @@ public class QuickTest {
         PortfolioResource request = new PortfolioResource();
         request.setAvailableCash("10000.00");
         request.setInitialCash("10000.00");
-        request.setStartDate("2010-01-01T00:00:00");
-        request.setEndDate("2010-12-31T00:00:00");
+        request.setStartDate("2010-01-15T00:00:00");
+        request.setEndDate("2010-03-01T00:00:00");
         request.setHypothesisId(hypothesisId);
         
         PortfolioResource portfolio = restTemplate.postForObject(postUrl, request, PortfolioResource.class);
@@ -59,9 +69,21 @@ public class QuickTest {
         return portfolio;
     }
 
-    private StudyResource createStudy(String type, String value, String barUnderTest, RestTemplate restTemplate, String indicatorId, String hypothesisId, String strategyId) {
+    private StudyResource createStudyAndOr(String type, RestTemplate restTemplate, String hypothesisId, String strategyId, String parentStudyId) {
 
-        String postUrl = "http://localhost:8080/tekstratego/thinker-service/hypothesis/"+hypothesisId+"/strategies/"+strategyId+"/studies?parent-study-id=root";
+        String postUrl = "http://localhost:8080/tekstratego/thinker-service/hypothesis/"+hypothesisId+"/strategies/"+strategyId+"/studies?parent-study-id="+parentStudyId;
+
+        StudyResource request = new StudyResource();
+        request.setType(type);
+
+        StudyResource study = restTemplate.postForObject(postUrl, request, StudyResource.class);
+
+        return study;
+    }
+
+    private StudyResource createStudy(String type, String value, String barUnderTest, RestTemplate restTemplate, String indicatorId, String hypothesisId, String strategyId, String parentStudyId) {
+
+        String postUrl = "http://localhost:8080/tekstratego/thinker-service/hypothesis/"+hypothesisId+"/strategies/"+strategyId+"/studies?parent-study-id=" + parentStudyId;
         
         StudyResource request = new StudyResource();
         request.setType(type);
@@ -87,7 +109,10 @@ public class QuickTest {
         request.setIsStrategyExclusive("true");
         request.setStocks(new ArrayList<String>());
         //request.getStocks().add("MSFT");
-        request.getStocks().add("GOOG");
+        //request.getStocks().add("GOOG");
+        //request.getStocks().add("AAPL");
+        //request.getStocks().add("DELL");
+        request.getStocks().add("CSCO");
         
         StrategyResource strategy = restTemplate.postForObject(postUrl, request, StrategyResource.class);
         
@@ -107,7 +132,10 @@ public class QuickTest {
         request.setIsStrategyExclusive("true");
         request.setStocks(new ArrayList<String>());
         //request.getStocks().add("MSFT");
-        request.getStocks().add("GOOG");
+        //request.getStocks().add("GOOG");
+        //request.getStocks().add("AAPL");
+        //request.getStocks().add("DELL");
+        request.getStocks().add("CSCO");
         
         StrategyResource strategy = restTemplate.postForObject(postUrl, request, StrategyResource.class);
         
@@ -137,6 +165,20 @@ public class QuickTest {
         
         IndicatorResource indicator = restTemplate.postForObject(postUrl, request, IndicatorResource.class);
         
+        return indicator;
+    }
+    private IndicatorResource createPriceIndicator(RestTemplate restTemplate) {
+
+        String postUrl = "http://localhost:8080/tekstratego/pricer-service/indicators";
+
+        IndicatorResource request = new IndicatorResource();
+        request.setDetails(new HashMap<String, String>());
+        request.setPriceOfBars("CLOSE");
+        request.setType("price");
+        request.setSizeOfBars("ONE_DAY");
+
+        IndicatorResource indicator = restTemplate.postForObject(postUrl, request, IndicatorResource.class);
+
         return indicator;
     }
     private IndicatorResource createIndicator(RestTemplate restTemplate) {
