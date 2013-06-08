@@ -1,0 +1,45 @@
+<sequence-diagram version="1.0.10" icons="true">  
+  <object id="1" language="java" name="com.jarias14.tekstratego.service.thinker.rest.impl.DefaultRestThinkerServiceImpl" 
+    project="tekstratego" 
+    file="/tekstratego/src/main/java/com/jarias14/tekstratego/service/thinker/rest/impl/DefaultRestThinkerServiceImpl.java" 
+    binary="false" label="defaultRestThinkerServiceImpl1" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="2">      
+      <position height="168" width="0" x="0" y="130"/>    
+    </execution>    
+    <execution id="8">      
+      <position height="21" width="0" x="0" y="256"/>    
+    </execution>  
+  </object>  
+  <object id="9" language="java" name="com.jarias14.tekstratego.service.thinker.biz.impl.DefaultThinkerService" 
+    project="tekstratego" 
+    file="/tekstratego/src/main/java/com/jarias14/tekstratego/service/thinker/biz/impl/DefaultThinkerService.java" 
+    binary="false" label="thinkerService" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="4">      
+      <position height="21" width="0" x="0" y="151"/>    
+    </execution>  
+  </object>  
+  <object id="10" language="java" name="com.jarias14.tekstratego.service.thinker.model.Strategy" project="tekstratego" 
+    file="/tekstratego/src/main/java/com/jarias14/tekstratego/service/thinker/model/Strategy.java" binary="false" 
+    type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="6">      
+      <position height="21" width="0" x="0" y="193"/>    
+    </execution>  
+  </object>  
+  <message id="3" 
+    operation="addStrategy(java.lang.String,com.jarias14.tekstratego.service.thinker.model.Strategy):com.jarias14.tekstratego.service.thinker.model.Strategy">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="5" operation="Strategy(com.jarias14.tekstratego.common.resource.StrategyResource)">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </message>  
+  <message id="7" 
+    operation="getStrategy(java.lang.String,java.lang.String):com.jarias14.tekstratego.common.resource.StrategyResource">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="8"/>  
+  </message>
+</sequence-diagram>

@@ -1,0 +1,124 @@
+<sequence-diagram version="1.0.10" icons="true">  
+  <object id="1" language="java" name="com.jarias14.tekstratego.service.pricer.rest.impl.DefaultRestPricerServiceImpl" 
+    project="tekstratego" 
+    file="/tekstratego/src/main/java/com/jarias14/tekstratego/service/pricer/rest/impl/DefaultRestPricerServiceImpl.java" 
+    binary="false" label="defaultRestPricerServiceImpl" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="230" y="0"/>    
+    <execution id="2">      
+      <position height="836" width="0" x="0" y="135"/>    
+    </execution>    
+    <execution id="4">      
+      <position height="773" width="0" x="0" y="177"/>    
+    </execution>  
+  </object>  
+  <object id="11" language="java" name="com.jarias14.tekstratego.service.pricer.biz.indicator.IndicatorFactory" 
+    project="tekstratego" 
+    file="/tekstratego/src/main/java/com/jarias14/tekstratego/service/pricer/biz/indicator/IndicatorFactory.java" 
+    binary="false" label="&lt;static&gt;" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="6">      
+      <position height="21" width="0" x="0" y="208"/>    
+    </execution>  
+  </object>  
+  <object id="12" language="java" name="com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator" 
+    project="tekstratego" 
+    file="/tekstratego/src/main/java/com/jarias14/tekstratego/service/pricer/biz/indicator/Indicator.java" 
+    binary="false" label="model" type="interface" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="10">      
+      <position height="21" width="0" x="0" y="908"/>    
+    </execution>  
+  </object>  
+  <object id="13" language="java" name="com.jarias14.tekstratego.service.pricer.biz.impl.DefaultPricerService" 
+    project="tekstratego" 
+    file="/tekstratego/src/main/java/com/jarias14/tekstratego/service/pricer/biz/impl/DefaultPricerService.java" 
+    binary="false" label="pricerService" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="319" y="0"/>    
+    <execution id="8">      
+      <position height="595" width="0" x="0" y="250"/>    
+    </execution>    
+    <execution id="15">      
+      <position height="521" width="0" x="0" y="303"/>    
+    </execution>    
+    <execution id="19">      
+      <position height="115" width="0" x="0" y="688"/>    
+    </execution>  
+  </object>  
+  <object id="22" language="java" name="com.jarias14.tekstratego.service.pricer.dao.impl.DefaultIndicatorDAO" 
+    project="tekstratego" 
+    file="/tekstratego/src/main/java/com/jarias14/tekstratego/service/pricer/dao/impl/DefaultIndicatorDAO.java" 
+    binary="false" label="indicatorDAO" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="17">      
+      <position height="144" width="0" x="0" y="460"/>    
+    </execution>    
+    <execution id="21">      
+      <position height="63" width="0" x="0" y="719"/>    
+    </execution>    
+    <execution id="24">      
+      <position height="73" width="0" x="0" y="510"/>    
+    </execution>  
+  </object>  
+  <object id="29" language="java" name="com.jarias14.tekstratego.common.utilities.MembaseConnector" 
+    project="tekstratego" 
+    file="/tekstratego/src/main/java/com/jarias14/tekstratego/common/utilities/MembaseConnector.java" binary="false" 
+    label="memory" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="28">      
+      <position height="21" width="0" x="0" y="541"/>    
+    </execution>    
+    <execution id="26">      
+      <position height="21" width="0" x="0" y="740"/>    
+    </execution>  
+  </object>  
+  <message id="3" 
+    operation="createIndicator(com.jarias14.tekstratego.common.resource.IndicatorResource):com.jarias14.tekstratego.common.resource.IndicatorResource">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="5" 
+    operation="getIndicator(com.jarias14.tekstratego.common.resource.IndicatorResource):com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </message>  
+  <message id="7" 
+    operation="createIndicator(com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator):com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="8"/>  
+  </message>  
+  <message id="9" operation="toResource():com.jarias14.tekstratego.common.resource.IndicatorResource">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="10"/>  
+  </message>  
+  <message id="14" 
+    operation="createIndicator(com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator):com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="15"/>  
+  </message>  
+  <message id="16" operation="createIndicator(com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator):void">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="17"/>  
+  </message>  
+  <message id="18" 
+    operation="retrieveIndicator(java.lang.String):com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="19"/>  
+  </message>  
+  <message id="20" 
+    operation="readIndicator(java.lang.String):com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="21"/>  
+  </message>  
+  <message id="23" operation="createIndicator(com.jarias14.tekstratego.service.pricer.biz.indicator.Indicator):void">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="24"/>  
+  </message>  
+  <message id="25" operation="read(java.lang.String):java.lang.Object">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="26"/>  
+  </message>  
+  <message id="27" operation="save(java.lang.String,java.lang.Object,int):void">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="28"/>  
+  </message>
+</sequence-diagram>
