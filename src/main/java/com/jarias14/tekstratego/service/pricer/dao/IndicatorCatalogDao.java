@@ -12,9 +12,5 @@ public interface IndicatorCatalogDao {
 
     public Set<DataPointDescription> getIndicators();
     public Set<DataPointDescription> getIndicatorsByStock(Stock stock);
-    public boolean removeIndicator(DataPointDescription dataPointDescription);
-
-
-
-
+    public boolean removeIndicator(String dataPointId);
 }
