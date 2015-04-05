@@ -38,11 +38,18 @@
 
 
     <!-- Transaction Managers -->
-    <bean id="simpleIndicatorTransactionManager" class="com.jarias14.tekstratego.service.pricer.biz.UpdateIndicatorTransactionManagerImpl"/>
+    <bean id="simpleIndicatorTransactionManager" class="com.jarias14.tekstratego.service.pricer.biz.UpdateIndicatorTransactionManagerImpl">
+        <property name="indicatorCatalogDao" ref="pricerIndicatorCatalog"/>
+        <property name="rawDataStore" ref="rawDataStore"/>
+        <property name="updateSimpleIndicatorProcessor" ref="pricerUpdateSimpleIndicatorProcessor"/>
+    </bean>
+
+    <!-- Indicator Processors -->
+    <bean id="pricerUpdateSimpleIndicatorProcessor" class="com.jarias14.tekstratego.service.pricer.biz.processor.UpdateSimpleIndicatorProcessorImpl"/>
 
 
     <!-- Cache -->
-    <bean id="indicatorCatalog" class="com.jarias14.tekstratego.common.cache.DataStore">
+    <bean id="pricerIndicatorCatalog" class="com.jarias14.tekstratego.service.pricer.dao.IndicatorCatalogDaoImpl">
         <constructor-arg>
             <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
                 <constructor-arg value="rawDataStore"/>

@@ -4,7 +4,9 @@ import com.jarias14.tekstratego.common.cache.DataStore;
 import com.jarias14.tekstratego.common.models.*;
 import com.jarias14.tekstratego.common.skeleton.Processor;
 import com.jarias14.tekstratego.common.skeleton.TransactionManager;
+import com.jarias14.tekstratego.service.pricer.biz.processor.UpdateSimpleIndicatorRequest;
 import com.jarias14.tekstratego.service.pricer.dao.IndicatorCatalogDao;
+import org.springframework.beans.factory.annotation.Required;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,8 +18,7 @@ public class UpdateIndicatorTransactionManagerImpl implements TransactionManager
 
     private DataStore rawDataStore;
     private IndicatorCatalogDao indicatorCatalogDao;
-
-    private Processor<DataPointTimableDescription> updateSimpleIndicatorProcessor;
+    private Processor<UpdateSimpleIndicatorRequest> updateSimpleIndicatorProcessor;
 
     @Override
     public Set<DataPointDescription> process(DataPointTimableDescription dataPointDescription) {
@@ -60,13 +61,24 @@ public class UpdateIndicatorTransactionManagerImpl implements TransactionManager
                 .forEach(indicator -> {
                     DataPointTimableDescription indicatorRequest = (DataPointTimableDescription) indicator;
                     indicatorRequest.setTime(dataPointDescription.getTime());
-                    updateSimpleIndicatorProcessor.process(indicatorRequest);
+                    updateSimpleIndicatorProcessor.process(new UpdateSimpleIndicatorRequest(indicatorRequest, dataPointIndicatorDataPointCollectionMap));
                 });
 
         return indicators;
     }
 
+    @Required
     public void setIndicatorCatalogDao(IndicatorCatalogDao indicatorCatalogDao) {
         this.indicatorCatalogDao = indicatorCatalogDao;
+    }
+
+    @Required
+    public void setRawDataStore(DataStore rawDataStore) {
+        this.rawDataStore = rawDataStore;
+    }
+
+    @Required
+    public void setUpdateSimpleIndicatorProcessor(Processor<UpdateSimpleIndicatorRequest> updateSimpleIndicatorProcessor) {
+        this.updateSimpleIndicatorProcessor = updateSimpleIndicatorProcessor;
     }
 }
