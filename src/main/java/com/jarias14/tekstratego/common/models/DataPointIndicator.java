@@ -31,7 +31,6 @@ public enum DataPointIndicator {
         this.valueType = valueType;
         this.necessaryRawDataPoints = necessaryRawDataPoints;
     }
-
     public <T extends Comparable> Class<T> getValueType() {
         return valueType;
     }
