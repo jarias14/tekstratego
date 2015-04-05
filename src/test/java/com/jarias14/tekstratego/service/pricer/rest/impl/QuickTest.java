@@ -1,227 +1,48 @@
 package com.jarias14.tekstratego.service.pricer.rest.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
+import com.jarias14.tekstratego.common.models.DataPointDetails;
+import com.jarias14.tekstratego.common.models.DataPointIndicator;
+import com.jarias14.tekstratego.common.models.DataPointSize;
+import junit.framework.Assert;
 import org.junit.Test;
 
-import com.jarias14.tekstratego.common.resource.HypothesisResource;
-import com.jarias14.tekstratego.common.resource.IndicatorResource;
-import com.jarias14.tekstratego.common.resource.PortfolioResource;
-import com.jarias14.tekstratego.common.resource.StrategyResource;
-import com.jarias14.tekstratego.common.resource.StudyResource;
+import java.util.concurrent.TimeUnit;
 
 public class QuickTest {
 
     @Test
     public void test() {
-        
-        RestTemplate restTemplate = getRestTemplate();
-        
-        IndicatorResource indicatorSTO = createIndicator(restTemplate);
-        
-        IndicatorResource indicatorPRICE = createPriceIndicator(restTemplate);
-        
-        HypothesisResource hypothesis = createHypothesis(restTemplate);
-        
-        StrategyResource buyStrategy = createBuyStrategy(restTemplate, hypothesis.getId());
-        
-        StrategyResource sellStrategy = createSellStrategy(restTemplate, hypothesis.getId());
 
-        StudyResource orStudy = createStudyAndOr("or", restTemplate, hypothesis.getId(), buyStrategy.getId(), "root");
+        DataPointDetails details = new DataPointDetails();
 
-        // buy studios (up)
-        StudyResource andStudy = createStudyAndOr("and", restTemplate, hypothesis.getId(), buyStrategy.getId(), orStudy.getId());
-        StudyResource buyStudyUp1 = createStudy("lt", "15.00", "0", restTemplate, indicatorSTO.getId(), hypothesis.getId(), buyStrategy.getId(), andStudy.getId());
-        StudyResource buyStudyUp2 = createStudy("gt", "5.00", "0", restTemplate, indicatorSTO.getId(), hypothesis.getId(), buyStrategy.getId(), andStudy.getId());
-        StudyResource buyStudy2 = createStudy("gt", "10.00", "0", restTemplate, indicatorPRICE.getId(), hypothesis.getId(), buyStrategy.getId(), andStudy.getId());
+        DataPointIndicator indicator = DataPointIndicator.CLOSE;
+        DataPointSize size = new DataPointSize();
+        Integer sizeInt = 5;
+        TimeUnit unit = TimeUnit.HOURS;
+        size.setQuantity(sizeInt);
+        size.setUnit(unit);
 
-        // buy studios (dn)
-        StudyResource andStudyDn = createStudyAndOr("and", restTemplate, hypothesis.getId(), buyStrategy.getId(), orStudy.getId());
-        StudyResource buyStudyDn = createStudy("lt", "5.00", "0", restTemplate, indicatorSTO.getId(), hypothesis.getId(), buyStrategy.getId(), andStudyDn.getId());
-        StudyResource buyStudy2Dn = createStudy("gt", "10.00", "0", restTemplate, indicatorPRICE.getId(), hypothesis.getId(), buyStrategy.getId(), andStudyDn.getId());
+        details.setIndicator(indicator);
+        details.setSize(size);
 
-        // sell studios
-        StudyResource sellStudy = createStudy("gt", "90.00", "0", restTemplate, indicatorSTO.getId(), hypothesis.getId(), sellStrategy.getId(), "root");
-        
-        PortfolioResource portfolio = createPortfolio(restTemplate, hypothesis.getId());
-        
-        System.out.println(portfolio.getId());
-    }
-    
-    private PortfolioResource createPortfolio(RestTemplate restTemplate, String hypothesisId) {
-        String postUrl = "http://localhost:8080/tekstratego/manager-service/portfolio/";
-        
-        PortfolioResource request = new PortfolioResource();
-        request.setAvailableCash("10000.00");
-        request.setInitialCash("10000.00");
-        request.setStartDate("2010-01-15T00:00:00");
-        request.setEndDate("2010-03-01T00:00:00");
-        request.setHypothesisId(hypothesisId);
-        
-        PortfolioResource portfolio = restTemplate.postForObject(postUrl, request, PortfolioResource.class);
-        
-        return portfolio;
-    }
 
-    private StudyResource createStudyAndOr(String type, RestTemplate restTemplate, String hypothesisId, String strategyId, String parentStudyId) {
+        DataPointDetails details2 = new DataPointDetails();
 
-        String postUrl = "http://localhost:8080/tekstratego/thinker-service/hypothesis/"+hypothesisId+"/strategies/"+strategyId+"/studies?parent-study-id="+parentStudyId;
+        DataPointIndicator indicator2 = DataPointIndicator.CLOSE;
+        DataPointSize size2 = new DataPointSize();
+        Integer sizeInt2 = 5;
+        TimeUnit unit2 = TimeUnit.HOURS;
+        size2.setQuantity(sizeInt2);
+        size2.setUnit(unit2);
 
-        StudyResource request = new StudyResource();
-        request.setType(type);
+        details2.setIndicator(indicator2);
+        details2.setSize(size2);
 
-        StudyResource study = restTemplate.postForObject(postUrl, request, StudyResource.class);
+        Assert.assertTrue(details.equals(details2));
 
-        return study;
-    }
 
-    private StudyResource createStudy(String type, String value, String barUnderTest, RestTemplate restTemplate, String indicatorId, String hypothesisId, String strategyId, String parentStudyId) {
 
-        String postUrl = "http://localhost:8080/tekstratego/thinker-service/hypothesis/"+hypothesisId+"/strategies/"+strategyId+"/studies?parent-study-id=" + parentStudyId;
-        
-        StudyResource request = new StudyResource();
-        request.setType(type);
-        request.setStudyValue(value);
-        request.setBarUnderTest(barUnderTest);
-        request.setIndicatorId(indicatorId);
-        
-        StudyResource study = restTemplate.postForObject(postUrl, request, StudyResource.class);
-        
-        return study;
-    }
 
-    private StrategyResource createBuyStrategy(RestTemplate restTemplate, String hypothesisId) {
-        
-        String postUrl = "http://localhost:8080/tekstratego/thinker-service/hypothesis/".concat(hypothesisId).concat("/strategies");
-        
-        StrategyResource request = new StrategyResource();
-        request.setType("ENTRY");
-        request.setDescription("buy sma < price AND STO < 10");
-        request.setMaxStrategyInvestment("100000");
-        request.setMaxSecurityInvestment("5000");
-        request.setMaxPerTradeInvestment("5000");
-        request.setIsStrategyExclusive("true");
-        request.setStocks(new ArrayList<String>());
-        //request.getStocks().add("MSFT");
-        //request.getStocks().add("GOOG");
-        //request.getStocks().add("AAPL");
-        //request.getStocks().add("DELL");
-        request.getStocks().add("CSCO");
-        
-        StrategyResource strategy = restTemplate.postForObject(postUrl, request, StrategyResource.class);
-        
-        return strategy;
-    }
-    
-    private StrategyResource createSellStrategy(RestTemplate restTemplate, String hypothesisId) {
-        
-        String postUrl = "http://localhost:8080/tekstratego/thinker-service/hypothesis/".concat(hypothesisId).concat("/strategies");
-        
-        StrategyResource request = new StrategyResource();
-        request.setType("EXIT");
-        request.setDescription("sell sma > price AND STO > 80");
-        request.setMaxStrategyInvestment("100000");
-        request.setMaxSecurityInvestment("5000");
-        request.setMaxPerTradeInvestment("5000");
-        request.setIsStrategyExclusive("true");
-        request.setStocks(new ArrayList<String>());
-        //request.getStocks().add("MSFT");
-        //request.getStocks().add("GOOG");
-        //request.getStocks().add("AAPL");
-        //request.getStocks().add("DELL");
-        request.getStocks().add("CSCO");
-        
-        StrategyResource strategy = restTemplate.postForObject(postUrl, request, StrategyResource.class);
-        
-        return strategy;
-    }
-
-    private HypothesisResource createHypothesis(RestTemplate restTemplate) {
-        
-        String postUrl = "http://localhost:8080/tekstratego/thinker-service/hypothesis";
-        
-        HypothesisResource request = new HypothesisResource();
-        
-        HypothesisResource hypothesis = restTemplate.postForObject(postUrl, request, HypothesisResource.class);
-        
-        return hypothesis;
-    }
-    private IndicatorResource createSMAIndicator(RestTemplate restTemplate) {
-        
-        String postUrl = "http://localhost:8080/tekstratego/pricer-service/indicators";
-        
-        IndicatorResource request = new IndicatorResource();
-        request.setDetails(new HashMap<String, String>());
-        request.getDetails().put("period", "4");
-        request.setPriceOfBars("OPEN");
-        request.setType("simple_moving_average");
-        request.setSizeOfBars("ONE_DAY");
-        
-        IndicatorResource indicator = restTemplate.postForObject(postUrl, request, IndicatorResource.class);
-        
-        return indicator;
-    }
-    private IndicatorResource createPriceIndicator(RestTemplate restTemplate) {
-
-        String postUrl = "http://localhost:8080/tekstratego/pricer-service/indicators";
-
-        IndicatorResource request = new IndicatorResource();
-        request.setDetails(new HashMap<String, String>());
-        request.setPriceOfBars("CLOSE");
-        request.setType("price");
-        request.setSizeOfBars("ONE_DAY");
-
-        IndicatorResource indicator = restTemplate.postForObject(postUrl, request, IndicatorResource.class);
-
-        return indicator;
-    }
-    private IndicatorResource createIndicator(RestTemplate restTemplate) {
-        
-        String postUrl = "http://localhost:8080/tekstratego/pricer-service/indicators";
-        
-        /*
-        IndicatorResource request = new IndicatorResource();
-        request.setDetails(new HashMap<String, String>());
-        request.getDetails().put("period", "4");
-        request.setPriceOfBars("OPEN");
-        request.setType("simple_moving_average");
-        request.setSizeOfBars("ONE_DAY");
-        */
-        /*
-        IndicatorResource request = new IndicatorResource();
-        request.setDetails(new HashMap<String, String>());
-        request.getDetails().put("period", "14");
-        request.getDetails().put("smoothing", "3");
-        request.setPriceOfBars("OPEN");
-        request.setType("stochastic_oscillator_d");
-        request.setSizeOfBars("ONE_DAY");
-        */
-        
-        IndicatorResource request = new IndicatorResource();
-        request.setDetails(new HashMap<String, String>());
-        request.getDetails().put("period", "14");
-        request.getDetails().put("smoothing", "3");
-        request.setPriceOfBars("OPEN");
-        request.setType("stochastic_oscillator_d");
-        request.setSizeOfBars("ONE_DAY");
-        
-        IndicatorResource indicator = restTemplate.postForObject(postUrl, request, IndicatorResource.class);
-        
-        return indicator;
-    }
-    
-    private RestTemplate getRestTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        List<HttpMessageConverter<?>> converters = new ArrayList<HttpMessageConverter<?>>();
-        converters.add(new MappingJacksonHttpMessageConverter());
-        restTemplate.setMessageConverters(converters);
-        return restTemplate;
     }
 }
 

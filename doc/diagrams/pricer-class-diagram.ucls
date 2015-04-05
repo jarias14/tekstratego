@@ -30,7 +30,7 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <enumeration id="4" corner="BOTTOM_RIGHT" language="java" name="com.jarias14.tekstratego.common.model.SizeOfBarsEnum" 
+  <enumeration id="4" corner="BOTTOM_RIGHT" language="java" name="com.jarias14.tekstratego.common.models.SizeOfBarsEnum"
     project="tekstratego" file="/tekstratego/src/main/java/com/jarias14/tekstratego/common/model/SizeOfBarsEnum.java" 
     binary="false">    
     <position height="-1" width="-1" x="550" y="98"/>    
@@ -39,7 +39,7 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </enumeration>  
-  <enumeration id="5" corner="BOTTOM_RIGHT" language="java" name="com.jarias14.tekstratego.common.model.PriceOfBarsEnum" 
+  <enumeration id="5" corner="BOTTOM_RIGHT" language="java" name="com.jarias14.tekstratego.common.models.PriceOfBarsEnum"
     project="tekstratego" file="/tekstratego/src/main/java/com/jarias14/tekstratego/common/model/PriceOfBarsEnum.java" 
     binary="false">    
     <position height="-1" width="-1" x="252" y="307"/>    

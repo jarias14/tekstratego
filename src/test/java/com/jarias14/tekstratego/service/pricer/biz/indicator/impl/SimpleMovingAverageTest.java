@@ -1,17 +1,7 @@
 package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Calendar;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 public class SimpleMovingAverageTest {
-
+/*
     private SortedMap<Calendar, BigDecimal> testData;
     private SimpleMovingAverage sma;
     
@@ -47,7 +37,7 @@ public class SimpleMovingAverageTest {
             System.out.println(expected + " " + actual);
             System.out.println(expected.compareTo(actual));
             Assert.assertTrue(expected.doubleValue() - actual.doubleValue() <= .011 && expected.doubleValue() - actual.doubleValue() >= -.011);
-            */
+
         }
         
         Assert.assertEquals(expectedValues.length, actualValues.length);
@@ -131,5 +121,5 @@ public class SimpleMovingAverageTest {
         cal.add(1, i);
         return cal;
     }
-
+*/
 }

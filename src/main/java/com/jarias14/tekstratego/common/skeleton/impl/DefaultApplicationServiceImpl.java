@@ -1,0 +1,71 @@
+package com.jarias14.tekstratego.common.skeleton.impl;
+
+import com.jarias14.tekstratego.common.skeleton.ApplicationService;
+import com.jarias14.tekstratego.common.skeleton.Processor;
+import com.jarias14.tekstratego.common.skeleton.TransactionDecisionMaker;
+import com.jarias14.tekstratego.common.skeleton.TransactionManager;
+import org.springframework.util.CollectionUtils;
+
+import java.util.Map;
+
+/**
+ * Created by jarias14 on 4/4/2015.
+ */
+public class DefaultApplicationServiceImpl<REQUEST, RESPONSE> implements ApplicationService<REQUEST, RESPONSE> {
+
+    private Processor<REQUEST> requestProcessor;
+    private Processor<REQUEST> requestValidator;
+    private Map<String, TransactionManager<REQUEST, RESPONSE>> transactionManagerMap;
+    private TransactionDecisionMaker<REQUEST> transactionDecisionMaker;
+
+
+    @Override
+    public RESPONSE serviceRequest(REQUEST request) {
+
+        String transactionManagerId = TransactionDecisionMaker.DEFAULT;
+
+        if (null == request) {
+            return null;
+        }
+
+        if (CollectionUtils.isEmpty(transactionManagerMap)) {
+            return null;
+        }
+
+        if (null != requestProcessor) {
+            requestProcessor.process(request);
+        }
+
+        if (null != requestValidator) {
+            requestValidator.process(request);
+        }
+
+        if (null != transactionDecisionMaker) {
+            transactionManagerId = transactionDecisionMaker.retrieveTransactionManagerId(request);
+        }
+
+        if (null == transactionManagerMap.get(transactionManagerId)) {
+            return null;
+        }
+
+        return transactionManagerMap.get(transactionManagerId).process(request);
+
+    }
+
+
+    public void setRequestProcessor(Processor<REQUEST> requestProcessor) {
+        this.requestProcessor = requestProcessor;
+    }
+
+    public void setRequestValidator(Processor<REQUEST> requestValidator) {
+        this.requestValidator = requestValidator;
+    }
+
+    public void setTransactionManagerMap(Map<String, TransactionManager<REQUEST, RESPONSE>> transactionManagerMap) {
+        this.transactionManagerMap = transactionManagerMap;
+    }
+
+    public void setTransactionDecisionMaker(TransactionDecisionMaker<REQUEST> transactionDecisionMaker) {
+        this.transactionDecisionMaker = transactionDecisionMaker;
+    }
+}

@@ -8,8 +8,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.jarias14.tekstratego.common.resource.TransactionResource;
-
 @Path("/trader-service")
 public interface RestTraderService {
 
@@ -21,6 +19,6 @@ public interface RestTraderService {
     @Path("/trade/{symbol}/type/{type}/amount/{amount}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public TransactionResource createTrade(@PathParam("symbol") String symbol, @PathParam("type") String type, @PathParam("amount") String amount, @QueryParam("is-back-testing") String isBackTesting, @QueryParam("bar-time") String barTime, @QueryParam("bar-size") String barSize);
+    public Object createTrade(@PathParam("symbol") String symbol, @PathParam("type") String type, @PathParam("amount") String amount, @QueryParam("is-back-testing") String isBackTesting, @QueryParam("bar-time") String barTime, @QueryParam("bar-size") String barSize);
 
 }

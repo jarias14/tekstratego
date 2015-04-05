@@ -27,7 +27,7 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </interface>  
-  <class id="4" corner="BOTTOM_RIGHT" language="java" name="com.jarias14.tekstratego.common.model.Stock" 
+  <class id="4" corner="BOTTOM_RIGHT" language="java" name="com.jarias14.tekstratego.common.models.Stock"
     project="tekstratego" file="/tekstratego/src/main/java/com/jarias14/tekstratego/common/model/Stock.java" 
     binary="false">    
     <position height="-1" width="-1" x="357" y="478"/>    
@@ -36,7 +36,7 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <enumeration id="5" corner="BOTTOM_RIGHT" language="java" name="com.jarias14.tekstratego.common.model.TradeTypeEnum" 
+  <enumeration id="5" corner="BOTTOM_RIGHT" language="java" name="com.jarias14.tekstratego.common.models.TradeTypeEnum"
     project="tekstratego" file="/tekstratego/src/main/java/com/jarias14/tekstratego/common/model/TradeTypeEnum.java" 
     binary="false">    
     <position height="-1" width="-1" x="354" y="685"/>    

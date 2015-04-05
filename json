@@ -1,0 +1,158 @@
+{
+        "decisionNodeType": "COMPARABLE",
+        "decisionNodeIndicators": [
+        {
+        "decisionNodeIndicator": "HIGH",
+        "decisionNodeType": "COMPARABLE",
+        "decisionNodeDataPointSize": {
+        "unit": "MINUTES",
+        "quantity": 60
+        }
+        },
+        {
+        "decisionNodeIndicator": "HIGH",
+        "decisionNodeType": "COMPARABLE",
+        "decisionNodeDataPointSize": {
+        "unit": "MINUTES",
+        "quantity": 60
+        }
+        }
+        ],
+        "decisionNodeComparison": [
+        {
+        "difference": {
+        "min": 1.5,
+        "max": 10,
+        "unit": "numeric"
+        },
+        "nextDecisionNode": "1234"
+        },
+        {
+        "range": {
+        "min": 11,
+        "max": 100,
+        "unit": "percentage"
+        },
+        "nextDecisionNode": "4321"
+        }
+        ]
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {
+        "decisionNodeIndicator": "HIGH",
+        "decisionNodeType": "DISCRETE",
+        "decisionNodeDataPointSize": {
+        "unit": "MINUTES",
+        "quantity": 60
+        },
+        "decisionNodeChildren": [
+        {
+        "range": {
+        "min": 1.5,
+        "max": 10
+        },
+        "nextDecisionNode": "1234"
+        },
+        {
+        "range": {
+        "min": 11,
+        "max": 100
+        },
+        "nextDecisionNode": "1234"
+        }
+        ]
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {
+        "decisionNodeIndicator": "HIGH",
+        "decisionNodeType": "COMPARABLE",
+        "decisionNodeDataPointSize": {
+        "unit": "MINUTES",
+        "quantity": 60
+        },
+        "decisionNodeChildren": [
+        {
+        "range": {
+        "min": 1.5,
+        "max": 10
+        },
+        "nextDecisionNode": "1234"
+        },
+        {
+        "range": {
+        "min": 11,
+        "max": 100
+        },
+        "nextDecisionNode": "1234"
+        }
+        ]
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {
+        "decisionNodeIndicator": "HIGH",
+        "decisionNodeType": "COMPARABLE",
+        "decisionNodeDataPointSize": {
+        "unit": "MINUTES",
+        "quantity": 60
+        },
+        "decisionNodeChildren": [
+        {
+        "range": {
+        "min": 1.5,
+        "max": 10
+        },
+        "nextDecisionNode": "1234"
+        },
+        {
+        "range": {
+        "min": 11,
+        "max": 100
+        },
+        "nextDecisionNode": "1234"
+        }
+        ]
+        }

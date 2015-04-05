@@ -26,7 +26,7 @@
       <position height="21" width="0" x="0" y="696"/>    
     </execution>  
   </object>  
-  <object id="20" language="java" name="com.jarias14.tekstratego.common.model.AbstractBase" project="tekstratego" 
+  <object id="20" language="java" name="com.jarias14.tekstratego.common.models.AbstractBase" project="tekstratego"
     file="/tekstratego/src/main/java/com/jarias14/tekstratego/common/model/AbstractBase.java" binary="false" 
     label="hypothesis" type="class" autoSize="true">    
     <position height="0" width="0" x="0" y="0"/>    

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+
+    <bean id="restListenerServiceImpl" class="com.jarias14.tekstratego.service.listener.rest.impl.DefaultRestListenerServiceImpl">
+        <property name="applicationService" ref="listenerApplicationService"/>
+    </bean>
+
+    <bean id="listenerApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="listenerTransactionManagerMap"/>
+    </bean>
+
+    <util:map id="listenerTransactionManagerMap" map-class="java.util.HashMap">
+        <entry key="DEFAULT"><ref bean="historicDataTransactionManager"/></entry>
+    </util:map>
+
+    <bean id="historicDataTransactionManager" class="com.jarias14.tekstratego.service.listener.biz.SubscribeHistoricListenerTransactionManager">
+        <property name="marketDataDAO" ref="yahooHistoricDataDAO"/>
+        <property name="simulator" ref="historicalDataSimulator"/>
+    </bean>
+
+    <bean id="historicalDataSimulator" class="com.jarias14.tekstratego.service.listener.biz.HistoricMarketDataSimulator">
+        <property name="rawDataStore" ref="rawDataStore"/>
+    </bean>
+
+    <bean id="yahooHistoricDataDAO" class="com.jarias14.tekstratego.service.listener.dao.impl.YahooMarketDataDAO">
+        <property name="objectMapper" ref="objectMapper"/>
+    </bean>
+
+
+    <!--- Executor -->
+    <task:annotation-driven executor="historicMarketDataSimulatorExecutor" proxy-target-class="true" />
+    <task:executor id="historicMarketDataSimulatorExecutor" pool-size="20"/>
+    <task:scheduler id="historicMarketDataSimulatorScheduler" pool-size="10"/>
+
+
+
+</beans>

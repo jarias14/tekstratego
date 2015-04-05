@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+
+    <!-- Rest Service Beans -->
+    <bean id="pricerRestService" class="com.jarias14.tekstratego.service.pricer.rest.RestPricerServiceImpl">
+        <property name="requestIndicatorApplicationService" ref="pricerRequestIndicatorApplicationService"/>
+        <property name="updateIndicatorApplicationService" ref="pricerUpdateIndicatorApplicationService"/>
+    </bean>
+
+
+    <!-- Application Service Beans -->
+    <bean id="pricerRequestIndicatorApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="pricerRequestIndicatorTransactionManagerMap"/>
+    </bean>
+
+    <bean id="pricerUpdateIndicatorApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="pricerUpdateIndicatorTransactionManagerMap"/>
+    </bean>
+
+
+    <!-- Transaction Manager Maps -->
+    <util:map id="pricerRequestIndicatorTransactionManagerMap" map-class="java.util.HashMap">
+        <!--<entry key="DEFAULT"><ref bean="simpleIndicatorTransactionManager"/></entry>-->
+    </util:map>
+
+    <util:map id="pricerUpdateIndicatorTransactionManagerMap" map-class="java.util.HashMap">
+        <!--<entry key="DEFAULT"><ref bean="simpleIndicatorTransactionManager"/></entry>-->
+    </util:map>
+
+
+    <!-- Transaction Managers -->
+    <bean id="simpleIndicatorTransactionManager" class="com.jarias14.tekstratego.service.pricer.biz.UpdateIndicatorTransactionManagerImpl"/>
+
+
+    <!-- Cache -->
+    <bean id="indicatorCatalog" class="com.jarias14.tekstratego.common.cache.DataStore">
+        <constructor-arg>
+            <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
+                <constructor-arg value="rawDataStore"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+
+</beans>

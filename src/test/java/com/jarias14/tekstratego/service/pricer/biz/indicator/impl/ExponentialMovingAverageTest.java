@@ -1,17 +1,7 @@
 package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Calendar;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 public class ExponentialMovingAverageTest {
-
+/*
     private SortedMap<Calendar, BigDecimal> testData;
     private ExponentialMovingAverage ema;
     
@@ -45,7 +35,7 @@ public class ExponentialMovingAverageTest {
             BigDecimal actual = ((BigDecimal)actualValues[i]).setScale(2, RoundingMode.HALF_EVEN);
             System.out.println(expected + " " + actual);
             Assert.assertTrue(expected.compareTo(actual) < .01 && expected.compareTo(actual) > -.01);
-            */
+
         }
     }
     
@@ -127,5 +117,5 @@ public class ExponentialMovingAverageTest {
         cal.add(1, i);
         return cal;
     }
-
+*/
 }

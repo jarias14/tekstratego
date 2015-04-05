@@ -1,17 +1,7 @@
 package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Calendar;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 public class StochasticOscillatorDTest {
-
+/*
     private StochasticOscillatorD sto;
     
     @Before
@@ -168,5 +158,6 @@ public class StochasticOscillatorDTest {
         cal.add(1, i);
         return cal;
     }
+    */
 
 }
