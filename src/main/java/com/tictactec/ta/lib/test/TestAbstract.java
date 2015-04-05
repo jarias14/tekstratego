@@ -50,24 +50,29 @@ import junit.framework.TestCase;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.meta.CoreMetaInfo;
 
-public class TestAbstract extends TestCase {
-    Core talib;
-    TestData testData;
+public class TestAbstract extends TestCase 
+{
+   Core talib;
+   TestData testData;
+   
+   public TestAbstract(String name)
+   {
+      super(name);
+      talib = new Core();
+   }
+   
+   protected void setUp() throws Exception 
+   {
+      testData = new TestData();
+   }
 
-    public TestAbstract(String name) {
-        super(name);
-        talib = new Core();
-    }
+   protected void tearDown() throws Exception 
+   {
+   }
 
-    protected void setUp() throws Exception {
-        testData = new TestData();
-    }
-
-    protected void tearDown() throws Exception {
-    }
-
-    public void testAbstract() throws Exception {
-        new CoreMetaInfo().forEach(new TestAbstractClosure(talib, testData.getAllInputData()));
-    }
-
+   public void testAbstract() throws Exception
+   {
+      new CoreMetaInfo().forEach( new TestAbstractClosure(talib, testData.getAllInputData()) );
+   }
+   
 }

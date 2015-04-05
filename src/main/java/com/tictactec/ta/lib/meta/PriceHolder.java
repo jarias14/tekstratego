@@ -50,13 +50,13 @@ package com.tictactec.ta.lib.meta;
 /**
  * PriceHolder is responsible for holding prices, which are composed by OHLCVI, i.e:
  * open, high, low, close, volume and open interest.
- * <p>
+ * 
  * <p>Indicators which take prices as input, only take subsets of OHLCVI components and one could think
  * that PriceHolder could be used for such purpose. <i>This class is not intended to hold prices passed to indicators.</i>
- * <p>
+ * 
  * <p>In order to avoid this kind of confusion, PriceHolder cannot be initialized with null arrays.
  * PriceHoder also checks if all arrays passed to constructor have the same length.
- *
+ * 
  * @author Richard Gomes
  */
 public class PriceHolder {
@@ -68,36 +68,37 @@ public class PriceHolder {
     private double[] v;
     private double[] i;
     public final int length;
-
+    
     /**
      * Stores all data point arrays in a PriceHolder instance
-     *
+     *  
      * @param o represent the open data points and is expected to be <b>double[]</b> assignment compatible.
      * @param h represent the high data points and is expected to be <b>double[]</b> assignment compatible.
      * @param l represent the low data points and is expected to be <b>double[]</b> assignment compatible.
      * @param c represent the close data points and is expected to be <b>double[]</b> assignment compatible.
      * @param v represent the volume data points and is expected to be <b>double[]</b> assignment compatible.
      * @param i represent the open interest data points and is expected to be <b>double[]</b> assignment compatible.
-     * @throws NullPointerException     if any arrays is null
+     * 
+     * @throws NullPointerException if any arrays is null
      * @throws IllegalArgumentException if sizes of arrays dont match
      */
-    public PriceHolder(double[] o, double[] h, double[] l, double[] c, double[] v, double[] i)
+    public PriceHolder(double[] o, double[] h, double[] l, double[] c, double[] v, double[] i) 
             throws NullPointerException, IllegalArgumentException {
 
-        if (o == null) throw new NullPointerException(); // TODO: message
-        if (h == null) throw new NullPointerException(); // TODO: message
-        if (l == null) throw new NullPointerException(); // TODO: message
-        if (c == null) throw new NullPointerException(); // TODO: message
-        if (v == null) throw new NullPointerException(); // TODO: message
-        if (i == null) throw new NullPointerException(); // TODO: message
-
+        if (o==null) throw new NullPointerException(); // TODO: message
+        if (h==null) throw new NullPointerException(); // TODO: message
+        if (l==null) throw new NullPointerException(); // TODO: message
+        if (c==null) throw new NullPointerException(); // TODO: message
+        if (v==null) throw new NullPointerException(); // TODO: message
+        if (i==null) throw new NullPointerException(); // TODO: message
+        
         length = o.length;
         if (h.length != length) throw new IllegalArgumentException(); // TODO: message
         if (l.length != length) throw new IllegalArgumentException(); // TODO: message
         if (c.length != length) throw new IllegalArgumentException(); // TODO: message
         if (v.length != length) throw new IllegalArgumentException(); // TODO: message
         if (i.length != length) throw new IllegalArgumentException(); // TODO: message
-
+        
         this.o = o;
         this.h = h;
         this.l = l;
@@ -105,17 +106,16 @@ public class PriceHolder {
         this.v = v;
         this.i = i;
     }
-
+    
     /**
      * This method is deprecated. Use public field "length" instead.
-     *
-     * @return length
      * @deprecated
+     * @return length
      */
     public int getSize() {
         return length;
     }
-
+    
     /**
      * @return an Object[] which contais <b>all<b> data point arrays OHLCVI.
      * @see PriceInputParameter overrides this method
@@ -133,46 +133,40 @@ public class PriceHolder {
     }
 
     /**
+     * 
      * @return the Open component
      */
-    public double[] getO() {
-        return o;
-    }
-
+    public double[] getO() { return o; }
+    
     /**
+     * 
      * @return the High component
      */
-    public double[] getH() {
-        return h;
-    }
-
+    public double[] getH() { return h; }
+    
     /**
+     * 
      * @return the Low component
      */
-    public double[] getL() {
-        return l;
-    }
-
+    public double[] getL() { return l; }
+    
     /**
+     * 
      * @return the Close component
      */
-    public double[] getC() {
-        return c;
-    }
-
+    public double[] getC() { return c; }
+    
     /**
+     * 
      * @return the Volume component
      */
-    public double[] getV() {
-        return v;
-    }
-
+    public double[] getV() { return v; }
+    
     /**
+     * 
      * @return the Open Interest component
      */
-    public double[] getI() {
-        return i;
-    }
-
+    public double[] getI() { return i; }
+    
 }
 

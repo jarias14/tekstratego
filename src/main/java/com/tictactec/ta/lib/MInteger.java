@@ -46,10 +46,16 @@
 
 package com.tictactec.ta.lib;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 /* 'Boxing' of an int.
  * Used instead of auto-boxing because it provides a "mutable" Integer 
  * object.
  */
-public class MInteger {
-    public int value;
-}
+@AllArgsConstructor
+@NoArgsConstructor
+ public class MInteger
+ {
+    public int value;           
+ }

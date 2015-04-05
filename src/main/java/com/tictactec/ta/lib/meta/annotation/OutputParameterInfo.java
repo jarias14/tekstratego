@@ -55,8 +55,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OutputParameterInfo {
     OutputParameterType type();
-
-    String paramName();
-
-    int flags(); // bitwise OR of OutputFlags
+    String              paramName();
+    int                 flags(); // bitwise OR of OutputFlags
 }

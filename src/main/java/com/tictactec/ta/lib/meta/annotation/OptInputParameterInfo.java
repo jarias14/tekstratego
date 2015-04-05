@@ -54,15 +54,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OptInputParameterInfo {
-    String paramName();
-
-    String displayName();
-
-    int flags(); // bitwise OR of OptInputFlags
+    String                paramName();
+    String                displayName();
+    int                   flags(); // bitwise OR of OptInputFlags
 
     OptInputParameterType type();
-
-    Class<? extends Object> dataSet();
+    Class<? extends Object>  dataSet();
     // String                hint();        // TODO: reserved for future
     // String                helpFile();    // TODO: reserved for future
 }

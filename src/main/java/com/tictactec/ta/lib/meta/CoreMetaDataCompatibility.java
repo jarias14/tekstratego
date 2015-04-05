@@ -57,19 +57,20 @@ import com.tictactec.ta.lib.meta.annotation.OutputParameterInfo;
 /**
  * This class is intended to application developers willing to translate "C" application code
  * which makes use of <i>ta_abstract.h</i>.
- * <p>
+ * 
  * In Java, applications and API make a wide use of exceptions whilst in "C" code the common approach is returning status
  * codes. This class adds a layer over class CoreMetaData which handles and consumes exceptions and, instead of exceptions,
- * returns status codes.
- * <p>
+ * returns status codes. 
+ * 
  * <p><b>IMPORTANT:</b> This class is provided as it is by the author as a starting point for "C" application code translators.
  * Use this class on your own risk as this class was not tested by the author.
- * <p>
+ * 
  * <p><b>IMPORTANT:</b> Some methods from <i>ta_abstract.h</i> where not implemented. The author do not intend to
  * provide these methods as there's low or even no interest on this kind of compatibility mode. As already said, this is
- * only a starting point for applications translators which could be interested to further improve this class.
- *
+ * only a starting point for applications translators which could be interested to further improve this class. 
+ * 
  * @author Richard Gomes
+ *
  */
 public class CoreMetaDataCompatibility extends CoreMetaData {
 
@@ -81,7 +82,7 @@ public class CoreMetaDataCompatibility extends CoreMetaData {
             return RetCode.BadParam;
         }
     }
-
+    
 
     RetCode taGetFuncInfo(FuncInfo retFuncInfo) {
         try {
@@ -91,7 +92,7 @@ public class CoreMetaDataCompatibility extends CoreMetaData {
             return RetCode.InternalError;
         }
     }
-
+    
 
     RetCode taGetInputParameterInfo(final int paramIndex, InputParameterInfo retInputParameterInfo) {
         try {
@@ -123,7 +124,7 @@ public class CoreMetaDataCompatibility extends CoreMetaData {
     }
 
 
-    RetCode taSetInputParamIntegerPtr(final int paramIndex, final int[] value) {
+    RetCode taSetInputParamIntegerPtr(final int paramIndex, final int[] value ) {
         try {
             super.setInputParamInteger(paramIndex, value);
             return RetCode.Success;
@@ -132,8 +133,8 @@ public class CoreMetaDataCompatibility extends CoreMetaData {
         }
     }
 
-
-    RetCode taSetInputParamRealPtr(final int paramIndex, final double[] value) {
+    
+    RetCode taSetInputParamRealPtr(final int paramIndex, final double[] value ) {
         try {
             super.setInputParamReal(paramIndex, value);
             return RetCode.Success;
@@ -142,14 +143,14 @@ public class CoreMetaDataCompatibility extends CoreMetaData {
         }
     }
 
-
+    
     RetCode taSetInputParamPricePtr(final int paramIndex,
-                                    final double[] open,
-                                    final double[] high,
-                                    final double[] low,
-                                    final double[] close,
-                                    final double[] volume,
-                                    final double[] openInterest) {
+            final double[] open,
+            final double[] high,
+            final double[] low,
+            final double[] close,
+            final double[] volume,
+            final double[] openInterest) {
         try {
             super.setInputParamPrice(paramIndex, open, high, low, close, volume, openInterest);
             return RetCode.Success;
@@ -157,8 +158,8 @@ public class CoreMetaDataCompatibility extends CoreMetaData {
             return RetCode.BadParam;
         }
     }
-
-
+    
+    
     RetCode taSetOptInputParamInteger(final int paramIndex, final int optInValue) {
         try {
             setOptInputParamInteger(paramIndex, optInValue);
@@ -167,8 +168,8 @@ public class CoreMetaDataCompatibility extends CoreMetaData {
             return RetCode.BadParam;
         }
     }
-
-
+        
+    
     RetCode taSetOptInputParamReal(final int paramIndex, final double optInValue) {
         try {
             setOptInputParamReal(paramIndex, optInValue);
@@ -177,8 +178,8 @@ public class CoreMetaDataCompatibility extends CoreMetaData {
             return RetCode.BadParam;
         }
     }
-
-
+    
+   
     RetCode taSetOutputParamIntegerPtr(final int paramIndex, int[] outArray) {
         if (outArray == null) return RetCode.BadParam;
         try {
@@ -189,7 +190,7 @@ public class CoreMetaDataCompatibility extends CoreMetaData {
         }
     }
 
-
+    
     RetCode taSetOutputParamRealPtr(final int paramIndex, double[] outArray) {
         if (outArray == null) return RetCode.BadParam;
         try {

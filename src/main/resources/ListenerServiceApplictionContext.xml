@@ -10,7 +10,7 @@
 
 
 
-    <bean id="restListenerServiceImpl" class="com.jarias14.tekstratego.service.listener.rest.impl.DefaultRestListenerServiceImpl">
+    <bean id="listenerRestService" class="com.jarias14.tekstratego.service.listener.rest.impl.DefaultRestListenerServiceImpl">
         <property name="applicationService" ref="listenerApplicationService"/>
     </bean>
 

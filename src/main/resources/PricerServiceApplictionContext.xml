@@ -29,11 +29,11 @@
 
     <!-- Transaction Manager Maps -->
     <util:map id="pricerRequestIndicatorTransactionManagerMap" map-class="java.util.HashMap">
-        <!--<entry key="DEFAULT"><ref bean="simpleIndicatorTransactionManager"/></entry>-->
+        <entry key="DEFAULT"><ref bean="simpleIndicatorTransactionManager"/></entry>
     </util:map>
 
     <util:map id="pricerUpdateIndicatorTransactionManagerMap" map-class="java.util.HashMap">
-        <!--<entry key="DEFAULT"><ref bean="simpleIndicatorTransactionManager"/></entry>-->
+        <entry key="DEFAULT"><ref bean="simpleIndicatorTransactionManager"/></entry>
     </util:map>
 
 
@@ -58,7 +58,12 @@
     </util:map>
 
     <!-- Indicator Calculators -->
-    <bean id="exponentialMovingAverageIndicatorCaculator" class="com.jarias14.tekstratego.service.pricer.biz.indicators.impl.ExponentialMovingAverageCalculator"></bean>
+    <bean id="taLibCore" class="com.tictactec.ta.lib.CoreAnnotated"/>
+
+    <bean id="exponentialMovingAverageIndicatorCaculator" class="com.jarias14.tekstratego.service.pricer.biz.indicators.impl.ExponentialMovingAverageCalculator">
+        <property name="taLib" ref="taLibCore"/>
+    </bean>
+
 
 
     <!-- Cache -->

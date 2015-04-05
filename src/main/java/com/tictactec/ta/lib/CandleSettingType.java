@@ -46,7 +46,8 @@
 
 package com.tictactec.ta.lib;
 
-public enum CandleSettingType {
+public enum CandleSettingType 
+{
     BodyLong,
     BodyVeryLong,
     BodyShort,

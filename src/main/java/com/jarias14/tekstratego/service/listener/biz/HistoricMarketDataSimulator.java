@@ -20,7 +20,7 @@ import java.util.Set;
 public class HistoricMarketDataSimulator<DATA_TYPE> implements Processor<Set<DataPointCollection<DATA_TYPE>>>{
 
     private DataStore rawDataStore;
-    private static int WAIT_TIME_IN_SECONDS = 5;
+    private static long WAIT_TIME_IN_SECONDS = (long)0.5;
 
     @Override
     @Async("historicMarketDataSimulatorExecutor")
@@ -42,13 +42,13 @@ public class HistoricMarketDataSimulator<DATA_TYPE> implements Processor<Set<Dat
 
             // make call to pricer to notify new price has been added
 
-            wait(WAIT_TIME_IN_SECONDS);
+            waitTimer(WAIT_TIME_IN_SECONDS);
         }
     }
 
-    private void wait(int seconds) {
+    private void waitTimer(long seconds) {
         try {
-            Thread.sleep(seconds * 1000);
+            Thread.sleep(seconds * (long)1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

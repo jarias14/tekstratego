@@ -46,14 +46,15 @@
 
 package com.tictactec.ta.lib;
 
-public enum MAType {
-    Sma,
-    Ema,
-    Wma,
-    Dema,
-    Tema,
-    Trima,
-    Kama,
-    Mama,
-    T3
+public enum MAType 
+{
+   Sma,
+   Ema,
+   Wma,
+   Dema,
+   Tema,
+   Trima,
+   Kama,
+   Mama,
+   T3
 };

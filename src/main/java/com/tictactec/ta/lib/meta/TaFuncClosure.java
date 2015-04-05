@@ -50,6 +50,7 @@ package com.tictactec.ta.lib.meta;
 /**
  * @deprecated in favor of interfaces TaFuncService and taGrpService
  */
-public interface TaFuncClosure {
-    void execute(TaFuncMetaInfo mi) throws Exception;
+public interface TaFuncClosure
+{
+   void execute(TaFuncMetaInfo mi) throws Exception;
 }

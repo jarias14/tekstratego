@@ -46,7 +46,8 @@
 
 package com.tictactec.ta.lib;
 
-public enum Compatibility {
+public enum Compatibility
+{
     Default,
     Metastock
 };

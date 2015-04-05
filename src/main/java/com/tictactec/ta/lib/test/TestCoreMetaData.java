@@ -68,17 +68,17 @@ import com.tictactec.ta.lib.meta.helpers.SimpleHelper;
 public class TestCoreMetaData {
 
     public static void main(String[] args) {
-
+        
         final class DumpGrp implements TaGrpService {
             public void execute(String group, Set<CoreMetaData> set) {
-                System.out.println("GROUP " + group);
+                System.out.println("GROUP "+group);
                 for (CoreMetaData mi : set) {
-                    System.out.println("        " + mi.getFuncInfo().name());
+                    System.out.println("        "+mi.getFuncInfo().name());
                 }
-
+                
             }
         }
-
+        
         final class DumpFunc implements TaFuncService {
             public void execute(CoreMetaData mi) {
                 System.out.println(mi.getFuncInfo().name());
@@ -92,49 +92,45 @@ public class TestCoreMetaData {
                     System.out.println("    " + pinfo.paramName());
                     System.out.println("        " + pinfo.type());
                     switch (pinfo.type()) {
-                        case TA_OptInput_RealRange:
-                            RealRange rrange = mi.getOptInputRealRange(i);
-                            System.out.println("            min=" + rrange.min());
-                            System.out.println("            max=" + rrange.max());
-                            System.out.println("            precision=" + rrange.precision());
-                            System.out.println("            default=" + rrange.defaultValue());
-                            break;
-                        case TA_OptInput_RealList:
-                            RealList rlist = mi.getOptInputRealList(i);
-                            System.out.print("            value=");
-                            for (double value : rlist.value()) {
-                                System.out.print(value);
-                                System.out.print(" ");
-                            }
-                            System.out.println();
-                            System.out.print("            string=" + rlist.string());
-                            for (String string : rlist.string()) {
-                                System.out.print(string);
-                                System.out.print(" ");
-                            }
-                            System.out.println();
-                            break;
-                        case TA_OptInput_IntegerRange:
-                            IntegerRange irange = mi.getOptInputIntegerRange(i);
-                            System.out.println("            min=" + irange.min());
-                            System.out.println("            max=" + irange.max());
-                            System.out.println("            default=" + irange.defaultValue());
-                            break;
-                        case TA_OptInput_IntegerList:
-                            IntegerList ilist = mi.getOptInputIntegerList(i);
-                            System.out.print("            value=");
-                            for (int value : ilist.value()) {
-                                System.out.print(value);
-                                System.out.print(" ");
-                            }
-                            System.out.println();
-                            System.out.print("            string=");
-                            for (String string : ilist.string()) {
-                                System.out.print(string);
-                                System.out.print(" ");
-                            }
-                            System.out.println();
-                            break;
+                    case TA_OptInput_RealRange:
+                        RealRange rrange = mi.getOptInputRealRange(i);
+                        System.out.println("            min="+rrange.min());
+                        System.out.println("            max="+rrange.max());
+                        System.out.println("            precision="+rrange.precision());
+                        System.out.println("            default="+rrange.defaultValue());
+                        break;
+                    case TA_OptInput_RealList:
+                        RealList rlist = mi.getOptInputRealList(i);
+                        System.out.print("            value=");
+                        for (double value : rlist.value()) {
+                            System.out.print(value); System.out.print(" ");
+                        }
+                        System.out.println();
+                        System.out.print("            string="+rlist.string());
+                        for (String string : rlist.string()) {
+                            System.out.print(string); System.out.print(" ");
+                        }
+                        System.out.println();
+                        break;
+                    case TA_OptInput_IntegerRange:
+                        IntegerRange irange = mi.getOptInputIntegerRange(i);
+                        System.out.println("            min="+irange.min());
+                        System.out.println("            max="+irange.max());
+                        System.out.println("            default="+irange.defaultValue());
+                        break;
+                    case TA_OptInput_IntegerList:
+                        IntegerList ilist = mi.getOptInputIntegerList(i);
+                        System.out.print("            value=");
+                        for (int value : ilist.value()) {
+                            System.out.print(value); System.out.print(" ");
+                        }
+                        System.out.println();
+                        System.out.print("            string=");
+                        for (String string : ilist.string()) {
+                            System.out.print(string); System.out.print(" ");
+                        }
+                        System.out.println();
+                        break;
                     }
                 }
                 for (int i = 0; i < mi.getFuncInfo().nbOutput(); i++) {
@@ -153,7 +149,7 @@ public class TestCoreMetaData {
         }
 
         System.out.println("=  =  =  =  =  =  =  =  =  =  =  =  =");
-
+        
         TaFuncService funcServ = new DumpFunc();
         try {
             CoreMetaData.forEachFunc(funcServ);
@@ -162,7 +158,11 @@ public class TestCoreMetaData {
         }
         System.out.println("=====================================");
 
-
+    
+    
+        
+        
+        
         SimpleHelper calc;
 
         // input data
@@ -194,7 +194,7 @@ public class TestCoreMetaData {
                 1.3954, 1.3960, 1.3962, 1.3959, 1.3957, 1.3957, 1.3951, 1.3954, 1.3956, 1.3956
         };
 
-
+        
         double close[] = {
                 1.4554, 1.4560, 1.4562, 1.4559, 1.4557, 1.4557, 1.4551, 1.4554, 1.4556, 1.4556,
                 1.4554, 1.4560, 1.4562, 1.4559, 1.4557, 1.4557, 1.4551, 1.4554, 1.4556, 1.4556,
@@ -207,13 +207,13 @@ public class TestCoreMetaData {
         double output1[] = new double[60];
         double output2[] = new double[60];
         double output3[] = new double[60];
-        MInteger lOutIdx = new MInteger();
+        MInteger lOutIdx  = new MInteger();
         MInteger lOutSize = new MInteger();
 
         // function name and parameter holder
         String func;
         List<String> params = new ArrayList<String>();
-
+        
         try {
             /*
                 MAMA
@@ -228,15 +228,15 @@ public class TestCoreMetaData {
             params.add("0.2");
             params.add("0.02");
             calc = new SimpleHelper(func, params);
-
+    
             System.out.println("===============================================");
             System.out.println(func);
-            calc.calculate(0, 59, new Object[]{close}, new Object[]{output1, output2}, lOutIdx, lOutSize);
-
-            System.out.println("lookback=" + calc.getLookback());
-            System.out.println("outBegIdx    = " + lOutIdx.value + "    outNbElement = " + lOutSize.value);
-            for (int i = 0; i < lOutSize.value; i++) {
-                System.out.println("output1[" + i + "]=" + output1[i] + "     " + "output2[" + i + "]=" + output2[i]);
+            calc.calculate(0, 59, new Object[] { close }, new Object[] { output1, output2 }, lOutIdx, lOutSize);
+            
+            System.out.println("lookback="+calc.getLookback());
+            System.out.println("outBegIdx    = "+lOutIdx.value+ "    outNbElement = "+lOutSize.value);
+            for (int i=0; i<lOutSize.value; i++) {
+                System.out.println("output1["+i+"]="+output1[i]+"     "+"output2["+i+"]="+output2[i]);
             }
 
             /*
@@ -256,17 +256,17 @@ public class TestCoreMetaData {
             params.add("0.02");
             params.add("0.04");
             params.add("dEmA");
-
+            
             calc = new SimpleHelper(func, params);
-
+            
             System.out.println("===============================================");
             System.out.println(func);
-            calc.calculate(0, 59, new Object[]{close}, new Object[]{output1, output2, output3}, lOutIdx, lOutSize);
-
-            System.out.println("lookback=" + calc.getLookback());
-            System.out.println("outBegIdx    = " + lOutIdx.value + "    outNbElement = " + lOutSize.value);
-            for (int i = 0; i < lOutSize.value; i++) {
-                System.out.println("output1[" + i + "]=" + output1[i] + "     " + "output2[" + i + "]=" + output2[i] + "     " + "output3[" + i + "]=" + output3[i]);
+            calc.calculate(0, 59, new Object[] { close }, new Object[] { output1, output2, output3 }, lOutIdx, lOutSize);
+            
+            System.out.println("lookback="+calc.getLookback());
+            System.out.println("outBegIdx    = "+lOutIdx.value+ "    outNbElement = "+lOutSize.value);
+            for (int i=0; i<lOutSize.value; i++) {
+                System.out.println("output1["+i+"]="+output1[i]+"     "+"output2["+i+"]="+output2[i]+"     "+"output3["+i+"]="+output3[i]);
             }
             
             /*
@@ -278,19 +278,19 @@ public class TestCoreMetaData {
             func = "Adx";
             params.clear();
             params.add("8");
-
+            
             calc = new SimpleHelper(func, params);
-
+            
             System.out.println("===============================================");
             System.out.println(func);
             int flags = calc.getMetaData().getInputParameterInfo(0).flags();
             PriceHolder price = new PriceInputParameter(flags, open, high, low, close, null, null);
-            calc.calculate(0, 59, new Object[]{price}, new Object[]{output1}, lOutIdx, lOutSize);
-
-            System.out.println("lookback=" + calc.getLookback());
-            System.out.println("outBegIdx    = " + lOutIdx.value + "    outNbElement = " + lOutSize.value);
-            for (int i = 0; i < lOutSize.value; i++) {
-                System.out.println("output1[" + i + "]=" + output1[i]);
+            calc.calculate(0, 59, new Object[] { price }, new Object[] { output1 }, lOutIdx, lOutSize);
+            
+            System.out.println("lookback="+calc.getLookback());
+            System.out.println("outBegIdx    = "+lOutIdx.value+ "    outNbElement = "+lOutSize.value);
+            for (int i=0; i<lOutSize.value; i++) {
+                System.out.println("output1["+i+"]="+output1[i]);
             }
             
             /*
@@ -302,23 +302,23 @@ public class TestCoreMetaData {
             func = "rsi";
             params.clear();
             params.add("8");
-
+            
             calc = new SimpleHelper(func, params);
-
+            
             System.out.println("===============================================");
             System.out.println(func);
-            calc.calculate(0, 59, new Object[]{close}, new Object[]{output1}, lOutIdx, lOutSize);
-
-            System.out.println("lookback=" + calc.getLookback());
-            System.out.println("outBegIdx    = " + lOutIdx.value + "    outNbElement = " + lOutSize.value);
-            for (int i = 0; i < lOutSize.value; i++) {
-                System.out.println("output1[" + i + "]=" + output1[i]);
+            calc.calculate(0, 59, new Object[] { close }, new Object[] { output1 }, lOutIdx, lOutSize);
+            
+            System.out.println("lookback="+calc.getLookback());
+            System.out.println("outBegIdx    = "+lOutIdx.value+ "    outNbElement = "+lOutSize.value);
+            for (int i=0; i<lOutSize.value; i++) {
+                System.out.println("output1["+i+"]="+output1[i]);
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+    
     }
 
 }

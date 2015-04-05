@@ -49,18 +49,21 @@ package com.tictactec.ta.lib.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class AllTests {
+public class AllTests
+{
 
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(AllTests.suite());
-    }
+   public static void main(String[] args)
+   {
+      junit.textui.TestRunner.run(AllTests.suite());
+   }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite("Test for TA.Lib.Test");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(TestAbstract.class);
-        //$JUnit-END$
-        return suite;
-    }
+   public static Test suite()
+   {
+      TestSuite suite = new TestSuite("Test for TA.Lib.Test");
+      //$JUnit-BEGIN$
+      suite.addTestSuite(TestAbstract.class);
+      //$JUnit-END$
+      return suite;
+   }
 
 }

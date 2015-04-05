@@ -50,10 +50,11 @@ import junit.framework.*;
 import com.tictactec.ta.lib.*;
 
 /**
+ *
  * @author Buzzo
  */
 public class MIntegerTest extends TestCase {
-
+    
     public MIntegerTest(String testName) {
         super(testName);
     }
@@ -66,15 +67,16 @@ public class MIntegerTest extends TestCase {
 
     public static Test suite() {
         TestSuite suite = new TestSuite(MIntegerTest.class);
-
+        
         return suite;
-    }
-
-    public void testMutable() {
-        MInteger i = new MInteger();
-        i.value = 2;
-        Assert.assertTrue(i.value == 2);
-        i.value = 1;
-        Assert.assertTrue(i.value == 1);
+    }    
+    
+    public void testMutable()
+    {
+       MInteger i = new MInteger();
+       i.value = 2;
+       Assert.assertTrue( i.value == 2 );
+       i.value = 1;
+       Assert.assertTrue( i.value == 1 );       
     }
 }

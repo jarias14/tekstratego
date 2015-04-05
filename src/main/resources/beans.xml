@@ -16,7 +16,8 @@
 
     <jaxrs:server id="services" address="/">
         <jaxrs:serviceBeans>
-            <ref bean="restListenerServiceImpl"/>
+            <ref bean="listenerRestService"/>
+            <ref bean="pricerRestService"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">

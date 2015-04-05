@@ -57,148 +57,174 @@ import com.tictactec.ta.lib.RetCode;
 /**
  * @deprecated in favor of CoreMetaData class
  */
-public class TaFuncMetaInfo extends TaFuncSignature {
-    Method method;
-    Method lookbackMethod;
-    Class[] outVarTypes;
-    Class[] optionTypes;
-    Class[] parameterTypes;
+public class TaFuncMetaInfo extends TaFuncSignature
+{
+   Method method;
+   Method lookbackMethod;
+   Class[] outVarTypes;
+   Class[] optionTypes;
+   Class[] parameterTypes;
 
-    static final int TOTAL_FIX_PARAMETERS = 4;
-    static final int INPUT_FIX_PARAMETERS = 2;
-    static final int OUTPUT_FIX_PARAMETERS = 2;
+   static final int TOTAL_FIX_PARAMETERS = 4;
+   static final int INPUT_FIX_PARAMETERS = 2;
+   static final int OUTPUT_FIX_PARAMETERS = 2;
+   
+   public TaFuncMetaInfo(String name, Method method, Method lookbackMethod)
+   {
+      this.name = name;
+      this.method = method;
+      this.lookbackMethod = lookbackMethod;
+      this.optionTypes = lookbackMethod.getParameterTypes();
+      this.parameterTypes = method.getParameterTypes();
 
-    public TaFuncMetaInfo(String name, Method method, Method lookbackMethod) {
-        this.name = name;
-        this.method = method;
-        this.lookbackMethod = lookbackMethod;
-        this.optionTypes = lookbackMethod.getParameterTypes();
-        this.parameterTypes = method.getParameterTypes();
+      int ins = getNumberOfInputParameters();
+      int outs = getNumberOfOutputParameters();
 
-        int ins = getNumberOfInputParameters();
-        int outs = getNumberOfOutputParameters();
+      createVarTypes(ins, outs);
+   }
 
-        createVarTypes(ins, outs);
-    }
+   int getNumberOfInputParameters()
+   {
+      return getFirstMInteger() - optionTypes.length - INPUT_FIX_PARAMETERS;
+   }
 
-    int getNumberOfInputParameters() {
-        return getFirstMInteger() - optionTypes.length - INPUT_FIX_PARAMETERS;
-    }
+   int getNumberOfOutputParameters()
+   {
+      return parameterTypes.length - getFirstMInteger() - OUTPUT_FIX_PARAMETERS;
+   }
 
-    int getNumberOfOutputParameters() {
-        return parameterTypes.length - getFirstMInteger() - OUTPUT_FIX_PARAMETERS;
-    }
+   int getFirstMInteger()
+   {
+      for (int i = 0; i < parameterTypes.length; i++)
+      {
+         if (parameterTypes[i].equals(MInteger.class))
+         {
+            return i;
+         }
+      }
+      return -1;
+   }
 
-    int getFirstMInteger() {
-        for (int i = 0; i < parameterTypes.length; i++) {
-            if (parameterTypes[i].equals(MInteger.class)) {
-                return i;
-            }
-        }
-        return -1;
-    }
+   void createVarTypes(int ins, int outs)
+   {
+      assert ins > 0 && outs > 0;
+      inVarTypes = new Class[ins];
+      outVarTypes = new Class[outs];
 
-    void createVarTypes(int ins, int outs) {
-        assert ins > 0 && outs > 0;
-        inVarTypes = new Class[ins];
-        outVarTypes = new Class[outs];
+      for (int i = 0; i < ins; i++)
+      {
+         inVarTypes[i] = parameterTypes[INPUT_FIX_PARAMETERS + i];
+      }
+      int offset = INPUT_FIX_PARAMETERS + ins + optionTypes.length
+            + OUTPUT_FIX_PARAMETERS;
+      for (int i = 0; i < outs; i++)
+      {
+         outVarTypes[i] = parameterTypes[offset + i];
+      }
+   }
 
-        for (int i = 0; i < ins; i++) {
-            inVarTypes[i] = parameterTypes[INPUT_FIX_PARAMETERS + i];
-        }
-        int offset = INPUT_FIX_PARAMETERS + ins + optionTypes.length
-                + OUTPUT_FIX_PARAMETERS;
-        for (int i = 0; i < outs; i++) {
-            outVarTypes[i] = parameterTypes[offset + i];
-        }
-    }
+   public Class[] getInVarTypes()
+   {
+      return inVarTypes;
+   }
 
-    public Class[] getInVarTypes() {
-        return inVarTypes;
-    }
+   public Method getLookbackMethod()
+   {
+      return lookbackMethod;
+   }
 
-    public Method getLookbackMethod() {
-        return lookbackMethod;
-    }
+   public Method getMethod()
+   {
+      return method;
+   }
 
-    public Method getMethod() {
-        return method;
-    }
+   public String getName()
+   {
+      return name;
+   }
 
-    public String getName() {
-        return name;
-    }
+   public Class[] getOptionTypes()
+   {
+      return optionTypes;
+   }
 
-    public Class[] getOptionTypes() {
-        return optionTypes;
-    }
+   public Class[] getOutVarTypes()
+   {
+      return outVarTypes;
+   }
 
-    public Class[] getOutVarTypes() {
-        return outVarTypes;
-    }
+   public boolean is11()
+   {
+      return inVarTypes.length == 1 && outVarTypes.length == 1;
+   }
 
-    public boolean is11() {
-        return inVarTypes.length == 1 && outVarTypes.length == 1;
-    }
+   public boolean is1N()
+   {
+      return inVarTypes.length == 1 && outVarTypes.length > 1;
+   }
 
-    public boolean is1N() {
-        return inVarTypes.length == 1 && outVarTypes.length > 1;
-    }
+   public boolean isN1()
+   {
+      return inVarTypes.length > 1 && outVarTypes.length == 1;
+   }
 
-    public boolean isN1() {
-        return inVarTypes.length > 1 && outVarTypes.length == 1;
-    }
+   public boolean isNN()
+   {
+      return inVarTypes.length > 1 && outVarTypes.length > 1;
+   }
 
-    public boolean isNN() {
-        return inVarTypes.length > 1 && outVarTypes.length > 1;
-    }
+   public RetCode call(Core taCore, Object[] inArs, int startIndex, int endIndex, Object[] outArs, MInteger outBegIdx, MInteger outNbElement, Object ... options) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+      Object[] parameters = new Object[inArs.length+outArs.length+options.length+TOTAL_FIX_PARAMETERS];
+      parameters[0] = startIndex;
+      parameters[1] = endIndex;
+      int i=2;
+      for(int j=0;j<inVarTypes.length;j++)
+      {
+         parameters[i++] = inArs[j];
+      }
+      for(Object opt : options){
+         parameters[i++] = opt;
+      }
+      parameters[i++] = outBegIdx;
+      parameters[i++] = outNbElement;
+      for(int j=0;j<outVarTypes.length;j++)
+      {
+         parameters[i++] = outArs[j];
+      }     
+      return (RetCode) getMethod().invoke(taCore, parameters);
+   }
+   
+   public int callLookback(Core taCore, Object ... options) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException
+   {
+      System.out.println(getLookbackMethod());
+      return (Integer) getLookbackMethod().invoke(taCore, options);
+   }
+   
+   public String toString()
+   {
+      StringBuffer sb = new StringBuffer();
+      sb.append(name + "[");
+      sb.append(inVarTypes.length);
+      sb.append(":");
+      sb.append(outVarTypes.length);
+      sb.append("]");
 
-    public RetCode call(Core taCore, Object[] inArs, int startIndex, int endIndex, Object[] outArs, MInteger outBegIdx, MInteger outNbElement, Object... options) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        Object[] parameters = new Object[inArs.length + outArs.length + options.length + TOTAL_FIX_PARAMETERS];
-        parameters[0] = startIndex;
-        parameters[1] = endIndex;
-        int i = 2;
-        for (int j = 0; j < inVarTypes.length; j++) {
-            parameters[i++] = inArs[j];
-        }
-        for (Object opt : options) {
-            parameters[i++] = opt;
-        }
-        parameters[i++] = outBegIdx;
-        parameters[i++] = outNbElement;
-        for (int j = 0; j < outVarTypes.length; j++) {
-            parameters[i++] = outArs[j];
-        }
-        return (RetCode) getMethod().invoke(taCore, parameters);
-    }
-
-    public int callLookback(Core taCore, Object... options) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        System.out.println(getLookbackMethod());
-        return (Integer) getLookbackMethod().invoke(taCore, options);
-    }
-
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append(name + "[");
-        sb.append(inVarTypes.length);
-        sb.append(":");
-        sb.append(outVarTypes.length);
-        sb.append("]");
-
-        sb.append("IN:(");
-        for (int i = 0; i < inVarTypes.length; i++) {
-            sb.append(inVarTypes[i].getName());
-            if (i < (inVarTypes.length - 1))
-                sb.append(",");
-        }
-        sb.append(") OUT(");
-        for (int i = 0; i < outVarTypes.length; i++) {
-            sb.append(outVarTypes[i].getName());
-            if (i < (outVarTypes.length - 1))
-                sb.append(",");
-        }
-        sb.append(")");
-        return sb.toString();
-    }
+      sb.append("IN:(");
+      for (int i = 0; i < inVarTypes.length; i++)
+      {
+         sb.append(inVarTypes[i].getName());
+         if (i < (inVarTypes.length - 1))
+            sb.append(",");
+      }
+      sb.append(") OUT(");
+      for (int i = 0; i < outVarTypes.length; i++)
+      {
+         sb.append(outVarTypes[i].getName());
+         if (i < (outVarTypes.length - 1))
+            sb.append(",");
+      }
+      sb.append(")");
+      return sb.toString();
+   }
 
 }

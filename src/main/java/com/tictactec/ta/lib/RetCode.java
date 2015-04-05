@@ -46,10 +46,11 @@
 
 package com.tictactec.ta.lib;
 
-public enum RetCode {
-    Success,
-    BadParam,
-    OutOfRangeStartIndex,
+public enum RetCode
+{
+	Success,
+	BadParam,
+	OutOfRangeStartIndex,
     OutOfRangeEndIndex,
     AllocErr,
     InternalError

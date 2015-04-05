@@ -78,22 +78,23 @@ import com.tictactec.ta.lib.meta.annotation.RealRange;
  * for those willing to call a certain TA function using late binding techniques. These two functionalities let you
  * call TA functions dinamically. Even if more TA functions are added by the time, your application code will be able
  * to call all added functions by querying TA-Lib package about:
- * <p>
+ * 
  * <li>TA functions available;
  * <li>function groups the TA functions belong to;
  * <li>input arguments of TA functions and also their run time type information;
  * <li>output arguments of TA functions and also their run time type information;
  * <li>optional input arguments of TA functions and also their run time type information;
- * <p>
+ *
  * CoreMetaData is mostly intended for API developers and mimic as accurately as possible the functionality exposed by
  * <i>ta_abstract.h</i> "C" header file.
- *
- * @author Richard Gomes
+
  * @see com.tictactec.ta.lib.meta.helpers.SimpleHelper is a simple API level helper class based on CoreMetaData
  * @see com.tictactec.ta.lib.meta.CoreMetaDataCompatibility for a "C" style interface, mostly intended for those traslating "C" code to Java.
+ * 
+ * @author Richard Gomes
  */
 public class CoreMetaData implements Comparable<CoreMetaData> {
-
+    
     private static transient final String CONTACT_DEVELOPERS = "Contact developers";
     private static transient final String INDEX_OUT_OF_BOUNDS = "Index out of bounds";
     private static transient final String ILLEGAL_NUMBER_OF_ARGUMENTS = "Illegal number of arguments";
@@ -102,7 +103,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
     private static transient final String INT_ARRAY_EXPECTED = "int[] expected";
     private static transient final String DOUBLE_ARRAY_EXPECTED = "double[] expected";
     private static transient final String PRICE_EXPECTED = "PriceInputParameter object expected";
-
+    
     private static transient final Class<CoreAnnotated> coreClass = CoreAnnotated.class;
     private static transient final String LOOKBACK_SUFFIX = "Lookback";
 
@@ -111,18 +112,18 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
     private String name = null;
     private Method function = null;
     private Method lookback = null;
-
+    
     private static transient Map<String, CoreMetaData> taFuncMap = null;
-    private static transient Map<String, Set<CoreMetaData>> taGrpMap = null;
+    private static transient Map<String, Set<CoreMetaData> > taGrpMap = null;
 
     private transient Object callInputParams[] = null;
     private transient Object callOutputParams[] = null;
     private transient Object callOptInputParams[] = null;
-
-
+    
+    
     protected CoreMetaData() {
         synchronized (coreClass) {
-            if (taCore == null) {
+            if (taCore==null) {
                 taCore = new CoreAnnotated();
             }
         }
@@ -141,7 +142,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
         return taFuncMap;
     }
 
-    static private Map<String, Set<CoreMetaData>> getAllGrps() {
+    static private Map<String, Set<CoreMetaData> > getAllGrps() {
         synchronized (coreClass) {
             if (taGrpMap == null) {
                 taGrpMap = getTaGrpMetaInfoMap();
@@ -187,14 +188,14 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
         return result;
     }
 
-    static private Map<String, Set<CoreMetaData>> getTaGrpMetaInfoMap() {
-        if (taFuncMap == null) getAllFuncs();
-        Map<String, Set<CoreMetaData>> result = new TreeMap<String, Set<CoreMetaData>>();
+    static private Map<String, Set<CoreMetaData> > getTaGrpMetaInfoMap() {
+        if (taFuncMap==null) getAllFuncs();
+        Map<String, Set<CoreMetaData> > result = new TreeMap<String, Set<CoreMetaData> >();
         for (String func : taFuncMap.keySet()) {
             CoreMetaData mi = taFuncMap.get(func);
             String group = mi.getFuncInfo().group();
             Set<CoreMetaData> set = result.get(group);
-            if (set == null) {
+            if (set==null) {
                 set = new TreeSet<CoreMetaData>();
                 result.put(group, set);
             }
@@ -202,7 +203,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
         }
         return result;
     }
-
+    
     static private FuncInfo getFuncInfo(Method method) throws IncompleteAnnotationException {
         FuncInfo annotation = method.getAnnotation(FuncInfo.class);
         if (annotation != null) return annotation;
@@ -223,7 +224,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
      * Returns the instance which describes a TA function. This is a
      * convenience method that simply adopts the standard "getInstance"
      * convention. This method simply calls getFuncHandle.
-     *
+     * 
      * @param name
      * @return an instance of CoreMetaData
      * @throws NoSuchMethodException
@@ -234,7 +235,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
 
     /**
      * Returns an annotation which describes this TA function.
-     *
+     * 
      * @return an @interface FuncInfo
      * @throws IncompleteAnnotationException
      */
@@ -276,7 +277,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
 
     /**
      * Returns an annotation which describes the n-th input parameter requested, if any.
-     *
+     * 
      * @param paramIndex is the n-th input parameter
      * @return an @interface InputParameterInfo
      * @throws IllegalArgumentException
@@ -287,7 +288,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
 
     /**
      * Returns an annotation which describes the n-th output parameter requested, if any.
-     *
+     * 
      * @param paramIndex is the n-th output parameter
      * @return an @interface OutputParameterInfo
      * @throws IllegalArgumentException
@@ -298,7 +299,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
 
     /**
      * Returns an annotation which describes the n-th optional input parameter requested, if any.
-     *
+     * 
      * @param paramIndex is the n-th optional input parameter
      * @return an @interface OptInputParameterInfo
      * @throws IllegalArgumentException
@@ -310,7 +311,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
     /**
      * Returns an annotation describing an optional input parameter which type
      * is expected to be an IntegerList
-     *
+     * 
      * @param paramIndex is the n-th optional input parameter
      * @return an @interface IntegerList
      * @throws IllegalArgumentException
@@ -322,7 +323,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
     /**
      * Returns an annotation describing an optional input parameter which type
      * is expected to be an IntegerRange
-     *
+     * 
      * @param paramIndex is the n-th optional input parameter
      * @return an @interface IntegerRange
      * @throws IllegalArgumentException
@@ -334,7 +335,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
     /**
      * Returns an annotation describing an optional input parameter which type
      * is expected to be an RealList
-     *
+     * 
      * @param paramIndex is the n-th optional input parameter
      * @return an @interface RealList
      * @throws IllegalArgumentException
@@ -346,7 +347,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
     /**
      * Returns an annotation describing an optional input parameter which type
      * is expected to be an RealRange
-     *
+     * 
      * @param paramIndex is the n-th optional input parameter
      * @return an @interface RealRange
      * @throws IllegalArgumentException
@@ -358,40 +359,40 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
     /**
      * Assigns an <b>int</b> value to an optional input parameter
      * which is expected to be assignment compatible to <b>int</b>.
-     *
+     * 
      * @param paramIndex is the n-th optional input parameter
-     * @param value      is the <b>int</b> value
+     * @param value is the <b>int</b> value
      * @throws IllegalArgumentException
      */
     public void setOptInputParamInteger(final int paramIndex, final int value) throws IllegalArgumentException {
         OptInputParameterInfo param = getOptInputParameterInfo(paramIndex);
-        if (param == null) throw new InternalError(CONTACT_DEVELOPERS);
-        if (param.type() == OptInputParameterType.TA_OptInput_IntegerList) {
+        if (param==null) throw new InternalError(CONTACT_DEVELOPERS);
+        if (param.type()==OptInputParameterType.TA_OptInput_IntegerList) {
             IntegerList list = getOptInputIntegerList(paramIndex);
             for (int entry : list.value()) {
-                if (value == entry) {
-                    if (callOptInputParams == null) callOptInputParams = new Object[getFuncInfo().nbOptInput()];
+                if (value==entry) {
+                    if (callOptInputParams==null) callOptInputParams = new Object[getFuncInfo().nbOptInput()];
                     callOptInputParams[paramIndex] = value;
                     return;
                 }
             }
-        } else if (param.type() == OptInputParameterType.TA_OptInput_IntegerRange) {
+        } else if (param.type()==OptInputParameterType.TA_OptInput_IntegerRange) {
             IntegerRange range = getOptInputIntegerRange(paramIndex);
-            if ((value >= range.min()) && (value <= range.max())) {
-                if (callOptInputParams == null) callOptInputParams = new Object[getFuncInfo().nbOptInput()];
+            if ((value >= range.min())&&(value <= range.max())) {
+                if (callOptInputParams==null) callOptInputParams = new Object[getFuncInfo().nbOptInput()];
                 callOptInputParams[paramIndex] = value;
                 return;
             }
-        }
+        } 
         throw new InternalError(CONTACT_DEVELOPERS);
     }
 
     /**
      * Assigns an <b>int</b> value obtained from a <b>String</b> to an optional input parameter
      * which is expected to be assignment compatible to <b>int</b>.
-     *
+     * 
      * @param paramIndex is the n-th optional input parameter
-     * @param string     is the <b>String</b> which must hold an <b>int</b> value
+     * @param string is the <b>String</b> which must hold an <b>int</b> value
      * @throws IllegalArgumentException
      */
     public void setOptInputParamInteger(final int paramIndex, final String string) throws IllegalArgumentException {
@@ -400,20 +401,19 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
             setOptInputParamInteger(paramIndex, v.intValue());
         } catch (NumberFormatException e) {
             OptInputParameterInfo param = getOptInputParameterInfo(paramIndex);
-            if (param == null) throw new InternalError(CONTACT_DEVELOPERS);
-            if (param.type() != OptInputParameterType.TA_OptInput_IntegerList)
-                throw new InternalError(CONTACT_DEVELOPERS);
+            if (param==null) throw new InternalError(CONTACT_DEVELOPERS);
+            if (param.type()!=OptInputParameterType.TA_OptInput_IntegerList) throw new InternalError(CONTACT_DEVELOPERS);
 
             // FIXME: The correct implementation should ...
             // expose a field in @IntegerList informing
             // which Class should be taken for introspection.
             // Currently, all IntegerList instances implicitly depend on MAType class
             // but it may change some day.
-
+            
             MAType[] fields = MAType.values();
             for (MAType value : fields) {
                 if (value.name().toUpperCase().equals(string.toUpperCase())) {
-                    if (callOptInputParams == null) callOptInputParams = new Object[getFuncInfo().nbOptInput()];
+                    if (callOptInputParams==null) callOptInputParams = new Object[getFuncInfo().nbOptInput()];
                     callOptInputParams[paramIndex] = value;
                     return;
                 }
@@ -425,26 +425,26 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
     /**
      * Assigns an <b>double</b> value to an optional input parameter
      * which is expected to be assignment compatible to <b>double</b>.
-     *
+     * 
      * @param paramIndex is the n-th optional input parameter
-     * @param value      is the <b>double</b> value
+     * @param value is the <b>double</b> value
      * @throws IllegalArgumentException
      */
     public void setOptInputParamReal(final int paramIndex, final double value) throws IllegalArgumentException {
         OptInputParameterInfo param = getOptInputParameterInfo(paramIndex);
-        if (param.type() == OptInputParameterType.TA_OptInput_RealList) {
+        if (param.type()==OptInputParameterType.TA_OptInput_RealList) {
             RealList list = getOptInputRealList(paramIndex);
             for (double entry : list.value()) {
-                if (value == entry) {
-                    if (callOptInputParams == null) callOptInputParams = new Object[getFuncInfo().nbOptInput()];
+                if (value==entry) {
+                    if (callOptInputParams==null) callOptInputParams = new Object[getFuncInfo().nbOptInput()];
                     callOptInputParams[paramIndex] = value;
                     return;
                 }
             }
-        } else if (param.type() == OptInputParameterType.TA_OptInput_RealRange) {
+        } else if (param.type()==OptInputParameterType.TA_OptInput_RealRange) {
             RealRange range = getOptInputRealRange(paramIndex);
-            if ((value >= range.min()) && (value <= range.max())) {
-                if (callOptInputParams == null) callOptInputParams = new Object[getFuncInfo().nbOptInput()];
+            if ((value >= range.min())&&(value <= range.max())) {
+                if (callOptInputParams==null) callOptInputParams = new Object[getFuncInfo().nbOptInput()];
                 callOptInputParams[paramIndex] = value;
                 return;
             }
@@ -455,9 +455,9 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
     /**
      * Assigns an <b>double</b> value obtained from a <b>String</b> to an optional input parameter
      * which is expected to be assignment compatible to <b>double</b>.
-     *
+     * 
      * @param paramIndex is the n-th optional input parameter
-     * @param string     is the <b>String</b> which must hold an <b>double</b> value
+     * @param string is the <b>String</b> which must hold an <b>double</b> value
      * @throws IllegalArgumentException
      */
     public void setOptInputParamReal(final int paramIndex, final String string) throws IllegalArgumentException {
@@ -466,12 +466,12 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
             setOptInputParamReal(paramIndex, v.doubleValue());
         } catch (NumberFormatException e) {
             OptInputParameterInfo param = getOptInputParameterInfo(paramIndex);
-            if (param == null) throw new InternalError(CONTACT_DEVELOPERS);
-            if (param.type() == OptInputParameterType.TA_OptInput_RealList) {
+            if (param==null) throw new InternalError(CONTACT_DEVELOPERS);
+            if (param.type()==OptInputParameterType.TA_OptInput_RealList) {
                 RealList list = getOptInputRealList(paramIndex);
-                for (int i = 0; i < list.string().length; i++) {
+                for (int i=0; i<list.string().length; i++) {
                     if (string.toUpperCase().equals(list.string()[i])) {
-                        if (callOptInputParams == null) callOptInputParams = new Object[getFuncInfo().nbOptInput()];
+                        if (callOptInputParams==null) callOptInputParams = new Object[getFuncInfo().nbOptInput()];
                         double value = list.value()[i];
                         callOptInputParams[paramIndex] = value;
                         return;
@@ -485,131 +485,125 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
     /**
      * Assigns an Object which is expected to be assignment compatible of <b>double[]</b> to
      * an input parameter which is expected to be assignment compatible of <b>double[]</b>.
-     *
+     * 
      * @param paramIndex is the n-th input parameter
-     * @param array      is an Object expected to be assignment compatible to <b>double[]</b>
+     * @param array is an Object expected to be assignment compatible to <b>double[]</b>
      * @throws IllegalArgumentException
      * @throws NullPointerException
      */
     public void setInputParamReal(final int paramIndex, final Object array) throws IllegalArgumentException, NullPointerException {
-        if (array == null) throw new NullPointerException(ARRAY_IS_NULL);
+        if (array==null) throw new NullPointerException(ARRAY_IS_NULL);
         InputParameterInfo param = getInputParameterInfo(paramIndex);
-        if ((param == null) || (param.type() != InputParameterType.TA_Input_Real))
-            throw new InternalError(CONTACT_DEVELOPERS);
-        if (!(array instanceof double[])) throw new IllegalArgumentException(DOUBLE_ARRAY_EXPECTED);
-        if (callInputParams == null) callInputParams = new Object[getFuncInfo().nbInput()];
+        if ((param==null) || (param.type()!=InputParameterType.TA_Input_Real)) throw new InternalError(CONTACT_DEVELOPERS);
+        if (! (array instanceof double[]) ) throw new IllegalArgumentException(DOUBLE_ARRAY_EXPECTED);
+        if (callInputParams==null) callInputParams = new Object[getFuncInfo().nbInput()];
         callInputParams[paramIndex] = array;
     }
 
     /**
      * Assigns an Object which is expected to be assignment compatible of <b>int[]</b> to
      * an input parameter which is expected to be assignment compatible of <b>int[]</b>.
-     *
+     * 
      * @param paramIndex is the n-th input parameter
-     * @param array      is an Object expected to be assignment compatible to <b>int[]</b>
+     * @param array is an Object expected to be assignment compatible to <b>int[]</b>
      * @throws IllegalArgumentException
      * @throws NullPointerException
      */
     public void setInputParamInteger(final int paramIndex, final Object array) throws IllegalArgumentException, NullPointerException {
-        if (array == null) throw new NullPointerException(ARRAY_IS_NULL);
+        if (array==null) throw new NullPointerException(ARRAY_IS_NULL);
         InputParameterInfo param = getInputParameterInfo(paramIndex);
-        if ((param == null) || (param.type() != InputParameterType.TA_Input_Integer))
-            throw new InternalError(CONTACT_DEVELOPERS);
-        if (!(array instanceof int[])) throw new IllegalArgumentException(INT_ARRAY_EXPECTED);
-        if (callInputParams == null) callInputParams = new Object[getFuncInfo().nbInput()];
+        if ((param==null) || (param.type()!=InputParameterType.TA_Input_Integer)) throw new InternalError(CONTACT_DEVELOPERS);
+        if (! (array instanceof int[]) ) throw new IllegalArgumentException(INT_ARRAY_EXPECTED);
+        if (callInputParams==null) callInputParams = new Object[getFuncInfo().nbInput()];
         callInputParams[paramIndex] = array;
     }
 
     /**
      * Assigns Objects which are expected to be assignment compatible of <b>double[]</b> to
      * an input parameter which is expected to be assignment compatible of <b>PriceInputParameter</b>.
-     * <p>
+     * 
      * <p>You only need to pass those parameters strictly needed by the n-th input parameter of a certain TA function.
-     *
-     * @param paramIndex   is the n-th input parameter
-     * @param open         represents the open prices. This Object expected to be assignment compatible to <b>double[]</b>
-     * @param high         represents the high prices. This Object expected to be assignment compatible to <b>double[]</b>
-     * @param low          represents the low prices. This Object expected to be assignment compatible to <b>double[]</b>
-     * @param close        represents the close prices. This Object expected to be assignment compatible to <b>double[]</b>
-     * @param volume       represents the volume. This Object expected to be assignment compatible to <b>double[]</b>
+     * 
+     * @param paramIndex is the n-th input parameter
+     * @param open represents the open prices. This Object expected to be assignment compatible to <b>double[]</b>
+     * @param high represents the high prices. This Object expected to be assignment compatible to <b>double[]</b>
+     * @param low represents the low prices. This Object expected to be assignment compatible to <b>double[]</b>
+     * @param close represents the close prices. This Object expected to be assignment compatible to <b>double[]</b>
+     * @param volume represents the volume. This Object expected to be assignment compatible to <b>double[]</b>
      * @param openInterest represents the open interest. This Object expected to be assignment compatible to <b>double[]</b>
      * @throws IllegalArgumentException
      * @throws NullPointerException
      */
     public void setInputParamPrice(final int paramIndex,
-                                   final double[] open, final double[] high, final double[] low, final double[] close,
-                                   final double[] volume, final double[] openInterest)
+                final double[] open, final double[] high, final double[] low, final double[] close,
+                final double[] volume, final double[] openInterest)
             throws IllegalArgumentException, NullPointerException {
         InputParameterInfo param = getInputParameterInfo(paramIndex);
-        if ((param == null) || (param.type() != InputParameterType.TA_Input_Price))
-            throw new InternalError(CONTACT_DEVELOPERS);
-        if (callInputParams == null) callInputParams = new Object[getFuncInfo().nbInput()];
+        if ((param==null) || (param.type()!=InputParameterType.TA_Input_Price)) throw new InternalError(CONTACT_DEVELOPERS);
+        if (callInputParams==null) callInputParams = new Object[getFuncInfo().nbInput()];
         callInputParams[paramIndex] = new PriceInputParameter(param.flags(), open, high, low, close, volume, openInterest);
     }
 
     /**
      * Assigns an Object which are expected to be assignment compatible of <b>PriceInputParameter</b> to
      * an input parameter which is expected to be assignment compatible of <b>PriceInputParameter</b>.
-     *
+     * 
      * @param paramIndex is the n-th input parameter
-     * @param array      is an Object expected to be assignment compatible to <b>PriceInputParameter</b>
+     * @param array is an Object expected to be assignment compatible to <b>PriceInputParameter</b>
      * @throws IllegalArgumentException
      * @throws NullPointerException
      */
     public void setInputParamPrice(final int paramIndex, final Object array) throws IllegalArgumentException, NullPointerException {
-        if (array == null) throw new NullPointerException(ARRAY_IS_NULL);
+        if (array==null) throw new NullPointerException(ARRAY_IS_NULL);
         InputParameterInfo param = getInputParameterInfo(paramIndex);
-        if ((param == null) || (param.type() != InputParameterType.TA_Input_Price))
-            throw new InternalError(CONTACT_DEVELOPERS);
-        if (!(array instanceof PriceInputParameter)) throw new IllegalArgumentException(PRICE_EXPECTED);
-        if (callInputParams == null) callInputParams = new Object[getFuncInfo().nbInput()];
+        if ((param==null) || (param.type()!=InputParameterType.TA_Input_Price)) throw new InternalError(CONTACT_DEVELOPERS);
+        if (! (array instanceof PriceInputParameter) ) throw new IllegalArgumentException(PRICE_EXPECTED);
+        if (callInputParams==null) callInputParams = new Object[getFuncInfo().nbInput()];
         callInputParams[paramIndex] = array;
     }
 
     /**
      * Assigns an Object which are expected to be assignment compatible of <b>double[]</b> to
      * an output parameter which is expected to be assignment compatible of <b>double[]</b>.
-     *
+     * 
      * @param paramIndex is the n-th output parameter
-     * @param array      is an Object expected to be assignment compatible to <b>double[]</b>
+     * @param array is an Object expected to be assignment compatible to <b>double[]</b>
      * @throws IllegalArgumentException
      * @throws NullPointerException
      * @throws ClassCastException
      */
     public void setOutputParamReal(final int paramIndex, Object array) throws IllegalArgumentException, NullPointerException, ClassCastException {
-        if (array == null) throw new NullPointerException(ARRAY_IS_NULL);
+        if (array==null) throw new NullPointerException(ARRAY_IS_NULL);
         OutputParameterInfo param = getOutputParameterInfo(paramIndex);
-        if ((param == null) || (param.type() != OutputParameterType.TA_Output_Real))
-            throw new InternalError(CONTACT_DEVELOPERS);
-        if (!(array instanceof double[])) throw new IllegalArgumentException(DOUBLE_ARRAY_EXPECTED);
-        if (callOutputParams == null) callOutputParams = new Object[getFuncInfo().nbOutput()];
+        if ((param==null)||(param.type()!=OutputParameterType.TA_Output_Real)) throw new InternalError(CONTACT_DEVELOPERS);
+        if (! (array instanceof double[]) ) throw new IllegalArgumentException(DOUBLE_ARRAY_EXPECTED);
+        if (callOutputParams==null) callOutputParams = new Object[getFuncInfo().nbOutput()];
         callOutputParams[paramIndex] = array;
     }
 
     /**
      * Assigns an Object which are expected to be assignment compatible of <b>int[]</b> to
      * an output parameter which is expected to be assignment compatible of <b>int[]</b>.
-     *
+     * 
      * @param paramIndex is the n-th output parameter
-     * @param array      is an Object expected to be assignment compatible to <b>int[]</b>
+     * @param array is an Object expected to be assignment compatible to <b>int[]</b>
      * @throws IllegalArgumentException
      * @throws NullPointerException
      * @throws ClassCastException
      */
     public void setOutputParamInteger(final int paramIndex, Object array) throws IllegalArgumentException, NullPointerException, ClassCastException {
-        if (array == null) throw new NullPointerException(ARRAY_IS_NULL);
+        if (array==null) throw new NullPointerException(ARRAY_IS_NULL);
         OutputParameterInfo param = getOutputParameterInfo(paramIndex);
-        if ((param == null) || (param.type() != OutputParameterType.TA_Output_Integer))
-            throw new InternalError(CONTACT_DEVELOPERS);
-        if (!(array instanceof int[])) throw new IllegalArgumentException(INT_ARRAY_EXPECTED);
-        if (callOutputParams == null) callOutputParams = new Object[getFuncInfo().nbOutput()];
+        if ((param==null)||(param.type()!=OutputParameterType.TA_Output_Integer)) throw new InternalError(CONTACT_DEVELOPERS);
+        if (! (array instanceof int[]) ) throw new IllegalArgumentException(INT_ARRAY_EXPECTED);
+        if (callOutputParams==null) callOutputParams = new Object[getFuncInfo().nbOutput()];
         callOutputParams[paramIndex] = array;
     }
 
     /**
      * For each defined TA function executes the <b>TaFuncService.execute()</b> interface method of the implementation
-     * class passed ar argument.
-     *
+     * class passed ar argument. 
+     * 
      * @param service is a <b>TaFuncService</b> implementation class
      * @throws Exception
      */
@@ -622,7 +616,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
     /**
      * For each defined group of TA functions executes the <b>TaFuncService.execute()</b> interface method of the implementation
      * class passed ar argument.
-     *
+     * 
      * @param service
      * @throws Exception
      */
@@ -634,21 +628,21 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
 
     private Object[] getOptInputParameters() {
         int size = getFuncInfo().nbOptInput();
-        if (callOptInputParams == null) callOptInputParams = new Object[size];
-        for (int i = 0; i < size; i++) {
-            if (callOptInputParams[i] == null) {
+        if (callOptInputParams==null) callOptInputParams = new Object[size];
+        for (int i=0; i<size; i++) {
+            if (callOptInputParams[i]==null) {
                 OptInputParameterInfo param = getOptInputParameterInfo(i);
-                if (param == null) throw new InternalError(CONTACT_DEVELOPERS);
-                if (param.type() == OptInputParameterType.TA_OptInput_IntegerList) {
+                if (param==null) throw new InternalError(CONTACT_DEVELOPERS);
+                if (param.type()==OptInputParameterType.TA_OptInput_IntegerList) {
                     IntegerList list = getOptInputIntegerList(i);
                     callOptInputParams[i] = list.defaultValue();
-                } else if (param.type() == OptInputParameterType.TA_OptInput_IntegerRange) {
+                } else if (param.type()==OptInputParameterType.TA_OptInput_IntegerRange) {
                     IntegerRange range = getOptInputIntegerRange(i);
                     callOptInputParams[i] = range.defaultValue();
-                } else if (param.type() == OptInputParameterType.TA_OptInput_RealList) {
+                } else if (param.type()==OptInputParameterType.TA_OptInput_RealList) {
                     RealList list = getOptInputRealList(i);
                     callOptInputParams[i] = list.defaultValue();
-                } else if (param.type() == OptInputParameterType.TA_OptInput_RealRange) {
+                } else if (param.type()==OptInputParameterType.TA_OptInput_RealRange) {
                     RealRange range = getOptInputRealRange(i);
                     callOptInputParams[i] = range.defaultValue();
                 } else {
@@ -658,14 +652,14 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
         }
         return callOptInputParams;
     }
-
+    
 
     /**
      * Returns the lookback.
-     * <p>
+     * 
      * <p> Lookback is the number of input data points to be consumed in order to calculate the first output data point. This value
      * is affected by the optional input arguments passed to this TA function.
-     *
+     *  
      * @return the lookback number of input points to be consumed before the first output data point is produced.
      * @throws IllegalArgumentException
      * @throws IllegalAccessException
@@ -675,46 +669,47 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
         Object[] params = getOptInputParameters();
         return (Integer) lookback.invoke(taCore, params);
     }
-
-
+    
+    
     /**
      * Executes the calculations defined by this TA function.
-     * <p>
+     * 
      * <p> You need to provide input arguments where this TA function will obtain data from and output arguments where this
      * TA function will write output data to.
-     *
-     * @param startIndex   is the initial position of input data to be considered for TA function calculations
-     * @param endIndex     is the final position of input data to be considered for TA function calculations
-     * @param outBegIdx    is returned by this method and represents the initial position of output data returned by this TA function
+     * 
+     * @see com.tictactec.ta.lib.meta.helpers.SimpleHelper class for an example of use.
+     * 
+     * @param startIndex is the initial position of input data to be considered for TA function calculations
+     * @param endIndex is the final position of input data to be considered for TA function calculations
+     * @param outBegIdx is returned by this method and represents the initial position of output data returned by this TA function
      * @param outNbElement is returned by this method and represents the quantity of output data returned by this TA function
      * @throws IllegalArgumentException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
-     * @see com.tictactec.ta.lib.meta.helpers.SimpleHelper class for an example of use.
      */
-    public void callFunc(final int startIndex, final int endIndex, MInteger outBegIdx, MInteger outNbElement)
+    public void callFunc(final int startIndex, final int endIndex, MInteger outBegIdx, MInteger outNbElement) 
             throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 
         int count = 0;
         for (Object item : callInputParams) {
             if (PriceInputParameter.class.isAssignableFrom(item.getClass())) {
-                count += ((PriceInputParameter) item).getCount();
+                count += ((PriceInputParameter)item).getCount();
             } else {
                 count++;
             }
         }
         count += callOutputParams.length;
         count += callOptInputParams.length;
-
-        Object[] params = new Object[count + 4];
+        
+        Object[] params = new Object[count+4];
         count = 0;
         params[count++] = startIndex;
         params[count++] = endIndex;
 
         for (Object item : callInputParams) {
             if (PriceInputParameter.class.isAssignableFrom(item.getClass())) {
-                Object objs[] = ((PriceInputParameter) item).toArrays();
-                for (int i = 0; i < objs.length; i++) {
+                Object objs[] = ((PriceInputParameter)item).toArrays();
+                for (int i=0; i<objs.length; i++) {
                     params[count++] = objs[i];
                 }
             } else {
@@ -732,7 +727,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
         for (Object item : callOutputParams) {
             params[count++] = item;
         }
-
+        
         Type[] types = function.getGenericParameterTypes();
         if (types.length != params.length) throw new IllegalArgumentException(ILLEGAL_NUMBER_OF_ARGUMENTS);
         //for (int i=0; i<types.length; i++) {
@@ -740,7 +735,7 @@ public class CoreMetaData implements Comparable<CoreMetaData> {
         //        throw new IllegalArgumentException("Type mismatch on argument "+i+": "+types[i]);
         //    }
         //}
-
+        
         function.invoke(taCore, params);
     }
 

@@ -47,7 +47,8 @@
 package com.tictactec.ta.lib;
 
 
-public enum RangeType {
+public enum RangeType
+{ 
     RealBody,
     HighLow,
     Shadows

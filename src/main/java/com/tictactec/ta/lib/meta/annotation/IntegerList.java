@@ -54,11 +54,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface IntegerList {
-    String paramName();
-
-    int defaultValue();
-
-    int[] value();
-
+    String   paramName();
+    int      defaultValue();
+    int[]    value();
     String[] string();
 }

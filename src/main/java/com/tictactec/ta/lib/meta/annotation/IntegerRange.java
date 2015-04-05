@@ -54,20 +54,15 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface IntegerRange {
-    String paramName();
-
-    int defaultValue();
-
-    int min();
-
-    int max();
+    String  paramName();
+    int     defaultValue();
+    int     min();
+    int     max();
 
     /* The following suggested value are used by Tech. Analysis software
      * doing parameter "optimization". Can be ignored by most user.
      */
-    int suggested_start();
-
-    int suggested_end();
-
-    int suggested_increment();
+    int  suggested_start();
+    int  suggested_end();
+    int  suggested_increment();
 }

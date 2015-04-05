@@ -54,9 +54,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface InputParameterInfo {
-    InputParameterType type();
-
-    String paramName();
-
-    int flags(); // bitwise OR of InputFlags
+    InputParameterType  type();
+    String              paramName();
+    int                 flags(); // bitwise OR of InputFlags
 }

@@ -50,43 +50,54 @@ package com.tictactec.ta.lib.meta;
 /**
  * @deprecated in favor of CoreMetaData
  */
-public class TaFuncSignature implements Comparable {
-    String name;
-    Class[] inVarTypes;
+public class TaFuncSignature implements Comparable
+{
+   String name;
+   Class[] inVarTypes;
 
-    public TaFuncSignature() {
-    }
+   public TaFuncSignature()
+   {
+   }
 
-    public TaFuncSignature(String name, Class[] inVarTypes) {
-        this.name = name;
-        this.inVarTypes = inVarTypes;
-    }
+   public TaFuncSignature(String name, Class[] inVarTypes)
+   {
+      this.name = name;
+      this.inVarTypes = inVarTypes;
+   }
 
-    final public int compareTo(Object rhs) {
-        int rtn;
-        TaFuncSignature that = (TaFuncSignature) rhs;
-        if ((rtn = name.compareTo(that.name)) != 0) {
-            return rtn;
-        } else {
-            if (inVarTypes.length != that.inVarTypes.length) {
-                return inVarTypes.length - that.inVarTypes.length;
+   final public int compareTo(Object rhs)
+   {
+      int rtn;
+      TaFuncSignature that = (TaFuncSignature) rhs;
+      if ((rtn = name.compareTo(that.name)) != 0)
+      {
+         return rtn;
+      } else
+      {
+         if (inVarTypes.length != that.inVarTypes.length)
+         {
+            return inVarTypes.length - that.inVarTypes.length;
+         }
+         for (int i = 0; i < inVarTypes.length; i++)
+         {
+            if ((rtn = inVarTypes[i].getName().compareTo(
+                  that.inVarTypes[i].getName())) != 0)
+            {
+               return rtn;
             }
-            for (int i = 0; i < inVarTypes.length; i++) {
-                if ((rtn = inVarTypes[i].getName().compareTo(
-                        that.inVarTypes[i].getName())) != 0) {
-                    return rtn;
-                }
-            }
-        }
-        return 0;
-    }
+         }
+      }
+      return 0;
+   }
 
-    public Class[] getInVarTypes() {
-        return inVarTypes;
-    }
+   public Class[] getInVarTypes()
+   {
+      return inVarTypes;
+   }
 
-    public String getName() {
-        return name;
-    }
+   public String getName()
+   {
+      return name;
+   }
 
 }

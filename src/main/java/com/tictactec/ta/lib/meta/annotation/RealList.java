@@ -54,11 +54,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RealList {
-    String paramName();
-
-    double defaultValue();
-
+    String   paramName();
+    double   defaultValue();
     double[] value();
-
     String[] string();
 }

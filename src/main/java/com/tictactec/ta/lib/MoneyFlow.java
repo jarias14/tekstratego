@@ -46,7 +46,8 @@
 
 package com.tictactec.ta.lib;
 
-class MoneyFlow {
+ class MoneyFlow
+ {
     public double positive;
     public double negative;
-};
+ };
