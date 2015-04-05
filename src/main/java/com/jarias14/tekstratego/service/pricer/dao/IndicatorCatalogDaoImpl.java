@@ -14,7 +14,7 @@ import java.util.Set;
 public class IndicatorCatalogDaoImpl extends BlockingCache implements IndicatorCatalogDao {
 
     public IndicatorCatalogDaoImpl(Ehcache cache) throws CacheException {
-        super(cache);
+        super(cache); 
     }
 
     @Override
