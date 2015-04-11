@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Created by jarias14 on 4/4/2015.
  */
-public class IndicatorCatalogDaoImpl extends BlockingCache implements IndicatorCatalogDao {
+public class IndicatorCatalogDaoImpl extends BlockingCache implements IndicatorCatalogStore {
 
     public IndicatorCatalogDaoImpl(Ehcache cache) throws CacheException {
         super(cache);

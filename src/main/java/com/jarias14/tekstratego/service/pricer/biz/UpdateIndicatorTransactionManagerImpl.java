@@ -5,7 +5,7 @@ import com.jarias14.tekstratego.common.models.*;
 import com.jarias14.tekstratego.common.skeleton.Processor;
 import com.jarias14.tekstratego.common.skeleton.TransactionManager;
 import com.jarias14.tekstratego.service.pricer.biz.processor.UpdateSimpleIndicatorRequest;
-import com.jarias14.tekstratego.service.pricer.dao.IndicatorCatalogDao;
+import com.jarias14.tekstratego.service.pricer.dao.IndicatorCatalogStore;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.*;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class UpdateIndicatorTransactionManagerImpl implements TransactionManager<DataPointTimableDescription, Set<DataPointDescription>> {
 
     private DataStore rawDataStore;
-    private IndicatorCatalogDao indicatorCatalogDao;
+    private IndicatorCatalogStore indicatorCatalogDao;
     private Processor<UpdateSimpleIndicatorRequest> updateSimpleIndicatorProcessor;
 
     @Override
@@ -47,28 +47,26 @@ public class UpdateIndicatorTransactionManagerImpl implements TransactionManager
                         .get();
 
         // get all the raw data necessary for this transaction
-        Map<DataPointIndicator, DataPointCollection> dataPointIndicatorDataPointCollectionMap = new HashMap<>();
-        necessaryRawDataPointIndicators.stream()
-                .forEach(
-                        necessaryRawDataPointIndicator -> {
-                            DataPointCollection dataPointCollection =
-                                    rawDataStore.getDataPoints(dataPointDescription.getStock(), necessaryRawDataPointIndicator, dataPointDescription.getTime(), necessaryNumberOfDataPoints);
-                            dataPointIndicatorDataPointCollectionMap.put(necessaryRawDataPointIndicator, dataPointCollection);
-                        });
+        Set<DataPointCollection> dataPointCollectionSet =
+                necessaryRawDataPointIndicators
+                        .stream()
+                        .map(necessaryRawDataPointIndicator ->
+                                rawDataStore.getDataPoints(dataPointDescription.getStock(), necessaryRawDataPointIndicator, dataPointDescription.getTime(), necessaryNumberOfDataPoints))
+                        .collect(Collectors.toSet());
 
         // process transaction for all indicators
         indicators.stream()
                 .forEach(indicator -> {
                     DataPointTimableDescription indicatorRequest = (DataPointTimableDescription) indicator;
                     indicatorRequest.setTime(dataPointDescription.getTime());
-                    updateSimpleIndicatorProcessor.process(new UpdateSimpleIndicatorRequest(indicatorRequest, dataPointIndicatorDataPointCollectionMap));
+                    updateSimpleIndicatorProcessor.process(new UpdateSimpleIndicatorRequest(indicatorRequest, dataPointCollectionSet));
                 });
 
         return indicators;
     }
 
     @Required
-    public void setIndicatorCatalogDao(IndicatorCatalogDao indicatorCatalogDao) {
+    public void setIndicatorCatalogDao(IndicatorCatalogStore indicatorCatalogDao) {
         this.indicatorCatalogDao = indicatorCatalogDao;
     }
 

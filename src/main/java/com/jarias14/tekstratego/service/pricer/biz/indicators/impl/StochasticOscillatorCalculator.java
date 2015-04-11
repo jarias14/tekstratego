@@ -1,0 +1,71 @@
+package com.jarias14.tekstratego.service.pricer.biz.indicators.impl;
+
+import com.jarias14.tekstratego.common.models.DataPointCollection;
+import com.jarias14.tekstratego.common.models.DataPointIndicator;
+import com.jarias14.tekstratego.service.pricer.biz.indicators.IndicatorCalculator;
+import com.jarias14.tekstratego.service.pricer.biz.processor.UpdateSimpleIndicatorRequest;
+import com.tictactec.ta.lib.CoreAnnotated;
+import com.tictactec.ta.lib.MAType;
+import com.tictactec.ta.lib.MInteger;
+import org.apache.commons.lang.ArrayUtils;
+import org.springframework.beans.factory.annotation.Required;
+
+/**
+ * Created by jarias14 on 3/29/2015.
+ */
+public class StochasticOscillatorCalculator implements IndicatorCalculator<UpdateSimpleIndicatorRequest, Double> {
+
+    private static DataPointIndicator closeIndicator = DataPointIndicator.RAW_CLOSE;
+    private static DataPointIndicator highIndicator = DataPointIndicator.RAW_HIGH;
+    private static DataPointIndicator lowIndicator = DataPointIndicator.RAW_LOW;
+
+    private CoreAnnotated taLib;
+
+    @Override
+    public Double execute(UpdateSimpleIndicatorRequest updateSimpleIndicatorRequest) {
+
+        DataPointCollection<Double> closeDataPointCollection = getIndicatorData(updateSimpleIndicatorRequest.getData(), closeIndicator);
+        DataPointCollection<Double> highDataPointCollection = getIndicatorData(updateSimpleIndicatorRequest.getData(), highIndicator);
+        DataPointCollection<Double> lowDataPointCollection = getIndicatorData(updateSimpleIndicatorRequest.getData(), lowIndicator);
+
+        Double[] closeDataPointsWrapper = getDataPoints(closeDataPointCollection);
+        Double[] highDataPointsWrapper = getDataPoints(highDataPointCollection);
+        Double[] lowDataPointsWrapper = getDataPoints(lowDataPointCollection);
+
+        double[] closeDataPoints = ArrayUtils.toPrimitive(closeDataPointsWrapper);
+        double[] highDataPoints = ArrayUtils.toPrimitive(highDataPointsWrapper);
+        double[] lowDataPoints = ArrayUtils.toPrimitive(lowDataPointsWrapper);
+
+        double[] kDataPoints = new double[30];
+        double[] dDataPoints = new double[30];
+
+        taLib.stoch(
+                closeDataPoints.length - 1,
+                closeDataPoints.length - 1,
+                highDataPoints,
+                lowDataPoints,
+                closeDataPoints,
+                14,
+                3,
+                MAType.Sma,
+                3,
+                MAType.Sma,
+                new MInteger(),
+                new MInteger(),
+                kDataPoints,
+                dDataPoints);
+
+        if (updateSimpleIndicatorRequest.getRequestedIndicator().getDetails().getIndicator().equals(DataPointIndicator.EXPONENTIAL_MOVING_AVERAGE_K)) {
+            return Double.valueOf(kDataPoints[0]);
+        } else {
+            return Double.valueOf(dDataPoints[0]);
+        }
+    }
+
+
+
+    @Required
+    public void setTaLib(CoreAnnotated taLib) {
+        this.taLib = taLib;
+    }
+}

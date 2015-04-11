@@ -13,15 +13,22 @@ import org.springframework.beans.factory.annotation.Required;
 /**
  * Created by jarias14 on 3/29/2015.
  */
-public class ExponentialMovingAverageCalculator implements IndicatorCalculator<UpdateSimpleIndicatorRequest, Double> {
+public class SimpleMovingAverageCalculator implements IndicatorCalculator<UpdateSimpleIndicatorRequest, Double> {
 
-    private static DataPointIndicator closeIndicator = DataPointIndicator.CLOSE;
+    private static DataPointIndicator closeIndicator = DataPointIndicator.RAW_CLOSE;
     private CoreAnnotated taLib;
 
     @Override
     public Double execute(UpdateSimpleIndicatorRequest updateSimpleIndicatorRequest) {
 
-        DataPointCollection<Double> closeDataPointCollection = updateSimpleIndicatorRequest.getData().get(closeIndicator);
+        DataPointCollection<Double> closeDataPointCollection =
+                updateSimpleIndicatorRequest
+                        .getData()
+                        .stream()
+                        .filter(data ->
+                                closeIndicator.equals(data.getDetails().getIndicator()))
+                        .findFirst()
+                        .get();
 
         Double[] dataPoints =
                 closeDataPointCollection.getDataPoints().stream()
@@ -32,7 +39,7 @@ public class ExponentialMovingAverageCalculator implements IndicatorCalculator<U
         double[] closeDataPoints = ArrayUtils.toPrimitive(dataPoints);
         double[] emaDataPoints = new double[1];
 
-        taLib.ema(closeDataPoints.length-2, closeDataPoints.length-2, closeDataPoints, updateSimpleIndicatorRequest.getRequestedIndicator().getDetails().getSize().getQuantity(), new MInteger(-1), new MInteger(-1), emaDataPoints);
+        taLib.sma(closeDataPoints.length - 1, closeDataPoints.length - 1, closeDataPoints, 10, new MInteger(), new MInteger(), emaDataPoints);
 
         Double result = Double.valueOf(emaDataPoints[0]);
 

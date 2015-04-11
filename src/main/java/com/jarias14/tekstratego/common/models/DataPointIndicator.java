@@ -22,7 +22,9 @@ public enum DataPointIndicator {
     ADJ (double.class, Arrays.asList(RAW_ADJ)),
     VOLUME (double.class, Arrays.asList(RAW_VOLUME)),
     SIMPLE_MOVING_AVERAGE (double.class, Arrays.asList(CLOSE)),
-    EXPONENTIAL_MOVING_AVERAGE (double.class, Arrays.asList(CLOSE));
+    EXPONENTIAL_MOVING_AVERAGE_K (double.class, Arrays.asList(CLOSE)),
+    EXPONENTIAL_MOVING_AVERAGE_D (double.class, Arrays.asList(CLOSE)),
+    STOCHASTIC (double.class, Arrays.asList(RAW_CLOSE, RAW_HIGH, RAW_LOW));
 
     private final Class valueType;
     private final List<DataPointIndicator> necessaryRawDataPoints;
