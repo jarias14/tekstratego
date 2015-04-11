@@ -1,4 +1,4 @@
-package com.jarias14.tekstratego.service.pricer.biz;
+package com.jarias14.tekstratego.service.pricer.biz.transactionmanager;
 
 import com.jarias14.tekstratego.common.cache.DataStore;
 import com.jarias14.tekstratego.common.models.*;
