@@ -44,7 +44,7 @@ public class SimpleMovingAverageTestReal {
 
         DataPointDetails details = new DataPointDetails();
         details.setSize(dataPointSize);
-        details.setIndicator(DataPointIndicator.EXPONENTIAL_MOVING_AVERAGE_D);
+        details.setIndicator(DataPointIndicator.SIMPLE_MOVING_AVERAGE);
         details.setNecessaryDataPointBars(10);
 
         Stock stock = new Stock("TEST", StockExchange.NYSE);

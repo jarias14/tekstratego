@@ -3,7 +3,7 @@ package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 import com.jarias14.tekstratego.common.models.DataPoint;
 import com.jarias14.tekstratego.common.models.DataPointCollection;
 import com.jarias14.tekstratego.common.models.DataPointIndicator;
-import com.jarias14.tekstratego.service.pricer.biz.indicators.impl.StochasticCalculator;
+import com.jarias14.tekstratego.service.pricer.biz.indicators.impl.StochasticOscillatorCalculator;
 import com.jarias14.tekstratego.service.pricer.biz.processor.UpdateSimpleIndicatorRequest;
 import com.tictactec.ta.lib.CoreAnnotated;
 import org.junit.Before;
@@ -11,13 +11,13 @@ import org.junit.Test;
 
 import java.util.HashSet;
 
-public class StochasticOscillatorDTest extends StochasticOscillatorBaseTest {
+public class StochasticOscillatorDTest {
 
-    private StochasticCalculator stochasticCalculator;
+    private StochasticOscillatorCalculator stochasticCalculator;
     
     @Before
     public void setUp() {
-        stochasticCalculator = new StochasticCalculator();
+        stochasticCalculator = new StochasticOscillatorCalculator();
         stochasticCalculator.setTaLib(new CoreAnnotated());
     }
     
@@ -25,11 +25,11 @@ public class StochasticOscillatorDTest extends StochasticOscillatorBaseTest {
     public void test() {
 
         UpdateSimpleIndicatorRequest request = new UpdateSimpleIndicatorRequest();
-        request.setRequestedIndicator(getIndicator(DataPointIndicator.EXPONENTIAL_MOVING_AVERAGE_D));
+        request.setRequestedIndicator(DataProvider.getIndicator(DataPointIndicator.STOCHASTIC_OSCILLATOR_K));
         request.setData(new HashSet<>());
-        request.getData().add(getCloses());
-        request.getData().add(getHighs());
-        request.getData().add(getLows());
+        request.getData().add(DataProvider.getCloses());
+        request.getData().add(DataProvider.getHighs());
+        request.getData().add(DataProvider.getLows());
 
         Double result = stochasticCalculator.execute(request);
 
@@ -37,7 +37,7 @@ public class StochasticOscillatorDTest extends StochasticOscillatorBaseTest {
 
     private DataPointCollection getExpectedResults() {
 
-        DataPointCollection dataPointCollection = getDataPointCollectionWithoutPrices(DataPointIndicator.EXPONENTIAL_MOVING_AVERAGE_K);
+        DataPointCollection dataPointCollection = DataProvider.getDataPointCollectionWithoutPrices(DataPointIndicator.STOCHASTIC_OSCILLATOR_K);
 
         int i = 100;
         dataPointCollection.getDataPoints().add(new DataPoint(i++, 70.4382202470155));

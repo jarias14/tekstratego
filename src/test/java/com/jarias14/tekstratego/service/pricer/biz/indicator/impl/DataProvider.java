@@ -8,10 +8,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by jarias14 on 4/11/2015.
  */
-public class StochasticOscillatorBaseTest {
+public class DataProvider {
 
 
-    protected DataPointCollection getDataPointCollectionWithoutPrices(DataPointIndicator dataPointIndicator) {
+    public static DataPointCollection getDataPointCollectionWithoutPrices(DataPointIndicator dataPointIndicator) {
 
         DataPointSize dataPointSize = new DataPointSize();
         dataPointSize.setQuantity(1);
@@ -31,7 +31,7 @@ public class StochasticOscillatorBaseTest {
     }
 
 
-    protected DataPointTimableDescription getIndicator(DataPointIndicator dataPointIndicator) {
+    public static DataPointTimableDescription getIndicator(DataPointIndicator dataPointIndicator) {
         DataPointSize dataPointSize = new DataPointSize();
         dataPointSize.setQuantity(1);
         dataPointSize.setUnit(TimeUnit.DAYS);
@@ -54,7 +54,7 @@ public class StochasticOscillatorBaseTest {
     }
 
 
-    protected DataPointCollection getHighs() {
+    public static DataPointCollection getHighs() {
 
         DataPointCollection dataPointCollection = getDataPointCollectionWithoutPrices(DataPointIndicator.RAW_HIGH);
         dataPointCollection.setDataPoints(new ArrayList<>());
@@ -94,7 +94,7 @@ public class StochasticOscillatorBaseTest {
         return dataPointCollection;
     }
 
-    protected DataPointCollection getLows() {
+    public static DataPointCollection getLows() {
 
         DataPointCollection dataPointCollection = getDataPointCollectionWithoutPrices(DataPointIndicator.RAW_LOW);
         dataPointCollection.setDataPoints(new ArrayList<>());
@@ -134,7 +134,7 @@ public class StochasticOscillatorBaseTest {
         return dataPointCollection;
     }
 
-    protected DataPointCollection getCloses() {
+    public static DataPointCollection getCloses() {
 
         DataPointCollection dataPointCollection = getDataPointCollectionWithoutPrices(DataPointIndicator.RAW_CLOSE);
         dataPointCollection.setDataPoints(new ArrayList<>());

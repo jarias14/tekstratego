@@ -55,7 +55,7 @@ public class StochasticOscillatorCalculator implements IndicatorCalculator<Updat
                 kDataPoints,
                 dDataPoints);
 
-        if (updateSimpleIndicatorRequest.getRequestedIndicator().getDetails().getIndicator().equals(DataPointIndicator.EXPONENTIAL_MOVING_AVERAGE_K)) {
+        if (updateSimpleIndicatorRequest.getRequestedIndicator().getDetails().getIndicator().equals(DataPointIndicator.STOCHASTIC_OSCILLATOR_K)) {
             return Double.valueOf(kDataPoints[0]);
         } else {
             return Double.valueOf(dDataPoints[0]);

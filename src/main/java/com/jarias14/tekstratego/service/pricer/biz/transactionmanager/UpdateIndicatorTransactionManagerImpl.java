@@ -50,6 +50,7 @@ public class UpdateIndicatorTransactionManagerImpl implements TransactionManager
         Set<DataPointCollection> dataPointCollectionSet =
                 necessaryRawDataPointIndicators
                         .stream()
+                        .distinct()
                         .map(necessaryRawDataPointIndicator ->
                                 rawDataStore.getDataPoints(dataPointDescription.getStock(), necessaryRawDataPointIndicator, dataPointDescription.getTime(), necessaryNumberOfDataPoints))
                         .collect(Collectors.toSet());
@@ -57,7 +58,8 @@ public class UpdateIndicatorTransactionManagerImpl implements TransactionManager
         // process transaction for all indicators
         indicators.stream()
                 .forEach(indicator -> {
-                    DataPointTimableDescription indicatorRequest = (DataPointTimableDescription) indicator;
+                    DataPointTimableDescription indicatorRequest = new DataPointTimableDescription();
+                    indicatorRequest.setDetails(indicator.getDetails());
                     indicatorRequest.setTime(dataPointDescription.getTime());
                     updateSimpleIndicatorProcessor.process(new UpdateSimpleIndicatorRequest(indicatorRequest, dataPointCollectionSet));
                 });
