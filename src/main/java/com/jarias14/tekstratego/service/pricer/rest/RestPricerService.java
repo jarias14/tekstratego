@@ -18,18 +18,18 @@ public interface RestPricerService {
     @Path("/indicators")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public DataPointDescription requestIndicator(DataPointDescription request);
+    public DataPointDescription createIndicator(DataPointDescription request);
 
 
     /**
      * Creates an indicator given the stock and the body.
      * @return IndicatorResource - the list of prices for the request.
      */
-    @PUT
-    @Path("/indicators")
+    @POST
+    @Path("/data-points")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Set<DataPointDescription> updateIndicator(DataPointTimableDescription request);
+    public Set<DataPointDescription> addDataPoint(DataPointTimableDescription request);
 
 
 

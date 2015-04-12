@@ -12,58 +12,73 @@
 
     <!-- Rest Service Beans -->
     <bean id="pricerRestService" class="com.jarias14.tekstratego.service.pricer.rest.RestPricerServiceImpl">
-        <property name="requestIndicatorApplicationService" ref="pricerRequestIndicatorApplicationService"/>
-        <property name="updateIndicatorApplicationService" ref="pricerUpdateIndicatorApplicationService"/>
+        <property name="newDataPointApplicationService" ref="newDataPointApplicationService"/>
+        <property name="newIndicatorApplicationService" ref="newIndicatorApplicationService"/>
     </bean>
 
 
     <!-- Application Service Beans -->
-    <bean id="pricerRequestIndicatorApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
-        <property name="transactionManagerMap" ref="pricerRequestIndicatorTransactionManagerMap"/>
+    <bean id="newDataPointApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="newDataPointTransactionManagerMap"/>
     </bean>
 
-    <bean id="pricerUpdateIndicatorApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
-        <property name="transactionManagerMap" ref="pricerUpdateIndicatorTransactionManagerMap"/>
+    <bean id="newIndicatorApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="newIndicatorTransactionManagerMap"/>
     </bean>
 
 
     <!-- Transaction Manager Maps -->
-    <util:map id="pricerRequestIndicatorTransactionManagerMap" map-class="java.util.HashMap">
-        <entry key="DEFAULT"><ref bean="simpleIndicatorTransactionManager"/></entry>
+    <util:map id="newDataPointTransactionManagerMap" map-class="java.util.HashMap">
+        <entry key="DEFAULT"><ref bean="newDataPointTransactionManager"/></entry>
     </util:map>
 
-    <util:map id="pricerUpdateIndicatorTransactionManagerMap" map-class="java.util.HashMap">
-        <entry key="DEFAULT"><ref bean="simpleIndicatorTransactionManager"/></entry>
+    <util:map id="newIndicatorTransactionManagerMap" map-class="java.util.HashMap">
+        <entry key="DEFAULT"><ref bean="newIndicatorTransactionManager"/></entry>
     </util:map>
 
 
     <!-- Transaction Managers -->
-    <bean id="simpleIndicatorTransactionManager" class="com.jarias14.tekstratego.service.pricer.biz.UpdateIndicatorTransactionManagerImpl">
+    <bean id="newDataPointTransactionManager" class="com.jarias14.tekstratego.service.pricer.biz.transactionmanagers.NewDataPointTransactionManagerImpl">
         <property name="indicatorCatalogDao" ref="pricerIndicatorCatalog"/>
         <property name="rawDataStore" ref="rawDataStore"/>
         <property name="updateSimpleIndicatorProcessor" ref="pricerUpdateSimpleIndicatorProcessor"/>
     </bean>
 
-    <!-- Indicator Processors -->
-    <bean id="pricerUpdateSimpleIndicatorProcessor" class="com.jarias14.tekstratego.service.pricer.biz.processor.UpdateSimpleIndicatorProcessorImpl">
+    <bean id="newIndicatorTransactionManager" class="com.jarias14.tekstratego.service.pricer.biz.transactionmanagers.NewIndicatorTransactionManagerImpl">
+        <property name="indicatorDataStore" ref="pricerIndicatorCatalog"/>
+    </bean>
+
+
+    <!-- Processors -->
+    <bean id="pricerUpdateSimpleIndicatorProcessor" class="com.jarias14.tekstratego.service.pricer.biz.processor.impl.NewDataPointIndicatorUpdateProcessorImpl">
         <property name="calculators" ref="simpleIndicatorCalculatorsMap"/>
         <property name="indicatorDataStore" ref="indicatorDataStore"/>
     </bean>
 
     <util:map id="simpleIndicatorCalculatorsMap" map-class="java.util.HashMap">
         <entry>
-            <key><bean id="CELL" class="com.jarias14.tekstratego.common.models.DataPointIndicator" factory-method="valueOf"><constructor-arg value="OPEN"/></bean></key>
-            <ref bean="exponentialMovingAverageIndicatorCaculator"/>
+            <key><bean id="CELL" class="com.jarias14.tekstratego.common.models.DataPointIndicator" factory-method="valueOf"><constructor-arg value="STOCHASTIC_OSCILLATOR_K"/></bean></key>
+            <ref bean="stochasticOscillatorCalculator"/>
+        </entry>
+        <entry>
+            <key><bean id="CELL" class="com.jarias14.tekstratego.common.models.DataPointIndicator" factory-method="valueOf"><constructor-arg value="STOCHASTIC_OSCILLATOR_D"/></bean></key>
+            <ref bean="stochasticOscillatorCalculator"/>
+        </entry>
+        <entry>
+            <key><bean id="CELL" class="com.jarias14.tekstratego.common.models.DataPointIndicator" factory-method="valueOf"><constructor-arg value="SIMPLE_MOVING_AVERAGE"/></bean></key>
+            <ref bean="simpleMovingAverageCalculator"/>
         </entry>
     </util:map>
 
     <!-- Indicator Calculators -->
     <bean id="taLibCore" class="com.tictactec.ta.lib.CoreAnnotated"/>
 
-    <bean id="exponentialMovingAverageIndicatorCaculator" class="com.jarias14.tekstratego.service.pricer.biz.indicators.impl.ExponentialMovingAverageCalculator">
+    <bean id="stochasticOscillatorCalculator" class="com.jarias14.tekstratego.service.pricer.biz.indicators.impl.StochasticOscillatorCalculator">
         <property name="taLib" ref="taLibCore"/>
     </bean>
-
+    <bean id="simpleMovingAverageCalculator" class="com.jarias14.tekstratego.service.pricer.biz.indicators.impl.SimpleMovingAverageCalculator">
+        <property name="taLib" ref="taLibCore"/>
+    </bean>
 
 
     <!-- Cache -->
@@ -75,7 +90,7 @@
         </constructor-arg>
     </bean>
 
-    <bean id="pricerIndicatorCatalog" class="com.jarias14.tekstratego.service.pricer.dao.IndicatorCatalogDaoImpl">
+    <bean id="pricerIndicatorCatalog" class="com.jarias14.tekstratego.service.pricer.dao.IndicatorCatalogStoreImpl">
         <constructor-arg>
             <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
                 <constructor-arg value="pricerIndicatorCatalog"/>

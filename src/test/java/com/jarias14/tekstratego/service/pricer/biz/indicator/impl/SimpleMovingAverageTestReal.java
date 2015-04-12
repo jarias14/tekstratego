@@ -2,7 +2,7 @@ package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 
 import com.jarias14.tekstratego.common.models.*;
 import com.jarias14.tekstratego.service.pricer.biz.indicators.impl.SimpleMovingAverageCalculator;
-import com.jarias14.tekstratego.service.pricer.biz.processor.UpdateSimpleIndicatorRequest;
+import com.jarias14.tekstratego.service.pricer.biz.processor.model.NewDataPointIndicatorUpdateRequest;
 import com.tictactec.ta.lib.CoreAnnotated;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,7 +27,7 @@ public class SimpleMovingAverageTestReal {
     @Test
     public void test() {
 
-        UpdateSimpleIndicatorRequest request = new UpdateSimpleIndicatorRequest();
+        NewDataPointIndicatorUpdateRequest request = new NewDataPointIndicatorUpdateRequest();
         request.setRequestedIndicator(getIndicator());
         request.setData(getTestData());
 

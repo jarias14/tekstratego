@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jarias14.tekstratego.common.models.Stock;
 import com.jarias14.tekstratego.common.models.StockExchange;
-import org.junit.Test;
+import org.junit.Ignore;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +15,7 @@ import java.util.Set;
  */
 public class YahooMarketDataDAOTest {
 
-    @Test
+    @Ignore
     public void encodingTest() {
 
         YahooMarketDataDAO dao = new YahooMarketDataDAO();

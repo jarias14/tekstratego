@@ -1,10 +1,10 @@
-package com.jarias14.tekstratego.service.pricer.biz.transactionmanager;
+package com.jarias14.tekstratego.service.pricer.biz.transactionmanagers;
 
 import com.jarias14.tekstratego.common.cache.DataStore;
 import com.jarias14.tekstratego.common.models.*;
 import com.jarias14.tekstratego.common.skeleton.Processor;
 import com.jarias14.tekstratego.common.skeleton.TransactionManager;
-import com.jarias14.tekstratego.service.pricer.biz.processor.UpdateSimpleIndicatorRequest;
+import com.jarias14.tekstratego.service.pricer.biz.processor.model.NewDataPointIndicatorUpdateRequest;
 import com.jarias14.tekstratego.service.pricer.dao.IndicatorCatalogStore;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 /**
  * Created by jarias14 on 4/5/2015.
  */
-public class UpdateIndicatorTransactionManagerImpl implements TransactionManager<DataPointTimableDescription, Set<DataPointDescription>> {
+public class NewDataPointTransactionManagerImpl implements TransactionManager<DataPointTimableDescription, Set<DataPointDescription>> {
 
     private DataStore rawDataStore;
     private IndicatorCatalogStore indicatorCatalogDao;
-    private Processor<UpdateSimpleIndicatorRequest> updateSimpleIndicatorProcessor;
+    private Processor<NewDataPointIndicatorUpdateRequest> updateSimpleIndicatorProcessor;
 
     @Override
     public Set<DataPointDescription> process(DataPointTimableDescription dataPointDescription) {
@@ -61,7 +61,7 @@ public class UpdateIndicatorTransactionManagerImpl implements TransactionManager
                     DataPointTimableDescription indicatorRequest = new DataPointTimableDescription();
                     indicatorRequest.setDetails(indicator.getDetails());
                     indicatorRequest.setTime(dataPointDescription.getTime());
-                    updateSimpleIndicatorProcessor.process(new UpdateSimpleIndicatorRequest(indicatorRequest, dataPointCollectionSet));
+                    updateSimpleIndicatorProcessor.process(new NewDataPointIndicatorUpdateRequest(indicatorRequest, dataPointCollectionSet));
                 });
 
         return indicators;
@@ -78,7 +78,7 @@ public class UpdateIndicatorTransactionManagerImpl implements TransactionManager
     }
 
     @Required
-    public void setUpdateSimpleIndicatorProcessor(Processor<UpdateSimpleIndicatorRequest> updateSimpleIndicatorProcessor) {
+    public void setUpdateSimpleIndicatorProcessor(Processor<NewDataPointIndicatorUpdateRequest> updateSimpleIndicatorProcessor) {
         this.updateSimpleIndicatorProcessor = updateSimpleIndicatorProcessor;
     }
 }

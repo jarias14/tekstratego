@@ -1,10 +1,11 @@
-package com.jarias14.tekstratego.service.pricer.biz.processor;
+package com.jarias14.tekstratego.service.pricer.biz.processor.impl;
 
 import com.jarias14.tekstratego.common.cache.DataStore;
 import com.jarias14.tekstratego.common.models.DataPoint;
 import com.jarias14.tekstratego.common.models.DataPointIndicator;
 import com.jarias14.tekstratego.common.skeleton.Processor;
 import com.jarias14.tekstratego.service.pricer.biz.indicators.IndicatorCalculator;
+import com.jarias14.tekstratego.service.pricer.biz.processor.model.NewDataPointIndicatorUpdateRequest;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.Map;
@@ -12,15 +13,15 @@ import java.util.Map;
 /**
  * Created by jarias14 on 4/4/2015.
  */
-public class UpdateSimpleIndicatorProcessorImpl implements Processor<UpdateSimpleIndicatorRequest> {
+public class NewDataPointIndicatorUpdateProcessorImpl implements Processor<NewDataPointIndicatorUpdateRequest> {
 
-    private Map<DataPointIndicator, IndicatorCalculator<UpdateSimpleIndicatorRequest, Double>> calculators;
+    private Map<DataPointIndicator, IndicatorCalculator<NewDataPointIndicatorUpdateRequest, Double>> calculators;
     private DataStore indicatorDataStore;
 
     @Override
-    public void process(UpdateSimpleIndicatorRequest request) {
+    public void process(NewDataPointIndicatorUpdateRequest request) {
 
-        IndicatorCalculator<UpdateSimpleIndicatorRequest, Double> calculator =
+        IndicatorCalculator<NewDataPointIndicatorUpdateRequest, Double> calculator =
                 calculators.get(request.getRequestedIndicator().getDetails().getIndicator());
 
         Double response = calculator.execute(request);
@@ -32,7 +33,7 @@ public class UpdateSimpleIndicatorProcessorImpl implements Processor<UpdateSimpl
     }
 
     @Required
-    public void setCalculators(Map<DataPointIndicator, IndicatorCalculator<UpdateSimpleIndicatorRequest, Double>> calculators) {
+    public void setCalculators(Map<DataPointIndicator, IndicatorCalculator<NewDataPointIndicatorUpdateRequest, Double>> calculators) {
         this.calculators = calculators;
     }
 

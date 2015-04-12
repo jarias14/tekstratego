@@ -1,4 +1,4 @@
-package com.jarias14.tekstratego.service.pricer.biz.processor;
+package com.jarias14.tekstratego.service.pricer.biz.processor.model;
 
 import com.jarias14.tekstratego.common.models.DataPointCollection;
 import com.jarias14.tekstratego.common.models.DataPointTimableDescription;
@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UpdateSimpleIndicatorRequest {
+public class NewDataPointIndicatorUpdateRequest {
     private DataPointTimableDescription requestedIndicator;
     private Set<DataPointCollection> data;
 

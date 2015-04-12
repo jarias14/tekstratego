@@ -4,7 +4,8 @@ import com.jarias14.tekstratego.common.models.DataPoint;
 import com.jarias14.tekstratego.common.models.DataPointCollection;
 import com.jarias14.tekstratego.common.models.DataPointIndicator;
 import com.jarias14.tekstratego.service.pricer.biz.indicators.impl.StochasticOscillatorCalculator;
-import com.jarias14.tekstratego.service.pricer.biz.processor.UpdateSimpleIndicatorRequest;
+import com.jarias14.tekstratego.service.pricer.biz.processor.model.NewDataPointIndicatorUpdateRequest;
+import com.tictactec.ta.lib.CoreAnnotated;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,12 +18,13 @@ public class StochasticOscillatorKTest {
     @Before
     public void setUp() {
         stochasticCalculator = new StochasticOscillatorCalculator();
+        stochasticCalculator.setTaLib(new CoreAnnotated());
     }
 
     @Test
     public void test() {
 
-        UpdateSimpleIndicatorRequest request = new UpdateSimpleIndicatorRequest();
+        NewDataPointIndicatorUpdateRequest request = new NewDataPointIndicatorUpdateRequest();
         request.setRequestedIndicator(DataProvider.getIndicator(DataPointIndicator.STOCHASTIC_OSCILLATOR_K));
         request.setData(new HashSet<>());
         request.getData().add(DataProvider.getCloses());

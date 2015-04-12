@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 /**
  * Created by jarias14 on 4/4/2015.
  */
-public class IndicatorCatalogDaoImpl extends BlockingCache implements IndicatorCatalogStore {
+public class IndicatorCatalogStoreImpl extends BlockingCache implements IndicatorCatalogStore {
 
-    public IndicatorCatalogDaoImpl(Ehcache cache) throws CacheException {
+    public IndicatorCatalogStoreImpl(Ehcache cache) throws CacheException {
         super(cache);
     }
 
@@ -32,8 +32,10 @@ public class IndicatorCatalogDaoImpl extends BlockingCache implements IndicatorC
     public Set<DataPointDescription> getIndicatorsByStock(Stock stock) {
 
         Query query = getCache().createQuery();
+        query.includeValues();
+        query.includeKeys();
 
-        Attribute<String> symbolAttribute = getCache().getSearchAttribute("symbol");
+        Attribute<String> symbolAttribute = getCache().getSearchAttribute("stockSymbol");
         query.addCriteria(symbolAttribute.eq(stock.getSymbol()));
 
         return getDataPointDescriptions(query.execute());

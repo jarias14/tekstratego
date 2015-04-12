@@ -12,26 +12,26 @@ import java.util.Set;
  */
 public class RestPricerServiceImpl implements RestPricerService {
 
-    private ApplicationService<DataPointDescription, DataPointDescription> requestIndicatorApplicationService;
-    private ApplicationService<DataPointTimableDescription, Set<DataPointDescription>> updateIndicatorApplicationService;
+    private ApplicationService<DataPointDescription, DataPointDescription> newIndicatorApplicationService;
+    private ApplicationService<DataPointTimableDescription, Set<DataPointDescription>> newDataPointApplicationService;
 
     @Override
-    public DataPointDescription requestIndicator(DataPointDescription request) {
-        return requestIndicatorApplicationService.serviceRequest(request);
+    public DataPointDescription createIndicator(DataPointDescription request) {
+        return newIndicatorApplicationService.serviceRequest(request);
     }
 
     @Override
-    public Set<DataPointDescription> updateIndicator(DataPointTimableDescription request) {
-        return updateIndicatorApplicationService.serviceRequest(request);
+    public Set<DataPointDescription> addDataPoint(DataPointTimableDescription request) {
+        return newDataPointApplicationService.serviceRequest(request);
     }
 
     @Required
-    public void setRequestIndicatorApplicationService(ApplicationService<DataPointDescription, DataPointDescription> requestIndicatorApplicationService) {
-        this.requestIndicatorApplicationService = requestIndicatorApplicationService;
+    public void setNewIndicatorApplicationService(ApplicationService<DataPointDescription, DataPointDescription> newIndicatorApplicationService) {
+        this.newIndicatorApplicationService = newIndicatorApplicationService;
     }
 
     @Required
-    public void setUpdateIndicatorApplicationService(ApplicationService<DataPointTimableDescription, Set<DataPointDescription>> updateIndicatorApplicationService) {
-        this.updateIndicatorApplicationService = updateIndicatorApplicationService;
+    public void setNewDataPointApplicationService(ApplicationService<DataPointTimableDescription, Set<DataPointDescription>> newDataPointApplicationService) {
+        this.newDataPointApplicationService = newDataPointApplicationService;
     }
 }

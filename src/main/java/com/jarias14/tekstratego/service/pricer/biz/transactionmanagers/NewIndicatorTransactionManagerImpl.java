@@ -1,4 +1,4 @@
-package com.jarias14.tekstratego.service.pricer.biz;
+package com.jarias14.tekstratego.service.pricer.biz.transactionmanagers;
 
 import com.jarias14.tekstratego.common.models.DataPointDescription;
 import com.jarias14.tekstratego.common.skeleton.TransactionManager;
@@ -10,7 +10,7 @@ import java.util.UUID;
 /**
  * Created by jarias14 on 4/5/2015.
  */
-public class RequestIndicatorTransactionManagerImpl implements TransactionManager<DataPointDescription, DataPointDescription> {
+public class NewIndicatorTransactionManagerImpl implements TransactionManager<DataPointDescription, DataPointDescription> {
 
     private IndicatorCatalogStore indicatorDataStore;
 
