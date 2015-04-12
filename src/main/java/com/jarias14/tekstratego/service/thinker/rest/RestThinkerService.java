@@ -1,11 +1,8 @@
 package com.jarias14.tekstratego.service.thinker.rest;
 
-import com.jarias14.tekstratego.service.thinker.rest.model.StrategyRequestResource;
+import com.jarias14.tekstratego.service.thinker.rest.model.DecisionNode;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Path("/thinker-service")
@@ -20,17 +17,16 @@ public interface RestThinkerService {
     @Path("/strategy")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Object createNode(StrategyRequestResource hypothesis);
-
+    public DecisionNode createDecisionNode(DecisionNode hypothesis);
 
     /**
-     * Creates an hypothesis object.
-     * @return HypothesisResource - the created hypothesis object with a selfLink the client can use for reference.
+     * Requests strategy decision for a given time.
+     * @return Boolean - whether the requested decision is true or not.
      */
-    @POST
-    @Path("/strategy")
+    @GET
+    @Path("/strategy/{strategy-id}/decision/{epoch-time}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Object addDecisionTreeNode(StrategyRequestResource hypothesis);
+    public Boolean getDecision(@PathParam("strategy-id") String strategyId, @PathParam("epoch-time") String epochTime);
 
 }
