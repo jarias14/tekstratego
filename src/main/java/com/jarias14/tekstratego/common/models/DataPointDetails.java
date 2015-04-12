@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.common.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,9 @@ import java.util.concurrent.TimeUnit;
  * Created by jarias14 on 3/29/2015.
  */
 @Data
-@EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 public class DataPointDetails {
 
     private DataPointIndicator indicator;

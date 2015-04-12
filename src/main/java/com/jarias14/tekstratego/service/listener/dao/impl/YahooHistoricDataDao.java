@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * Created by jarias14 on 3/15/2015.
  */
-public class YahooMarketDataDAO  {
+public class YahooHistoricDataDao {
 
     private ObjectMapper objectMapper;
     private static final String YAHOO_FINANCE_URL_BASE = "https://query.yahooapis.com/v1/public/yql?format={format}&env={env}&q={q}";

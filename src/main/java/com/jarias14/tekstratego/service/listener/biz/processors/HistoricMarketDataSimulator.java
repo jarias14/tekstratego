@@ -1,4 +1,4 @@
-package com.jarias14.tekstratego.service.listener.biz;
+package com.jarias14.tekstratego.service.listener.biz.processors;
 
 import com.jarias14.tekstratego.common.cache.DataStore;
 import com.jarias14.tekstratego.common.models.DataPoint;

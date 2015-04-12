@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +21,12 @@ public class DataPointCollection<TYPE> extends DataPointDescription {
         this.setDetails(new DataPointDetails(indicator, timeUnit, timeSize));
         this.setStock(new Stock(symbol, StockExchange.valueOf(exchange.toUpperCase())));
         this.setDataPoints(new ArrayList<>());
+    }
+
+    public DataPointCollection(DataPointIndicator indicator, Stock stock, DataPointSize dataPointSize, int necessaryBars, DataPoint dataPoint) {
+        this.setDetails(new DataPointDetails(indicator, dataPointSize, necessaryBars));
+        this.setStock(stock);
+        this.setDataPoints(Arrays.asList(dataPoint));
     }
 
 }
