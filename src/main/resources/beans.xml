@@ -13,6 +13,7 @@
     <import resource="CommonCacheApplicationContext.xml"/>
     <import resource="ListenerServiceApplictionContext.xml"/>
     <import resource="PricerServiceApplictionContext.xml"/>
+    <import resource="ManagerServiceApplictionContext.xml"/>
 
     <jaxrs:server id="services" address="/">
         <jaxrs:serviceBeans>

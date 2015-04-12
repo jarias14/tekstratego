@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.thinker.rest;
 
+import com.jarias14.tekstratego.service.manager.models.Trade;
 import com.jarias14.tekstratego.service.thinker.rest.model.DecisionNode;
 
 import javax.ws.rs.*;
@@ -27,6 +28,6 @@ public interface RestThinkerService {
     @Path("/strategy/{strategy-id}/decision/{epoch-time}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Boolean getDecision(@PathParam("strategy-id") String strategyId, @PathParam("epoch-time") String epochTime);
+    public Trade getDecision(@PathParam("strategy-id") String strategyId, @PathParam("epoch-time") String epochTime, @QueryParam("stock-symbol") String stockSymbol);
 
 }

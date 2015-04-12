@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+
+    <!-- Rest Service Beans -->
+    <bean id="managerRestService" class="com.jarias14.tekstratego.service.manager.rest.impl.RestManagerServiceImpl">
+        <property name="newAccountApplicationService" ref="managerNewAccountApplicationService"/>
+        <property name="retrieveAccountApplicationService" ref="managerRetrieveAccountApplicationService"/>
+        <property name="retrieveAccountTradeStatusApplicationService" ref="managerRetrieveAccountTradeStatusApplicationService"/>
+    </bean>
+
+
+    <!-- Application Service Beans -->
+    <bean id="managerNewAccountApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="managerNewAccountApplicationServiceMap"/>
+    </bean>
+
+    <bean id="managerRetrieveAccountApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="managerRetrieveAccountApplicationServiceMap"/>
+    </bean>
+
+    <bean id="managerRetrieveAccountTradeStatusApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="managerRetrieveAccountTradeStatusApplicationServiceMap"/>
+    </bean>
+
+
+    <!-- Transaction Manager Maps -->
+    <util:map id="managerNewAccountApplicationServiceMap" map-class="java.util.HashMap">
+        <entry key="DEFAULT"><ref bean="managerNewAccountApplicationServiceTransactionManager"/></entry>
+    </util:map>
+
+    <util:map id="managerRetrieveAccountApplicationServiceMap" map-class="java.util.HashMap">
+        <entry key="DEFAULT"><ref bean="managerRetrieveAccountApplicationServiceTransactionManager"/></entry>
+    </util:map>
+
+    <util:map id="managerRetrieveAccountTradeStatusApplicationServiceMap" map-class="java.util.HashMap">
+        <entry key="DEFAULT"><ref bean="managerRetrieveAccountTradeStatusApplicationServiceTransactionManager"/></entry>
+    </util:map>
+
+
+    <!-- Transaction Managers -->
+    <bean id="managerNewAccountApplicationServiceTransactionManager" class="com.jarias14.tekstratego.service.manager.biz.transactionmanager.NewAccountTransactionManager">
+        <property name="managedAccountStore" ref="managedAccountStore"/>
+    </bean>
+
+    <bean id="managerRetrieveAccountApplicationServiceTransactionManager" class="com.jarias14.tekstratego.service.manager.biz.transactionmanager.RetrieveAccountTransactionManager">
+        <property name="managedAccountStore" ref="managedAccountStore"/>
+    </bean>
+
+    <bean id="managerRetrieveAccountTradeStatusApplicationServiceTransactionManager" class="com.jarias14.tekstratego.service.manager.biz.transactionmanager.ExecuteAccountTransactionManager">
+        <property name="managedAccountStore" ref="managedAccountStore"/>
+        <property name="strategyProcessor" ref="managerStrategyProcessor"/>
+    </bean>
+
+
+    <!-- Processors -->
+    <bean id="managerStrategyProcessor" class="com.jarias14.tekstratego.service.manager.biz.processors.ManagedAccountStrategyProcessor">
+        <property name="pricerServiceDao" ref="managerPricerServiceDao"/>
+    </bean>
+
+    <!-- Data Access Objects -->
+    <bean id="managerPricerServiceDao" class="com.jarias14.tekstratego.service.manager.dao.PricerServiceDao">
+        <property name="objectMapper" ref="objectMapper"/>
+    </bean>
+
+
+    <!-- Cache -->
+    <bean id="managedAccountStore" class="com.jarias14.tekstratego.service.manager.cache.ManagedAccountStore">
+        <constructor-arg>
+            <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
+                <constructor-arg value="managedAccountStore"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+
+</beans>
