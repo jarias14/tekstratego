@@ -26,13 +26,13 @@ public class ManagedAccountStrategyProcessor implements Processor<ManagedAccount
         newTrades.addAll(
                 managedAccount.getBuyStrategyIds().stream().flatMap(strategyId ->
                                 managedAccount.getStocks().stream().map(stock ->
-                                        pricerServiceDao.request(new PricerServiceTradeRequest(strategyId, stock, System.currentTimeMillis() / 1000)))
+                                        pricerServiceDao.request(new PricerServiceTradeRequest(strategyId, stock, System.currentTimeMillis() / 1000))).filter(Trade::getStrategyDecision)
                 ).collect(Collectors.toList()));
 
         newTrades.addAll(
                 managedAccount.getSellStrategyIds().stream().flatMap(strategyId ->
                                 managedAccount.getStocks().stream().map(stock ->
-                                        pricerServiceDao.request(new PricerServiceTradeRequest(strategyId, stock, System.currentTimeMillis() / 1000)))
+                                        pricerServiceDao.request(new PricerServiceTradeRequest(strategyId, stock, System.currentTimeMillis() / 1000))).filter(Trade::getStrategyDecision)
                 ).collect(Collectors.toList()));
 
         managedAccount.getPotentialTrades().addAll(newTrades);

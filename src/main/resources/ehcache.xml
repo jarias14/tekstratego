@@ -28,4 +28,8 @@
             <searchAttribute name="stockExchange" expression="value.stock.getExchange()"/>
         </searchable>
     </cache>
+    <cache name="managedAccountStore" maxEntriesLocalHeap="10000" eternal="true">
+        <persistence strategy="none"/>
+    </cache>
+
 </ehcache>
