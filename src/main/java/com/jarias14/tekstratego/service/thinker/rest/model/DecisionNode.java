@@ -12,9 +12,10 @@ import java.util.List;
 @Data
 public class DecisionNode extends Identifiable {
 
-    private String decisionNodeType;
+    private DecisionNodeType decisionNodeType;
     private List<DataPointDetails> decisionNodeIndicators;
     private List<DecisionNodeComparison> decisionNodeComparisons;
+    private Boolean decision;
 
 
 }

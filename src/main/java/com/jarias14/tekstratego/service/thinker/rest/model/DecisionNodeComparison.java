@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class DecisionNodeComparison {
 
-    private DecisionNodeComparisonRange difference;
+    private DecisionNodeComparisonRange comparison;
     private String nextDecisionNodeId;
 
 }

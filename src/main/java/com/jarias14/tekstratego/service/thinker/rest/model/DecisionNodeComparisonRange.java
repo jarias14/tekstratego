@@ -9,5 +9,5 @@ import lombok.Data;
 public class DecisionNodeComparisonRange {
     private Double min;
     private Double max;
-    private ComparisonRangeUnit unit;
+    private DecisionNodeComparisonType type;
 }

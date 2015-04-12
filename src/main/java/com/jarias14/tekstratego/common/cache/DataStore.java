@@ -27,8 +27,7 @@ public class DataStore extends BlockingCache {
         put(element);
     }
 
-
-    public DataPointCollection getDataPoints(Stock stock, DataPointIndicator necessaryRawDataPointIndicator, long time, Integer necessaryNumberOfDataPoints) {
+    public DataPointCollection getDataPoints(Stock stock, DataPointIndicator dataPointIndicator, long time, Integer numberOfDataPoints) {
 
         // create the query
         Query query = getCache().createQuery();
@@ -37,14 +36,14 @@ public class DataStore extends BlockingCache {
         populateSymbolAttribute(query, stock);
 
         // add indicator to query
-        populateDataPointIndicatorAttribute(query, necessaryRawDataPointIndicator);
+        populateDataPointIndicatorAttribute(query, dataPointIndicator);
 
         // add time to query
         Attribute<Long> timeAttribute = getCache().getSearchAttribute("time");
         query.addCriteria(timeAttribute.le(time));
 
         // add limit of results to query
-        query.maxResults(necessaryNumberOfDataPoints);
+        query.maxResults(numberOfDataPoints);
 
 
         // execute query and fetch results
@@ -57,7 +56,7 @@ public class DataStore extends BlockingCache {
         dataPointCollection.setStock(stock);
         dataPointCollection.setDataPoints(dataPoints);
         dataPointCollection.setDetails(new DataPointDetails());
-        dataPointCollection.getDetails().setIndicator(necessaryRawDataPointIndicator);
+        dataPointCollection.getDetails().setIndicator(dataPointIndicator);
         dataPointCollection.getDetails().setSize(new DataPointSize(TimeUnit.DAYS, 1));
 
         return dataPointCollection;
