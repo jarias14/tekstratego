@@ -7,7 +7,7 @@ import com.jarias14.tekstratego.common.models.DataPointCollection;
 import com.jarias14.tekstratego.common.models.DataPointSize;
 import com.jarias14.tekstratego.common.skeleton.DataAccessObject;
 import com.jarias14.tekstratego.common.skeleton.Processor;
-import com.jarias14.tekstratego.service.listener.dao.resource.RawDataRequest;
+import com.jarias14.tekstratego.service.listener.models.RawDataRequest;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.text.DateFormat;

@@ -1,34 +1,36 @@
 package com.jarias14.tekstratego.service.listener.rest.impl;
 
 import com.jarias14.tekstratego.common.skeleton.ApplicationService;
-import com.jarias14.tekstratego.service.listener.models.ListenerRequest;
-import com.jarias14.tekstratego.service.listener.models.ListenerResponse;
+import com.jarias14.tekstratego.service.listener.models.RawDataRequest;
+import com.jarias14.tekstratego.service.listener.models.RawDataResponse;
 import com.jarias14.tekstratego.service.listener.rest.RestListenerService;
+import org.springframework.beans.factory.annotation.Required;
 
 /**
  * Created by jarias14 on 4/4/2015.
  */
 public class DefaultRestListenerServiceImpl implements RestListenerService {
 
-    private ApplicationService<ListenerRequest, ListenerResponse> applicationService;
+    private ApplicationService<RawDataRequest, RawDataResponse> rawDataSubscriptionApplicationService;
+    private ApplicationService<String, RawDataRequest> rawDataUnsubscriptionApplicationService;
 
     @Override
-    public ListenerResponse subscribe(ListenerRequest request) {
-        request.setRequestType(ListenerRequest.RequestType.SUBSCRIBE);
-        ListenerResponse response = applicationService.serviceRequest(request);
-        return response;
+    public RawDataResponse subscribe(RawDataRequest request) {
+        return rawDataSubscriptionApplicationService.serviceRequest(request);
     }
 
     @Override
-    public ListenerResponse unsubscribe(String stockSymbol) {
-        ListenerRequest request = new ListenerRequest();
-        request.setSymbol(stockSymbol);
-        request.setRequestType(ListenerRequest.RequestType.UNSUBSCRIBE);
-        ListenerResponse response = applicationService.serviceRequest(request);
-        return response;
+    public RawDataRequest unsubscribe(String subscriptionId) {
+        return rawDataUnsubscriptionApplicationService.serviceRequest(subscriptionId);
     }
 
-    public void setApplicationService(ApplicationService<ListenerRequest, ListenerResponse> applicationService) {
-        this.applicationService = applicationService;
+    @Required
+    public void setRawDataSubscriptionApplicationService(ApplicationService<RawDataRequest, RawDataResponse> rawDataSubscriptionApplicationService) {
+        this.rawDataSubscriptionApplicationService = rawDataSubscriptionApplicationService;
+    }
+
+    @Required
+    public void setRawDataUnsubscriptionApplicationService(ApplicationService<String, RawDataRequest> rawDataUnsubscriptionApplicationService) {
+        this.rawDataUnsubscriptionApplicationService = rawDataUnsubscriptionApplicationService;
     }
 }

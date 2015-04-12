@@ -1,7 +1,7 @@
 package com.jarias14.tekstratego.service.listener.rest;
 
-import com.jarias14.tekstratego.service.listener.models.ListenerRequest;
-import com.jarias14.tekstratego.service.listener.models.ListenerResponse;
+import com.jarias14.tekstratego.service.listener.models.RawDataRequest;
+import com.jarias14.tekstratego.service.listener.models.RawDataResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -17,16 +17,16 @@ public interface RestListenerService {
     @Path("/subscriptions")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ListenerResponse subscribe(ListenerRequest request);
+    public RawDataResponse subscribe(RawDataRequest request);
     
     /**
      * Creates an indicator given the stock and the body.
      * @return IndicatorResource - the list of prices for the request.
      */
     @DELETE
-    @Path("/subscriptions/{stock-symbol}")
+    @Path("/subscriptions/{subscription-id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ListenerResponse unsubscribe(@PathParam("stock-symbol") String stockSymbol);
+    public RawDataRequest unsubscribe(@PathParam("subscription-id") String subscriptionId);
 
 }
