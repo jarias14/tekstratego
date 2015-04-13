@@ -10,14 +10,14 @@ import com.jarias14.tekstratego.service.listener.models.RawDataResponse;
  */
 public class SubscribeLiveListenerTransactionManager implements TransactionManager<RawDataRequest, RawDataResponse> {
 
-    private DataAccessObject<RawDataRequest, RawDataResponse> liveDataDao;
+    private DataAccessObject<RawDataRequest, Boolean> liveDataDao;
 
     @Override
     public RawDataResponse process(RawDataRequest request) {
-        return liveDataDao.request(request);
+        return new RawDataResponse(request, liveDataDao.request(request));
     }
 
-    public void setLiveDataDao(DataAccessObject<RawDataRequest, RawDataResponse> liveDataDao) {
+    public void setLiveDataDao(DataAccessObject<RawDataRequest, Boolean> liveDataDao) {
         this.liveDataDao = liveDataDao;
     }
 }

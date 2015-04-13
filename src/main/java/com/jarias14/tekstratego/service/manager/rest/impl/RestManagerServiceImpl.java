@@ -2,7 +2,7 @@ package com.jarias14.tekstratego.service.manager.rest.impl;
 
 import com.jarias14.tekstratego.common.skeleton.ApplicationService;
 import com.jarias14.tekstratego.service.manager.models.ManagedAccount;
-import com.jarias14.tekstratego.service.manager.rest.MarketDataNotification;
+import com.jarias14.tekstratego.service.manager.models.MarketDataNotification;
 import com.jarias14.tekstratego.service.manager.rest.RestManagerService;
 import org.springframework.beans.factory.annotation.Required;
 

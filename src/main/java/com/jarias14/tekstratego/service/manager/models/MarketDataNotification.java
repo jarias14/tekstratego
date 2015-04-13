@@ -1,4 +1,4 @@
-package com.jarias14.tekstratego.service.manager.rest;
+package com.jarias14.tekstratego.service.manager.models;
 
 import com.jarias14.tekstratego.common.models.Stock;
 import lombok.AllArgsConstructor;

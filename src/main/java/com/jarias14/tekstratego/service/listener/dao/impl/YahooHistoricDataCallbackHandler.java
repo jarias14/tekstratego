@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @EnableAsync
 public class YahooHistoricDataCallbackHandler {
 
-    private Processor<Set<DataPointCollection>> historicDataProcessor;
+    private Processor<Set<DataPointCollection>> rawDataProcessor;
     private DataPointSize dataPointSize;
     private Stock stock;
 
@@ -31,7 +31,7 @@ public class YahooHistoricDataCallbackHandler {
 
         List<Set<DataPointCollection>> dataPointCollectionList = response.getQuery().getResults().getQuote().stream().map(this::getDataPointCollectionSet).collect(Collectors.toList());
 
-        dataPointCollectionList.stream().forEach(historicDataProcessor::process);
+        dataPointCollectionList.stream().forEach(rawDataProcessor::process);
     }
 
     private Set<DataPointCollection> getDataPointCollectionSet(YahooQuote yahooQuote) {
@@ -57,18 +57,6 @@ public class YahooHistoricDataCallbackHandler {
         return dataPointCollections;
     }
 
-
-    private double getPrice(YahooQuote quote, DataPointIndicator indicator) {
-        switch (indicator) {
-            case OPEN: return quote.getOpen();
-            case LOW: return quote.getLow();
-            case HIGH: return quote.getHigh();
-            case CLOSE: return quote.getClose();
-            case ADJ: return quote.getAdjClose();
-            default: return quote.getAdjClose();
-        }
-    }
-
     private long getEpochTime(String time){
 
         SimpleDateFormat df = new SimpleDateFormat("y-M-d");
@@ -90,7 +78,7 @@ public class YahooHistoricDataCallbackHandler {
         this.stock = stock;
     }
 
-    public void setHistoricDataProcessor(Processor<Set<DataPointCollection>> historicDataProcessor) {
-        this.historicDataProcessor = historicDataProcessor;
+    public void setRawDataProcessor(Processor<Set<DataPointCollection>> rawDataProcessor) {
+        this.rawDataProcessor = rawDataProcessor;
     }
 }

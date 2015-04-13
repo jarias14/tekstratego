@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class InteractiveBrokersLiveDataCallbackHandler implements ApiController.IRealTimeBarHandler {
 
-    private Processor<Set<DataPointCollection>> historicDataProcessor;
+    private Processor<Set<DataPointCollection>> rawDataProcessor;
     private DataPointSize dataPointSize;
     private Stock stock;
 
@@ -34,7 +34,7 @@ public class InteractiveBrokersLiveDataCallbackHandler implements ApiController.
         dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_ADJ, stock, dataPointSize, 1, adjDataPoint));
         dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_VOLUME, stock, dataPointSize, 1, volumeDataPoint));
 
-        historicDataProcessor.process(dataPointCollections);
+        rawDataProcessor.process(dataPointCollections);
     }
 
     public void setDataPointSize(DataPointSize dataPointSize) {
@@ -45,7 +45,7 @@ public class InteractiveBrokersLiveDataCallbackHandler implements ApiController.
         this.stock = stock;
     }
 
-    public void setHistoricDataProcessor(Processor<Set<DataPointCollection>> historicDataProcessor) {
-        this.historicDataProcessor = historicDataProcessor;
+    public void setRawDataProcessor(Processor<Set<DataPointCollection>> rawDataProcessor) {
+        this.rawDataProcessor = rawDataProcessor;
     }
 }

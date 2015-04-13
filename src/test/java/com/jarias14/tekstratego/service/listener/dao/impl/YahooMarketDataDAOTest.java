@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jarias14.tekstratego.common.models.DataPointSize;
 import com.jarias14.tekstratego.common.models.Stock;
 import com.jarias14.tekstratego.common.models.StockExchange;
-import com.jarias14.tekstratego.service.listener.biz.processors.HistoricMarketDataSimulator;
+import com.jarias14.tekstratego.service.listener.biz.processors.RawDataProcessor;
 import com.jarias14.tekstratego.service.listener.models.RawDataRequest;
 import org.easymock.EasyMock;
 import org.junit.Before;
@@ -22,11 +22,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class YahooMarketDataDAOTest {
 
-    private HistoricMarketDataSimulator simulator;
+    private RawDataProcessor simulator;
 
     @Before
     public void setUp() {
-        simulator = EasyMock.createMock(HistoricMarketDataSimulator.class);
+        simulator = EasyMock.createMock(RawDataProcessor.class);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class YahooMarketDataDAOTest {
 
 
         YahooHistoricDataDao dao = new YahooHistoricDataDao();
-        dao.setHistoricBarProcessor(simulator);
+        dao.setRawDataProcessor(simulator);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         //objectMapper

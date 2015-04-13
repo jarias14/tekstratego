@@ -1,4 +1,4 @@
-package com.jarias14.tekstratego.service.thinker.biz.transactionanagers;
+package com.jarias14.tekstratego.service.thinker.biz.transactionmanagers;
 
 import com.jarias14.tekstratego.common.cache.DataStore;
 import com.jarias14.tekstratego.common.models.DataPoint;

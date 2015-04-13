@@ -1,11 +1,10 @@
 package com.jarias14.tekstratego.service.manager.biz.transactionmanager;
 
-import com.jarias14.tekstratego.common.skeleton.ApplicationService;
 import com.jarias14.tekstratego.common.skeleton.Processor;
 import com.jarias14.tekstratego.common.skeleton.TransactionManager;
 import com.jarias14.tekstratego.service.manager.cache.ManagedAccountStore;
 import com.jarias14.tekstratego.service.manager.models.ManagedAccount;
-import com.jarias14.tekstratego.service.manager.rest.MarketDataNotification;
+import com.jarias14.tekstratego.service.manager.models.MarketDataNotification;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.List;

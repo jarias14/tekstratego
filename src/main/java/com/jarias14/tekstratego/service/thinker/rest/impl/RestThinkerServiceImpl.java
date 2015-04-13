@@ -8,7 +8,7 @@ import com.jarias14.tekstratego.service.thinker.rest.model.DecisionNode;
 import com.jarias14.tekstratego.service.thinker.rest.model.DecisionRequest;
 import org.springframework.beans.factory.annotation.Required;
 
-public class DefaultRestThinkerServiceImpl implements RestThinkerService{
+public class RestThinkerServiceImpl implements RestThinkerService {
 
     private ApplicationService<DecisionNode, DecisionNode> newDecisionNodeApplicationService;
     private ApplicationService<DecisionRequest, Boolean> performDecisionApplicationService;

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+
+    <!-- Rest Service Beans -->
+    <bean id="thinkerRestService" class="com.jarias14.tekstratego.service.thinker.rest.impl.RestThinkerServiceImpl">
+        <property name="newDecisionNodeApplicationService" ref="thinkerNewDecisionNodeApplicationService"/>
+        <property name="performDecisionApplicationService" ref="thinkerPerformDecisionApplicationService"/>
+    </bean>
+
+
+    <!-- Application Service Beans -->
+    <bean id="thinkerNewDecisionNodeApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="thinkerNewDecisionNodeTransactionManagerMap"/>
+    </bean>
+
+    <bean id="thinkerPerformDecisionApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="thinkerPerformDecisionTransactionManagerMap"/>
+    </bean>
+
+
+    <!-- Transaction Manager Maps -->
+    <util:map id="thinkerNewDecisionNodeTransactionManagerMap" map-class="java.util.HashMap">
+        <entry key="DEFAULT"><ref bean="thinkerNewDecisionNodeTransactionManager"/></entry>
+    </util:map>
+
+    <util:map id="thinkerPerformDecisionTransactionManagerMap" map-class="java.util.HashMap">
+        <entry key="DEFAULT"><ref bean="thinkerPerformDecisionTransactionManager"/></entry>
+    </util:map>
+
+
+    <!-- Transaction Managers -->
+    <bean id="thinkerNewDecisionNodeTransactionManager" class="com.jarias14.tekstratego.service.thinker.biz.transactionmanagers.NewDecisionNodeApplicationService">
+        <property name="decisionNodeDataStore" ref="thinkerDecisionNodeDataStore"/>
+    </bean>
+
+    <bean id="thinkerPerformDecisionTransactionManager" class="com.jarias14.tekstratego.service.thinker.biz.transactionmanagers.PerformDecisionTransactionManager">
+        <property name="decisionNodeDataStore" ref="thinkerDecisionNodeDataStore"/>
+        <property name="indicatorDataStore" ref="indicatorDataStore"/>
+    </bean>
+
+
+    <!-- Processors
+    <bean id="managerStrategyProcessor" class="com.jarias14.tekstratego.service.manager.biz.processors.ManagedAccountStrategyProcessor">
+        <property name="pricerServiceDao" ref="managerPricerServiceDao"/>
+    </bean>-->
+
+    <!-- Data Access Objects
+    <bean id="managerPricerServiceDao" class="com.jarias14.tekstratego.service.manager.dao.PricerServiceDao">
+        <property name="objectMapper" ref="objectMapper"/>
+    </bean>-->
+
+
+    <!-- Cache -->
+    <bean id="thinkerDecisionNodeDataStore" class="com.jarias14.tekstratego.service.thinker.cache.DecisionNodeDataStore">
+        <constructor-arg>
+            <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
+                <constructor-arg value="decisionNodeDataStore"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+
+</beans>

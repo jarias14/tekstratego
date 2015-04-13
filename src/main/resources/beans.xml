@@ -14,12 +14,15 @@
     <import resource="CommonCacheApplicationContext.xml"/>
     <import resource="ListenerServiceApplictionContext.xml"/>
     <import resource="PricerServiceApplictionContext.xml"/>
+    <import resource="ThinkerServiceApplictionContext.xml"/>
     <import resource="ManagerServiceApplictionContext.xml"/>
 
     <jaxrs:server id="services" address="/">
         <jaxrs:serviceBeans>
             <ref bean="listenerRestService"/>
             <ref bean="pricerRestService"/>
+            <ref bean="managerRestService"/>
+            <ref bean="thinkerRestService"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">

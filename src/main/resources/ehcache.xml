@@ -32,4 +32,9 @@
         <persistence strategy="none"/>
     </cache>
 
+    <cache name="decisionNodeDataStore" maxEntriesLocalHeap="10000" eternal="true">
+        <persistence strategy="none"/>
+    </cache>
+
+
 </ehcache>

@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class InteractiveBrokersHistoricDataDao implements DataAccessObject<RawDataRequest, Boolean>{
 
-    private Processor<Set<DataPointCollection>> ibHistoricBarProcessor;
+    private Processor<Set<DataPointCollection>> rawDataProcessor;
     private ApiController ibController;
 
     @Override
@@ -29,7 +29,7 @@ public class InteractiveBrokersHistoricDataDao implements DataAccessObject<RawDa
         InteractiveBrokersHistoricDataCallbackHandler ibCallbackHandler = new InteractiveBrokersHistoricDataCallbackHandler();
         ibCallbackHandler.setStock(ibRequest.getStock());
         ibCallbackHandler.setDataPointSize(ibRequest.getDataPointSize());
-        ibCallbackHandler.setHistoricDataProcessor(ibHistoricBarProcessor);
+        ibCallbackHandler.setRawDataProcessor(rawDataProcessor);
 
 
         NewContract ibContract = new NewContract();
@@ -78,7 +78,7 @@ public class InteractiveBrokersHistoricDataDao implements DataAccessObject<RawDa
     }
 
     @Required
-    public void setIbHistoricBarProcessor(Processor<Set<DataPointCollection>> ibHistoricBarProcessor) {
-        this.ibHistoricBarProcessor = ibHistoricBarProcessor;
+    public void setRawDataProcessor(Processor<Set<DataPointCollection>> rawDataProcessor) {
+        this.rawDataProcessor = rawDataProcessor;
     }
 }

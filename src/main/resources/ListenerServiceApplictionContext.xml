@@ -39,9 +39,7 @@
 
     <bean id="listenerHistoricDataTransactionManager" class="com.jarias14.tekstratego.service.listener.biz.transactionmanager.SubscribeHistoricListenerTransactionManager">
         <property name="historicDataDao" ref="listenerYahooHistoricDataDAO"/>
-        <property name="simulator" ref="listenerHistoricalDataSimulator"/>
     </bean>
-
 
     <bean id="listenerLiveDataTransactionManager" class="com.jarias14.tekstratego.service.listener.biz.transactionmanager.SubscribeLiveListenerTransactionManager">
         <property name="liveDataDao" ref="listenerInteractiveBrokersLiveDataDAO"/>
@@ -49,7 +47,7 @@
 
 
     <!-- Processors -->
-    <bean id="listenerHistoricalDataSimulator" class="com.jarias14.tekstratego.service.listener.biz.processors.HistoricMarketDataSimulator">
+    <bean id="listenerRawDataProcessor" class="com.jarias14.tekstratego.service.listener.biz.processors.RawDataProcessor">
         <property name="rawDataStore" ref="rawDataStore"/>
         <property name="managerServiceNewMarketDataNotificationDao" ref="managerPricerServiceDao"/>
     </bean>
@@ -61,12 +59,12 @@
 
     <bean id="listenerYahooHistoricDataDAO" class="com.jarias14.tekstratego.service.listener.dao.impl.YahooHistoricDataDao">
         <property name="objectMapper" ref="objectMapper"/>
-        <property name="historicBarProcessor" ref="listenerHistoricalDataSimulator"/>
+        <property name="rawDataProcessor" ref="listenerRawDataProcessor"/>
     </bean>
 
     <bean id="listenerInteractiveBrokersLiveDataDAO" class="com.jarias14.tekstratego.service.listener.dao.impl.InteractiveBrokersLiveDataDao">
         <property name="ibController" ref="ibApiController"/>
-        <property name="ibHistoricBarProcessor" ref="listenerHistoricalDataSimulator"/>
+        <property name="rawDataProcessor" ref="listenerRawDataProcessor"/>
     </bean>
 
     <!--- Executor -->

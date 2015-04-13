@@ -20,7 +20,7 @@ import java.util.*;
  */
 public class YahooHistoricDataDao implements DataAccessObject<RawDataRequest, Boolean> {
 
-    private Processor<Set<DataPointCollection>> historicBarProcessor;
+    private Processor<Set<DataPointCollection>> rawDataProcessor;
     private YahooHistoricDataCallbackHandler dataCallbackHandler;
     private ObjectMapper objectMapper;
     private static final String YAHOO_FINANCE_URL_BASE = "https://query.yahooapis.com/v1/public/yql?format={format}&env={env}&q={q}";
@@ -39,7 +39,7 @@ public class YahooHistoricDataDao implements DataAccessObject<RawDataRequest, Bo
         dataCallbackHandler = new YahooHistoricDataCallbackHandler();
         dataCallbackHandler.setStock(request.getStock());
         dataCallbackHandler.setDataPointSize(request.getDataPointSize());
-        dataCallbackHandler.setHistoricDataProcessor(historicBarProcessor);
+        dataCallbackHandler.setRawDataProcessor(rawDataProcessor);
 
         dataCallbackHandler.processYahooHistoricData(response);
 
@@ -84,7 +84,7 @@ public class YahooHistoricDataDao implements DataAccessObject<RawDataRequest, Bo
     }
 
     @Required
-    public void setHistoricBarProcessor(Processor<Set<DataPointCollection>> historicBarProcessor) {
-        this.historicBarProcessor = historicBarProcessor;
+    public void setRawDataProcessor(Processor<Set<DataPointCollection>> rawDataProcessor) {
+        this.rawDataProcessor = rawDataProcessor;
     }
 }
