@@ -24,9 +24,9 @@ public class StochasticOscillatorCalculator implements IndicatorCalculator<NewDa
     @Override
     public Double execute(NewDataPointIndicatorUpdateRequest NewDataPointIndicatorUpdateRequest) {
 
-        DataPointCollection<Double> closeDataPointCollection = getIndicatorData(NewDataPointIndicatorUpdateRequest.getData(), closeIndicator);
-        DataPointCollection<Double> highDataPointCollection = getIndicatorData(NewDataPointIndicatorUpdateRequest.getData(), highIndicator);
-        DataPointCollection<Double> lowDataPointCollection = getIndicatorData(NewDataPointIndicatorUpdateRequest.getData(), lowIndicator);
+        DataPointCollection closeDataPointCollection = getIndicatorData(NewDataPointIndicatorUpdateRequest.getData(), closeIndicator);
+        DataPointCollection highDataPointCollection = getIndicatorData(NewDataPointIndicatorUpdateRequest.getData(), highIndicator);
+        DataPointCollection lowDataPointCollection = getIndicatorData(NewDataPointIndicatorUpdateRequest.getData(), lowIndicator);
 
         Double[] closeDataPointsWrapper = getDataPoints(closeDataPointCollection);
         Double[] highDataPointsWrapper = getDataPoints(highDataPointCollection);

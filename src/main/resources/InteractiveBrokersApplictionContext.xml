@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="ibConnectionHandler" class="com.jarias14.tekstratego.common.InteractiveBrokersConnectionHandler"/>
+    <bean id="ibLogger" class="com.jarias14.tekstratego.common.InteractiveBrokersLogger"/>
+
+    <bean id="ibApiController" class="com.ib.controller.ApiController">
+        <constructor-arg name="handler" ref="ibConnectionHandler"/>
+        <constructor-arg name="inLogger" ref="ibLogger"/>
+        <constructor-arg name="outLogger" ref="ibLogger"/>
+    </bean>
+
+    <!--
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject">
+            <ref bean="ibApiController"/>
+        </property>
+        <property name="targetMethod">
+            <value>connect</value>
+        </property>
+        <property name="arguments">
+            <list>
+                <value>67.231.204.144</value>
+                <value>8150</value>
+                <value>4566</value>
+            </list>
+        </property>
+    </bean>
+-->
+</beans>

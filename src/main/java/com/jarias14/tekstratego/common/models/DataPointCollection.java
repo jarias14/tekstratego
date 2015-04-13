@@ -1,6 +1,7 @@
 package com.jarias14.tekstratego.common.models;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -13,9 +14,10 @@ import java.util.concurrent.TimeUnit;
  */
 @Data
 @NoArgsConstructor
-public class DataPointCollection<TYPE> extends DataPointDescription {
+@EqualsAndHashCode(callSuper = true)
+public class DataPointCollection extends DataPointDescription {
 
-    private List<DataPoint<TYPE>> dataPoints;
+    private List<DataPoint> dataPoints;
 
     public DataPointCollection(DataPointIndicator indicator, String symbol, String exchange, TimeUnit timeUnit, Integer timeSize) {
         this.setDetails(new DataPointDetails(indicator, timeUnit, timeSize));

@@ -33,7 +33,7 @@ public class RestManagerServiceImpl implements RestManagerService {
 
     @Override
     public Boolean processMarketData(MarketDataNotification marketDataNotification) {
-        return null;
+        return newMarketDataApplicationService.serviceRequest(marketDataNotification);
     }
 
     @Required

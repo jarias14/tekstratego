@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
  * Created by jarias14 on 4/4/2015.
  */
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class DataPointDescription extends Identifiable {
 
     private Stock stock;

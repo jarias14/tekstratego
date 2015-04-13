@@ -10,6 +10,7 @@
 	<context:component-scan base-package="com.jarias14.tekstratego.service" />
 
     <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="InteractiveBrokersApplictionContext.xml"/>
     <import resource="CommonCacheApplicationContext.xml"/>
     <import resource="ListenerServiceApplictionContext.xml"/>
     <import resource="PricerServiceApplictionContext.xml"/>

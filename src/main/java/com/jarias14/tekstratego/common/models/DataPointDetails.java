@@ -10,10 +10,11 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by jarias14 on 3/29/2015.
  */
+
 @Data
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 public class DataPointDetails {
 
     private DataPointIndicator indicator;

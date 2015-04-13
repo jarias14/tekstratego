@@ -7,8 +7,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by jarias14 on 3/22/2015.
  */
-@Data
+
 @EqualsAndHashCode
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class DataPointSize {

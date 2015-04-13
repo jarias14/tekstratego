@@ -18,14 +18,14 @@ import java.util.Set;
  * Created by jarias14 on 4/4/2015.
  */
 
-public class HistoricMarketDataSimulator<DATA_TYPE> implements Processor<Set<DataPointCollection<DATA_TYPE>>>{
+public class HistoricMarketDataSimulator implements Processor<Set<DataPointCollection>>{
 
     private DataAccessObject<MarketDataNotification, Boolean> managerServiceNewMarketDataNotificationDao;
     private DataStore rawDataStore;
     private static long WAIT_TIME_IN_SECONDS = (long)0.5;
 
     @Override
-    public void process(Set<DataPointCollection<DATA_TYPE>> historicalMarketData) {
+    public void process(Set<DataPointCollection> historicalMarketData) {
 
         Stock stock = historicalMarketData.stream().map(DataPointCollection::getStock).findFirst().get();
         long time = historicalMarketData.stream().map(DataPointCollection::getDataPoints).map(List::stream).findFirst().get().findFirst().get().getTime();
@@ -46,7 +46,6 @@ public class HistoricMarketDataSimulator<DATA_TYPE> implements Processor<Set<Dat
 
             // make call to pricer to notify new price has been added
             managerServiceNewMarketDataNotificationDao.request(new MarketDataNotification(stock, time));
-
 
             waitTimer(WAIT_TIME_IN_SECONDS);
         }

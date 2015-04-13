@@ -9,32 +9,65 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 
-
+    <!-- Rest Service -->
     <bean id="listenerRestService" class="com.jarias14.tekstratego.service.listener.rest.impl.DefaultRestListenerServiceImpl">
-        <property name="applicationService" ref="listenerApplicationService"/>
+        <property name="rawDataSubscriptionApplicationService" ref="listenerRawDataSubscriptionApplicationService"/>
+        <property name="rawDataUnsubscriptionApplicationService" ref="listenerRawDataUnsubscriptionApplicationService"/>
     </bean>
 
-    <bean id="listenerApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
-        <property name="transactionManagerMap" ref="listenerTransactionManagerMap"/>
+    <!-- Application Service -->
+    <bean id="listenerRawDataSubscriptionApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="listenerRawDataSubscriptionTransactionManagerMap"/>
     </bean>
 
-    <util:map id="listenerTransactionManagerMap" map-class="java.util.HashMap">
-        <entry key="DEFAULT"><ref bean="historicDataTransactionManager"/></entry>
+    <bean id="listenerRawDataUnsubscriptionApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="listenerRawDataUnsubscriptionTransactionManagerMap"/>
+    </bean>
+
+    <!-- Transaction Manager Maps -->
+    <util:map id="listenerRawDataSubscriptionTransactionManagerMap" map-class="java.util.HashMap">
+        <entry key="HISTORIC"><ref bean="listenerHistoricDataTransactionManager"/></entry>
+        <entry key="LIVE"><ref bean="listenerLiveDataTransactionManager"/></entry>
     </util:map>
 
-    <bean id="historicDataTransactionManager" class="com.jarias14.tekstratego.service.listener.biz.SubscribeHistoricListenerTransactionManager">
-        <property name="marketDataDAO" ref="yahooHistoricDataDAO"/>
-        <property name="simulator" ref="historicalDataSimulator"/>
+    <util:map id="listenerRawDataUnsubscriptionTransactionManagerMap" map-class="java.util.HashMap">
+        <entry key="HISTORIC"><ref bean="listenerHistoricDataTransactionManager"/></entry>
+        <entry key="LIVE"><ref bean="listenerLiveDataTransactionManager"/></entry>
+    </util:map>
+
+    <!-- Transaction Managers -->
+
+    <bean id="listenerHistoricDataTransactionManager" class="com.jarias14.tekstratego.service.listener.biz.transactionmanager.SubscribeHistoricListenerTransactionManager">
+        <property name="historicDataDao" ref="listenerYahooHistoricDataDAO"/>
+        <property name="simulator" ref="listenerHistoricalDataSimulator"/>
     </bean>
 
-    <bean id="historicalDataSimulator" class="com.jarias14.tekstratego.service.listener.biz.HistoricMarketDataSimulator">
+
+    <bean id="listenerLiveDataTransactionManager" class="com.jarias14.tekstratego.service.listener.biz.transactionmanager.SubscribeLiveListenerTransactionManager">
+        <property name="liveDataDao" ref="listenerInteractiveBrokersLiveDataDAO"/>
+    </bean>
+
+
+    <!-- Processors -->
+    <bean id="listenerHistoricalDataSimulator" class="com.jarias14.tekstratego.service.listener.biz.processors.HistoricMarketDataSimulator">
         <property name="rawDataStore" ref="rawDataStore"/>
+        <property name="managerServiceNewMarketDataNotificationDao" ref="managerPricerServiceDao"/>
     </bean>
 
-    <bean id="yahooHistoricDataDAO" class="com.jarias14.tekstratego.service.listener.dao.impl.YahooMarketDataDAO">
+    <!-- Data Access Objects -->
+    <bean id="listenerManagerServiceNewMarketDataNotificationDao" class="com.jarias14.tekstratego.service.listener.dao.impl.ManagerServiceNewMarketDataNotificationDao">
         <property name="objectMapper" ref="objectMapper"/>
     </bean>
 
+    <bean id="listenerYahooHistoricDataDAO" class="com.jarias14.tekstratego.service.listener.dao.impl.YahooHistoricDataDao">
+        <property name="objectMapper" ref="objectMapper"/>
+        <property name="historicBarProcessor" ref="listenerHistoricalDataSimulator"/>
+    </bean>
+
+    <bean id="listenerInteractiveBrokersLiveDataDAO" class="com.jarias14.tekstratego.service.listener.dao.impl.InteractiveBrokersLiveDataDao">
+        <property name="ibController" ref="ibApiController"/>
+        <property name="ibHistoricBarProcessor" ref="listenerHistoricalDataSimulator"/>
+    </bean>
 
     <!--- Executor -->
     <task:annotation-driven executor="historicMarketDataSimulatorExecutor" proxy-target-class="true" />

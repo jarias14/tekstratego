@@ -6,6 +6,7 @@ import com.jarias14.tekstratego.common.skeleton.DataAccessObject;
 import com.jarias14.tekstratego.common.skeleton.Processor;
 import com.jarias14.tekstratego.service.listener.dao.resource.YahooHistoricalDataResponse;
 import com.jarias14.tekstratego.service.listener.models.RawDataRequest;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -50,7 +51,7 @@ public class YahooHistoricDataDao implements DataAccessObject<RawDataRequest, Bo
         Date startDate = new Date(startDateInMillis);
         Date endDate = new Date(endDateInMillis);
 
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedStartDate = df.format(startDate);
         String formattedEndDate = df.format(endDate);
 
@@ -82,4 +83,8 @@ public class YahooHistoricDataDao implements DataAccessObject<RawDataRequest, Bo
         this.objectMapper = objectMapper;
     }
 
+    @Required
+    public void setHistoricBarProcessor(Processor<Set<DataPointCollection>> historicBarProcessor) {
+        this.historicBarProcessor = historicBarProcessor;
+    }
 }

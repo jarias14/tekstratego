@@ -22,7 +22,7 @@ public interface IndicatorCalculator<REQUEST, RESPONSE> {
                 .get();
     }
 
-    default Double[] getDataPoints(DataPointCollection<Double> dataPointCollection) {
+    default Double[] getDataPoints(DataPointCollection dataPointCollection) {
         return dataPointCollection.getDataPoints().stream()
                 .map(DataPoint::getValue)
                 .map(v -> (Double) v)

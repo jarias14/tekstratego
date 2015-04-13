@@ -12,13 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class DataPoint<VALUE_TYPE> implements Comparable<DataPoint> {
+public class DataPoint<VALUE_TYPE> {
 
     private long time;
     private VALUE_TYPE value;
-
-    @Override
-    public int compareTo(DataPoint o) {
-        return this.time > o.getTime() ? 1 : this.time < o.getTime() ? -1 : 0;
-    }
 }

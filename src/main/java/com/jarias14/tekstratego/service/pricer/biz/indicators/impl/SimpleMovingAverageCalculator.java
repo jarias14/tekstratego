@@ -21,7 +21,7 @@ public class SimpleMovingAverageCalculator implements IndicatorCalculator<NewDat
     @Override
     public Double execute(NewDataPointIndicatorUpdateRequest NewDataPointIndicatorUpdateRequest) {
 
-        DataPointCollection<Double> closeDataPointCollection =
+        DataPointCollection closeDataPointCollection =
                 NewDataPointIndicatorUpdateRequest
                         .getData()
                         .stream()

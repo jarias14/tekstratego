@@ -15,6 +15,7 @@
         <property name="newAccountApplicationService" ref="managerNewAccountApplicationService"/>
         <property name="retrieveAccountApplicationService" ref="managerRetrieveAccountApplicationService"/>
         <property name="retrieveAccountTradeStatusApplicationService" ref="managerRetrieveAccountTradeStatusApplicationService"/>
+        <property name="newMarketDataApplicationService" ref="managerNewMarketDataApplicationService"/>
     </bean>
 
 
@@ -31,33 +32,46 @@
         <property name="transactionManagerMap" ref="managerRetrieveAccountTradeStatusApplicationServiceMap"/>
     </bean>
 
+    <bean id="managerNewMarketDataApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="managerNewMarketDataTransactionManagerMap"/>
+    </bean>
+
 
     <!-- Transaction Manager Maps -->
     <util:map id="managerNewAccountApplicationServiceMap" map-class="java.util.HashMap">
-        <entry key="DEFAULT"><ref bean="managerNewAccountApplicationServiceTransactionManager"/></entry>
+        <entry key="DEFAULT"><ref bean="managerNewAccountTransactionManager"/></entry>
     </util:map>
 
     <util:map id="managerRetrieveAccountApplicationServiceMap" map-class="java.util.HashMap">
-        <entry key="DEFAULT"><ref bean="managerRetrieveAccountApplicationServiceTransactionManager"/></entry>
+        <entry key="DEFAULT"><ref bean="managerRetrieveAccountTransactionManager"/></entry>
     </util:map>
 
     <util:map id="managerRetrieveAccountTradeStatusApplicationServiceMap" map-class="java.util.HashMap">
-        <entry key="DEFAULT"><ref bean="managerRetrieveAccountTradeStatusApplicationServiceTransactionManager"/></entry>
+        <entry key="DEFAULT"><ref bean="managerRetrieveAccountTradeStatusTransactionManager"/></entry>
+    </util:map>
+
+    <util:map id="managerNewMarketDataTransactionManagerMap" map-class="java.util.HashMap">
+        <entry key="DEFAULT"><ref bean="managerNewMarketDataTransactionManager"/></entry>
     </util:map>
 
 
     <!-- Transaction Managers -->
-    <bean id="managerNewAccountApplicationServiceTransactionManager" class="com.jarias14.tekstratego.service.manager.biz.transactionmanager.NewAccountTransactionManager">
+    <bean id="managerNewAccountTransactionManager" class="com.jarias14.tekstratego.service.manager.biz.transactionmanager.NewAccountTransactionManager">
         <property name="managedAccountStore" ref="managedAccountStore"/>
     </bean>
 
-    <bean id="managerRetrieveAccountApplicationServiceTransactionManager" class="com.jarias14.tekstratego.service.manager.biz.transactionmanager.RetrieveAccountTransactionManager">
+    <bean id="managerRetrieveAccountTransactionManager" class="com.jarias14.tekstratego.service.manager.biz.transactionmanager.RetrieveAccountTransactionManager">
         <property name="managedAccountStore" ref="managedAccountStore"/>
     </bean>
 
-    <bean id="managerRetrieveAccountTradeStatusApplicationServiceTransactionManager" class="com.jarias14.tekstratego.service.manager.biz.transactionmanager.ExecuteAccountTransactionManager">
+    <bean id="managerRetrieveAccountTradeStatusTransactionManager" class="com.jarias14.tekstratego.service.manager.biz.transactionmanager.ExecuteAccountTransactionManager">
         <property name="managedAccountStore" ref="managedAccountStore"/>
         <property name="strategyProcessor" ref="managerStrategyProcessor"/>
+    </bean>
+
+    <bean id="managerNewMarketDataTransactionManager" class="com.jarias14.tekstratego.service.manager.biz.transactionmanager.NewMarketDataApplicationService">
+        <property name="managedAccountStore" ref="managedAccountStore"/>
+        <property name="managedAccountProcessor" ref="managerStrategyProcessor"/>
     </bean>
 
 

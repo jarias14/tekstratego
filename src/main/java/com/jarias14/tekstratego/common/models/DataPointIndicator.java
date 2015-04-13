@@ -6,9 +6,8 @@ import java.util.List;
 /**
  * Created by jarias14 on 3/22/2015.
  */
+
 public enum DataPointIndicator {
-
-
     RAW_OPEN (double.class, null),
     RAW_HIGH (double.class, null),
     RAW_LOW (double.class, null),
