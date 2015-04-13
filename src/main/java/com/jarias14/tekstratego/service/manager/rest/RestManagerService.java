@@ -26,5 +26,11 @@ public interface RestManagerService {
     @Consumes(MediaType.APPLICATION_JSON)
     public ManagedAccount retrieveAccountTradeStatus(@PathParam("account-id") String accountId);
 
+    @POST
+    @Path("/data/")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Boolean processMarketData(MarketDataNotification marketDataNotification);
+
     
 }
