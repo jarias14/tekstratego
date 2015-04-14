@@ -5,11 +5,14 @@ import com.jarias14.tekstratego.common.skeleton.DataAccessObject;
 import com.jarias14.tekstratego.common.skeleton.TransactionManager;
 import com.jarias14.tekstratego.service.thinker.cache.DecisionNodeDataStore;
 import com.jarias14.tekstratego.service.thinker.rest.model.*;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.cxf.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Created by jarias14 on 4/12/2015.
@@ -30,12 +33,12 @@ public class PerformDecisionTransactionManager implements TransactionManager<Dec
             decision = decisionNode.getDecision();
         } else {
 
-            String nextDecisionNode =
+            List<DecisionNodeComparison> decisionNodeComparisons =
                     decisionNode.getDecisionNodeComparisons().stream()
                     .filter(dnc -> getDecision(decisionRequest, decisionNode.getDecisionNodeIndicators(), dnc))
-                    .findFirst()
-                    .get()
-                    .getNextDecisionNodeId();
+                    .filter(Objects::nonNull).collect(Collectors.toList());
+
+            String nextDecisionNode = CollectionUtils.isNotEmpty(decisionNodeComparisons) ? decisionNodeComparisons.get(0).getNextDecisionNodeId() : null;
 
             decision = StringUtils.isEmpty(nextDecisionNode) ? false : process(new DecisionRequest(decisionRequest.getStock(), nextDecisionNode, decisionRequest.getEpochTime()));
         }

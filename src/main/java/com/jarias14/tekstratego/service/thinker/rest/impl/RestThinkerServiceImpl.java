@@ -1,6 +1,7 @@
 package com.jarias14.tekstratego.service.thinker.rest.impl;
 
 import com.jarias14.tekstratego.common.models.Stock;
+import com.jarias14.tekstratego.common.models.StockExchange;
 import com.jarias14.tekstratego.common.skeleton.ApplicationService;
 import com.jarias14.tekstratego.service.manager.models.Trade;
 import com.jarias14.tekstratego.service.thinker.rest.RestThinkerService;
@@ -19,9 +20,9 @@ public class RestThinkerServiceImpl implements RestThinkerService {
     }
 
     @Override
-    public Trade getDecision(String decisionNodeId, String symbol, String exchange, String epochTime) {
+    public Trade getDecision(String decisionNodeId, String exchange, String symbol, String epochTime) {
 
-        DecisionRequest decisionRequest = new DecisionRequest(new Stock(symbol, null), decisionNodeId, Long.valueOf(epochTime));
+        DecisionRequest decisionRequest = new DecisionRequest(new Stock(symbol, StockExchange.valueOf(exchange)), decisionNodeId, Long.valueOf(epochTime));
 
         Trade trade = new Trade();
         trade.setStrategyDecision(performDecisionApplicationService.serviceRequest(decisionRequest));

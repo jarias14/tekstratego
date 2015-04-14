@@ -30,8 +30,8 @@ public interface RestThinkerService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Trade getDecision(
             @PathParam("strategy-id") String strategyId,
-            @PathParam("epoch-time") String epochTime,
             @PathParam("stock-exchange") String stockExchange,
-            @PathParam("stock-symbol") String stockSymbol);
+            @PathParam("stock-symbol") String stockSymbol,
+            @PathParam("epoch-time") String epochTime);
 
 }
