@@ -29,9 +29,9 @@ public class StochasticOscillatorCalculator extends BaseCalculator implements In
         DataPointCollection highDataPointCollection = getIndicatorData(newDataPointIndicatorUpdateRequest.getData(), highIndicator);
         DataPointCollection lowDataPointCollection = getIndicatorData(newDataPointIndicatorUpdateRequest.getData(), lowIndicator);
 
-        Integer kPeriods = getParameter(DataPointIndicatorParameter.STOCHASTIC_OSCILLATOR_K_PERIODS, newDataPointIndicatorUpdateRequest.getRequestedIndicator().getDetails().getIndicatorParameters());
-        Integer kSlowPeriods = getParameter(DataPointIndicatorParameter.STOCHASTIC_OSCILLATOR_K_SLOWING_PERIODS, newDataPointIndicatorUpdateRequest.getRequestedIndicator().getDetails().getIndicatorParameters());
-        Integer dPeriods = getParameter(DataPointIndicatorParameter.STOCHASTIC_OSCILLATOR_D_PERIODS, newDataPointIndicatorUpdateRequest.getRequestedIndicator().getDetails().getIndicatorParameters());
+        Integer kPeriods = getParameter(DataPointIndicatorParameter.STOCHASTIC_OSCILLATOR_K_PERIODS, newDataPointIndicatorUpdateRequest.getRequestedIndicator().getDetails().getParameters());
+        Integer kSlowPeriods = getParameter(DataPointIndicatorParameter.STOCHASTIC_OSCILLATOR_K_SLOWING_PERIODS, newDataPointIndicatorUpdateRequest.getRequestedIndicator().getDetails().getParameters());
+        Integer dPeriods = getParameter(DataPointIndicatorParameter.STOCHASTIC_OSCILLATOR_D_PERIODS, newDataPointIndicatorUpdateRequest.getRequestedIndicator().getDetails().getParameters());
 
         Double[] closeDataPointsWrapper = getDataPoints(closeDataPointCollection);
         Double[] highDataPointsWrapper = getDataPoints(highDataPointCollection);

@@ -42,8 +42,8 @@ public class SimpleMovingAverageTestReal {
         DataPointDetails details = new DataPointDetails();
         details.setSize(dataPointSize);
         details.setIndicator(DataPointIndicator.SIMPLE_MOVING_AVERAGE);
-        details.setIndicatorParameters(new HashMap<>());
-        details.getIndicatorParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, 10);
+        details.setParameters(new HashMap<>());
+        details.getParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, 10);
 
         Stock stock = new Stock("TEST", StockExchange.NYSE);
 
@@ -104,8 +104,8 @@ public class SimpleMovingAverageTestReal {
         DataPointDetails details = new DataPointDetails();
         details.setSize(dataPointSize);
         details.setIndicator(DataPointIndicator.RAW_CLOSE);
-        details.setIndicatorParameters(new HashMap<>());
-        details.getIndicatorParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, 10);
+        details.setParameters(new HashMap<>());
+        details.getParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, 10);
 
 
         DataPointCollection dataPointCollection = new DataPointCollection();

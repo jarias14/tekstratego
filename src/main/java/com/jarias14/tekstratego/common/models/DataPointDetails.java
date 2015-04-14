@@ -16,7 +16,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class DataPointDetails {
 
-    private Map<DataPointIndicatorParameter, Integer> indicatorParameters;
+    private Map<DataPointIndicatorParameter, Integer> parameters;
     private DataPointIndicator indicator;
     private DataPointSize size;
 

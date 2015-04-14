@@ -37,7 +37,7 @@ public class SimpleMovingAverageCalculator extends BaseCalculator implements Ind
                         .map(v -> (Double) v)
                         .toArray(Double[]::new);
 
-        Integer periods = getParameter(DataPointIndicatorParameter.SIMPLE_MOVING_AVERAGE_PERIODS, newDataPointIndicatorUpdateRequest.getRequestedIndicator().getDetails().getIndicatorParameters());
+        Integer periods = getParameter(DataPointIndicatorParameter.SIMPLE_MOVING_AVERAGE_PERIODS, newDataPointIndicatorUpdateRequest.getRequestedIndicator().getDetails().getParameters());
 
         double[] closeDataPoints = ArrayUtils.toPrimitive(dataPoints);
         double[] emaDataPoints = new double[1];

@@ -42,7 +42,7 @@ public class NewDataPointTransactionManagerImpl implements TransactionManager<Da
         Integer necessaryNumberOfDataPoints =
                 indicators.stream()
                         .map(DataPointDescription::getDetails)
-                        .map(DataPointDetails::getIndicatorParameters)
+                        .map(DataPointDetails::getParameters)
                         .map(m -> m.get(DataPointIndicatorParameter.REQUIRED_PERIODS))
                         .max(Comparator.comparing(i -> i.intValue()))
                         .get();

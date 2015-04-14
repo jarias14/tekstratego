@@ -40,8 +40,8 @@ public class DataProvider {
         DataPointDetails details = new DataPointDetails();
         details.setSize(dataPointSize);
         details.setIndicator(dataPointIndicator);
-        details.setIndicatorParameters(new HashMap<>());
-        details.getIndicatorParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, 10);
+        details.setParameters(new HashMap<>());
+        details.getParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, 10);
 
         Stock stock = new Stock("TEST", StockExchange.NYSE);
 
