@@ -15,5 +15,5 @@ public class TradeRequest {
     private Stock stock;
     private Double price;
     private Integer quantity;
-    private boolean isBacktesting;
+    private boolean simulated;
 }

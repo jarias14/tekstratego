@@ -16,7 +16,6 @@ public class RestManagerServiceImpl implements RestManagerService {
     private ApplicationService<String, ManagedAccount> retrieveAccountTradeStatusApplicationService;
     private ApplicationService<MarketDataNotification, Boolean> newMarketDataApplicationService;
 
-    //chrome-extension://lhkmoheomjbkfloacpgllgjcamhihfaj/index.html?id=c1856b9abefcf7556bca72c872d0e348
     @Override
     public ManagedAccount createAccount(ManagedAccount request) {
         return newAccountApplicationService.serviceRequest(request);

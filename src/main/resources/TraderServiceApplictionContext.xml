@@ -26,7 +26,7 @@
 
     <util:map id="traderTradeExecutionTransactionManagerMap" map-class="java.util.HashMap">
         <entry key="LIVE"><ref bean="traderLiveTradeExecutionTransactionManager"/></entry>
-        <entry key="BACKTESTING"><ref bean="traderBacktestingTradeExecutionTransactionManager"/></entry>
+        <entry key="SIMULATED"><ref bean="traderSimulatedTradeExecutionTransactionManager"/></entry>
     </util:map>
 
     <!-- Transaction Managers -->
@@ -34,7 +34,7 @@
         <property name="tradeExecutionDao" ref="traderTradeExecutionDao"/>
     </bean>
 
-    <bean id="traderBacktestingTradeExecutionTransactionManager" class="com.jarias14.tekstratego.service.trader.biz.transactionmanager.SimulatedTradeExecutionTransactionManager"/>
+    <bean id="traderSimulatedTradeExecutionTransactionManager" class="com.jarias14.tekstratego.service.trader.biz.transactionmanager.SimulatedTradeExecutionTransactionManager"/>
 
     <!-- Data Access Objects -->
     <bean id="traderTradeExecutionDao" class="com.jarias14.tekstratego.service.trader.dao.impl.InteractiveBrokersTradeExecutionDao">

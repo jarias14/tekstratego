@@ -9,6 +9,6 @@ import com.jarias14.tekstratego.common.skeleton.TransactionDecisionMaker;
 public class TradeExecutionTransactionDecisionMaker implements TransactionDecisionMaker<TradeRequest> {
     @Override
     public String retrieveTransactionManagerId(TradeRequest tradeRequest) {
-        return tradeRequest.isBacktesting() ? "BACKTESTING" : "LIVE";
+        return tradeRequest.isSimulated() ? "SIMULATED" : "LIVE";
     }
 }

@@ -14,11 +14,7 @@ public class SimulatedTradeExecutionTransactionManager implements TransactionMan
 
         Position position = new Position();
         position.setAverageCost(tradeRequest.getPrice());
-        position.setMarketPrice(tradeRequest.getPrice());
-        position.setMarketValue(tradeRequest.getPrice()*tradeRequest.getQuantity());
         position.setPosition(tradeRequest.getQuantity());
-        position.setRealizedProfitAndLoss(new Double(0));
-        position.setUnrealizedProfitAndLoss(new Double(0));
 
         return position;
     }

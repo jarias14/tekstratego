@@ -4,7 +4,10 @@ import com.ib.controller.*;
 import com.jarias14.tekstratego.common.models.Position;
 import com.jarias14.tekstratego.common.models.TradeRequest;
 import com.jarias14.tekstratego.common.skeleton.DataAccessObject;
+import org.apache.cxf.common.i18n.UncheckedException;
 import org.springframework.beans.factory.annotation.Required;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by jarias14 on 4/14/15.
@@ -22,8 +25,8 @@ public class InteractiveBrokersTradeExecutionDao implements DataAccessObject<Tra
         contract.currency("USD");
         contract.secType(Types.SecType.STK);
         contract.symbol(tradeRequest.getStock().getSymbol());
-        contract.exchange(tradeRequest.getStock().getExchange().name());
-        contract.primaryExch("NASDAQ");
+        contract.exchange("SMART");
+        contract.primaryExch(tradeRequest.getStock().getExchange().name());
 
         NewOrder order = new NewOrder();
         order.action(tradeRequest.getQuantity() > 0 ? Types.Action.BUY : Types.Action.SELL);
@@ -33,8 +36,16 @@ public class InteractiveBrokersTradeExecutionDao implements DataAccessObject<Tra
         ibController.placeOrModifyOrder(contract, order, hanlder);
 
 
+        while (hanlder.getOrderStatus().isActive()) {
+            try { Thread.sleep(TimeUnit.SECONDS.toMillis(10)); }
+            catch (Exception e) { throw new UncheckedException(e); }
+        }
 
-        return null;
+        Position position = new Position();
+        position.setPosition(hanlder.getFilled());
+        position.setAverageCost(hanlder.getAvgFillPrice());
+
+        return position;
     }
 
     @Required
