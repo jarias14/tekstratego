@@ -15,7 +15,7 @@ public interface RestThinkerService {
      * @return HypothesisResource - the created hypothesis object with a selfLink the client can use for reference.
      */
     @POST
-    @Path("/strategy")
+    @Path("/strategies")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public DecisionNode createDecisionNode(DecisionNode hypothesis);
@@ -25,9 +25,13 @@ public interface RestThinkerService {
      * @return Boolean - whether the requested decision is true or not.
      */
     @GET
-    @Path("/strategy/{strategy-id}/decision/{epoch-time}")
+    @Path("/strategies/{strategy-id}/exchanges/{stock-exchange}/stocks/{stock-symbol}/times/{epoch-time}/")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Trade getDecision(@PathParam("strategy-id") String strategyId, @PathParam("epoch-time") String epochTime, @QueryParam("stock-symbol") String stockSymbol);
+    public Trade getDecision(
+            @PathParam("strategy-id") String strategyId,
+            @PathParam("epoch-time") String epochTime,
+            @PathParam("stock-exchange") String stockExchange,
+            @PathParam("stock-symbol") String stockSymbol);
 
 }

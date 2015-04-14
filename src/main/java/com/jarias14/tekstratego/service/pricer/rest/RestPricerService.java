@@ -18,7 +18,7 @@ public interface RestPricerService {
     public DataPointDescription createIndicator(DataPointDescription request);
 
     @GET
-    @Path("/indicators/{indicator-id}/exchange/{stock-exchange}/stock/{stock-symbol}/time/{epoch-time}")
+    @Path("/indicators/{indicator-id}/exchanges/{stock-exchange}/stocks/{stock-symbol}/times/{epoch-time}")
     @Produces(MediaType.APPLICATION_JSON)
     public DataPoint requestMarketData(
             @PathParam("indicator-id") String indicatorId,

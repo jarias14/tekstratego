@@ -20,7 +20,7 @@ import java.util.Map;
 public class PricerMarketDataRequestDao implements DataAccessObject<MarketDataRequest, Double> {
 
     private ObjectMapper objectMapper;
-    private static final String PRICER_MARKET_DATA_REQUEST_URL_BASE = "http://localhost:8082/tekstratego/pricer-service/indicators/{indicator-id}/exchange/{stock-exchange}/stock/{stock-symbol}/time/{epoch-time}";
+    private static final String PRICER_MARKET_DATA_REQUEST_URL_BASE = "http://localhost:8082/tekstratego/pricer-service/indicators/{indicator-id}/exchanges/{stock-exchange}/stocks/{stock-symbol}/times/{epoch-time}";
 
     @Override
     public Double request(MarketDataRequest request) {

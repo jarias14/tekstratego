@@ -44,7 +44,12 @@
 
     <bean id="thinkerPerformDecisionTransactionManager" class="com.jarias14.tekstratego.service.thinker.biz.transactionmanagers.PerformDecisionTransactionManager">
         <property name="decisionNodeDataStore" ref="thinkerDecisionNodeDataStore"/>
-        <property name="indicatorDataStore" ref="indicatorDataStore"/>
+        <property name="marketDataRequestDao" ref="thinkerMarketDataRequestDao"/>
+    </bean>
+
+    <!-- Data Access Objects -->
+    <bean id="thinkerMarketDataRequestDao" class="com.jarias14.tekstratego.service.thinker.dao.PricerMarketDataRequestDao">
+        <property name="objectMapper" ref="objectMapper"/>
     </bean>
 
 

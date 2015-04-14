@@ -1,26 +1,23 @@
 package com.jarias14.tekstratego.service.thinker.biz.transactionmanagers;
 
-import com.jarias14.tekstratego.common.cache.DataStore;
-import com.jarias14.tekstratego.common.models.DataPoint;
-import com.jarias14.tekstratego.common.models.DataPointCollection;
-import com.jarias14.tekstratego.common.models.DataPointDetails;
-import com.jarias14.tekstratego.common.models.Stock;
+import com.jarias14.tekstratego.common.models.MarketDataRequest;
+import com.jarias14.tekstratego.common.skeleton.DataAccessObject;
 import com.jarias14.tekstratego.common.skeleton.TransactionManager;
 import com.jarias14.tekstratego.service.thinker.cache.DecisionNodeDataStore;
 import com.jarias14.tekstratego.service.thinker.rest.model.*;
 import org.apache.commons.lang.NotImplementedException;
+import org.apache.cxf.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by jarias14 on 4/12/2015.
  */
 public class PerformDecisionTransactionManager implements TransactionManager<DecisionRequest, Boolean> {
 
+    private DataAccessObject<MarketDataRequest, Double> marketDataRequestDao;
     private DecisionNodeDataStore decisionNodeDataStore;
-    private DataStore indicatorDataStore;
 
     @Override
     public Boolean process(DecisionRequest decisionRequest) {
@@ -33,40 +30,49 @@ public class PerformDecisionTransactionManager implements TransactionManager<Dec
             decision = decisionNode.getDecision();
         } else {
 
-            List<DataPointCollection> dataPointCollection =
-                    decisionNode.getDecisionNodeIndicators().stream()
-                    .map(dataPointDetail -> this.getDataPointCollection(decisionRequest.getStock(), decisionRequest.getEpochTime(), dataPointDetail))
-                    .collect(Collectors.toList());
-
             String nextDecisionNode =
                     decisionNode.getDecisionNodeComparisons().stream()
-                    .filter(dnc -> getDecision(dnc, dataPointCollection))
+                    .filter(dnc -> getDecision(decisionRequest, decisionNode.getDecisionNodeIndicators(), dnc))
                     .findFirst()
                     .get()
                     .getNextDecisionNodeId();
 
-            decision = process(new DecisionRequest(decisionRequest.getStock(), nextDecisionNode, decisionRequest.getEpochTime()));
+            decision = StringUtils.isEmpty(nextDecisionNode) ? false : process(new DecisionRequest(decisionRequest.getStock(), nextDecisionNode, decisionRequest.getEpochTime()));
         }
 
         return decision;
     }
 
-    private boolean getDecision(DecisionNodeComparison decisionNodeComparison, List<DataPointCollection> dataPointCollection) {
+    private boolean getDecision(DecisionRequest decisionRequest, List<String> decisionNodeIndicators, DecisionNodeComparison decisionNodeComparison) {
 
         DecisionNodeComparisonRange decisionNodeComparisonRange = decisionNodeComparison.getComparison();
 
         if (DecisionNodeComparisonType.NUMERIC_DIFFERENCE.equals(decisionNodeComparison.getComparison().getType())) {
 
-            DataPoint<Double> firstDataPoint = (DataPoint<Double>) dataPointCollection.get(0).getDataPoints().get(0);
-            DataPoint<Double> secondDataPoint = (DataPoint<Double>) dataPointCollection.get(1).getDataPoints().get(0);
-            Double difference = firstDataPoint.getValue() - secondDataPoint.getValue();
+            MarketDataRequest marketDataRequest = new MarketDataRequest();
+            marketDataRequest.setStock(decisionRequest.getStock());
+            marketDataRequest.setTime(decisionRequest.getEpochTime());
+
+            marketDataRequest.setId(decisionNodeIndicators.get(0));
+            Double firstValue = marketDataRequestDao.request(marketDataRequest);
+
+            marketDataRequest.setId(decisionNodeIndicators.get(1));
+            Double secondValue = marketDataRequestDao.request(marketDataRequest);
+
+            Double difference = firstValue - secondValue;
+
             return difference >= decisionNodeComparisonRange.getMin() && difference <= decisionNodeComparisonRange.getMax();
 
         } else if (DecisionNodeComparisonType.NUMERIC_RANGE.equals(decisionNodeComparison.getComparison().getType())) {
 
-            DataPoint<Double> dataPoint = (DataPoint<Double>) dataPointCollection.get(0).getDataPoints().get(0);
-            Double dataPointValue = dataPoint.getValue();
-            return dataPointValue >= decisionNodeComparisonRange.getMin() && dataPointValue <= decisionNodeComparisonRange.getMax();
+            MarketDataRequest marketDataRequest = new MarketDataRequest();
+            marketDataRequest.setStock(decisionRequest.getStock());
+            marketDataRequest.setTime(decisionRequest.getEpochTime());
+
+            marketDataRequest.setId(decisionNodeIndicators.get(0));
+            Double value = marketDataRequestDao.request(marketDataRequest);
+
+            return value >= decisionNodeComparisonRange.getMin() && value <= decisionNodeComparisonRange.getMax();
 
         } else if (DecisionNodeComparisonType.PERCENT_DIFFERENCE.equals(decisionNodeComparison.getComparison().getType())) {
             throw new NotImplementedException();
@@ -75,17 +81,13 @@ public class PerformDecisionTransactionManager implements TransactionManager<Dec
         }
     }
 
-    private DataPointCollection getDataPointCollection(Stock stock, long epochTime, DataPointDetails dataPointDetails) {
-        return indicatorDataStore.getDataPoints(stock, dataPointDetails.getIndicator(), epochTime, 1);
-    }
-
     @Required
     public void setDecisionNodeDataStore(DecisionNodeDataStore decisionNodeDataStore) {
         this.decisionNodeDataStore = decisionNodeDataStore;
     }
 
     @Required
-    public void setIndicatorDataStore(DataStore indicatorDataStore) {
-        this.indicatorDataStore = indicatorDataStore;
+    public void setMarketDataRequestDao(DataAccessObject<MarketDataRequest, Double> marketDataRequestDao) {
+        this.marketDataRequestDao = marketDataRequestDao;
     }
 }

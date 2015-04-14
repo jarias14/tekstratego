@@ -19,7 +19,7 @@ public class RestThinkerServiceImpl implements RestThinkerService {
     }
 
     @Override
-    public Trade getDecision(String decisionNodeId, String epochTime, String symbol) {
+    public Trade getDecision(String decisionNodeId, String symbol, String exchange, String epochTime) {
 
         DecisionRequest decisionRequest = new DecisionRequest(new Stock(symbol, null), decisionNodeId, Long.valueOf(epochTime));
 
