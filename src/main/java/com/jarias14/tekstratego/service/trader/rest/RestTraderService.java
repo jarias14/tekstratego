@@ -1,7 +1,7 @@
 package com.jarias14.tekstratego.service.trader.rest;
 
+import com.jarias14.tekstratego.common.models.Position;
 import com.jarias14.tekstratego.common.models.TradeRequest;
-import com.jarias14.tekstratego.common.models.TradeResponse;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -18,5 +18,5 @@ public interface RestTraderService {
     @Path("/trade")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public TradeResponse executeTrade(TradeRequest tradeRequest);
+    public Position executeTrade(TradeRequest tradeRequest);
 }

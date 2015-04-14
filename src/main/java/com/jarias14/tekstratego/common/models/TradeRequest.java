@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 /**
  * Created by jarias14 on 4/14/2015.
  */
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class TradeRequest {
 
     private Stock stock;
