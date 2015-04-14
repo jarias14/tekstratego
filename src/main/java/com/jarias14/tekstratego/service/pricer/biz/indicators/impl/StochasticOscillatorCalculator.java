@@ -41,8 +41,8 @@ public class StochasticOscillatorCalculator extends BaseCalculator implements In
         double[] highDataPoints = ArrayUtils.toPrimitive(highDataPointsWrapper);
         double[] lowDataPoints = ArrayUtils.toPrimitive(lowDataPointsWrapper);
 
-        double[] kDataPoints = new double[30];
-        double[] dDataPoints = new double[30];
+        double[] kDataPoints = new double[1];
+        double[] dDataPoints = new double[1];
 
         taLib.stoch(
                 closeDataPoints.length - 1,

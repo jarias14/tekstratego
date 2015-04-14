@@ -1,8 +1,7 @@
 package com.jarias14.tekstratego.service.pricer.rest;
 
-import com.jarias14.tekstratego.common.models.DataPointDescription;
+import com.jarias14.tekstratego.common.models.*;
 import com.jarias14.tekstratego.common.skeleton.ApplicationService;
-import com.jarias14.tekstratego.service.manager.models.MarketDataNotification;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.Set;
@@ -13,7 +12,8 @@ import java.util.Set;
 public class RestPricerServiceImpl implements RestPricerService {
 
     private ApplicationService<DataPointDescription, DataPointDescription> newIndicatorApplicationService;
-    private ApplicationService<MarketDataNotification, Set<DataPointDescription>> newDataPointApplicationService;
+    private ApplicationService<MarketDataNotification, Set<DataPointDescription>> marketDataNotificationApplicationService;
+    private ApplicationService<MarketDataRequest, DataPoint> marketDataRequestApplicationService;
 
     @Override
     public DataPointDescription createIndicator(DataPointDescription request) {
@@ -21,8 +21,18 @@ public class RestPricerServiceImpl implements RestPricerService {
     }
 
     @Override
+    public DataPoint requestMarketData(String indicatorId, String stockExchange, String stockSymbol, String epochTime) {
+        MarketDataRequest marketDataRequest = new MarketDataRequest();
+        marketDataRequest.setId(indicatorId);
+        marketDataRequest.setStock(new Stock(stockSymbol, StockExchange.valueOf(stockExchange)));
+        marketDataRequest.setTime(Long.valueOf(epochTime));
+
+        return marketDataRequestApplicationService.serviceRequest(marketDataRequest);
+    }
+
+    @Override
     public Set<DataPointDescription> addDataPoint(MarketDataNotification request) {
-        return newDataPointApplicationService.serviceRequest(request);
+        return marketDataNotificationApplicationService.serviceRequest(request);
     }
 
     @Required
@@ -31,7 +41,12 @@ public class RestPricerServiceImpl implements RestPricerService {
     }
 
     @Required
-    public void setNewDataPointApplicationService(ApplicationService<MarketDataNotification, Set<DataPointDescription>> newDataPointApplicationService) {
-        this.newDataPointApplicationService = newDataPointApplicationService;
+    public void setMarketDataRequestApplicationService(ApplicationService<MarketDataRequest, DataPoint> marketDataRequestApplicationService) {
+        this.marketDataRequestApplicationService = marketDataRequestApplicationService;
+    }
+
+    @Required
+    public void setMarketDataNotificationApplicationService(ApplicationService<MarketDataNotification, Set<DataPointDescription>> marketDataNotificationApplicationService) {
+        this.marketDataNotificationApplicationService = marketDataNotificationApplicationService;
     }
 }

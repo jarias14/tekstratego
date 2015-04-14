@@ -14,9 +14,18 @@
         <ref bean="indicatorDataStore"/>
         <ref bean="pricerIndicatorCatalog"/>
         <ref bean="thinkerDecisionNodeDataStore"/>
+        <ref bean="pricerMarketDataTransactionCache"/>
     </util:list>
 
     <!-- Raw Data Cache -->
+    <bean id="pricerMarketDataTransactionCache" class="com.jarias14.tekstratego.service.pricer.cache.MarketDataRequestTransactionCache">
+        <constructor-arg>
+            <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
+                <constructor-arg value="pricerMarketDataTransactionCache"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
     <bean id="rawDataStore" class="com.jarias14.tekstratego.common.cache.DataStore">
         <constructor-arg>
             <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">

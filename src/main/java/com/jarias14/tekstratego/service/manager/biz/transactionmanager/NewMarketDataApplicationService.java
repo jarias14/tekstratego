@@ -4,7 +4,7 @@ import com.jarias14.tekstratego.common.skeleton.Processor;
 import com.jarias14.tekstratego.common.skeleton.TransactionManager;
 import com.jarias14.tekstratego.service.manager.cache.ManagedAccountStore;
 import com.jarias14.tekstratego.service.manager.models.ManagedAccount;
-import com.jarias14.tekstratego.service.manager.models.MarketDataNotification;
+import com.jarias14.tekstratego.common.models.MarketDataNotification;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.List;

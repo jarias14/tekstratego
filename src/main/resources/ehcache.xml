@@ -1,4 +1,9 @@
 <ehcache>
+
+    <cache name="pricerMarketDataTransactionCache" maxEntriesLocalHeap="10000" eternal="true">
+        <persistence strategy="none"/>
+    </cache>
+
     <cache name="rawDataStore" maxEntriesLocalHeap="10000" eternal="true">
         <persistence strategy="none"/>
         <searchable keys="true" values="true">

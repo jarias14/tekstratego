@@ -6,7 +6,7 @@ import com.jarias14.tekstratego.common.models.DataPointDetails;
 import com.jarias14.tekstratego.common.models.Stock;
 import com.jarias14.tekstratego.common.skeleton.DataAccessObject;
 import com.jarias14.tekstratego.common.skeleton.Processor;
-import com.jarias14.tekstratego.service.manager.models.MarketDataNotification;
+import com.jarias14.tekstratego.common.models.MarketDataNotification;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.List;

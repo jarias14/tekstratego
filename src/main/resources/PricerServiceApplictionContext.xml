@@ -12,37 +12,54 @@
 
     <!-- Rest Service Beans -->
     <bean id="pricerRestService" class="com.jarias14.tekstratego.service.pricer.rest.RestPricerServiceImpl">
-        <property name="newDataPointApplicationService" ref="newDataPointApplicationService"/>
         <property name="newIndicatorApplicationService" ref="newIndicatorApplicationService"/>
+        <property name="marketDataNotificationApplicationService" ref="pricerMarketDataNotificationApplicationService"/>
+        <property name="marketDataRequestApplicationService" ref="pricerMarketDataRequestApplicationService"/>
     </bean>
 
 
     <!-- Application Service Beans -->
-    <bean id="newDataPointApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
-        <property name="transactionManagerMap" ref="newDataPointTransactionManagerMap"/>
-    </bean>
-
     <bean id="newIndicatorApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
         <property name="transactionManagerMap" ref="newIndicatorTransactionManagerMap"/>
     </bean>
 
+    <bean id="pricerMarketDataNotificationApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="pricerMarketDataNotificationTransactionMap"/>
+    </bean>
+
+    <bean id="pricerMarketDataRequestApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
+        <property name="transactionManagerMap" ref="pricerMarketDataRequestTransactionManagerMap"/>
+        <property name="transactionCache" ref="pricerMarketDataTransactionCache"/>
+    </bean>
+
 
     <!-- Transaction Manager Maps -->
-    <util:map id="newDataPointTransactionManagerMap" map-class="java.util.HashMap">
-        <entry key="DEFAULT"><ref bean="newDataPointTransactionManager"/></entry>
-    </util:map>
-
     <util:map id="newIndicatorTransactionManagerMap" map-class="java.util.HashMap">
         <entry key="DEFAULT"><ref bean="newIndicatorTransactionManager"/></entry>
     </util:map>
 
+    <util:map id="pricerMarketDataNotificationTransactionMap" map-class="java.util.HashMap">
+        <entry key="DEFAULT"><ref bean="pricerMarketDataNotificationTransaction"/></entry>
+    </util:map>
+
+    <util:map id="pricerMarketDataRequestTransactionManagerMap" map-class="java.util.HashMap">
+        <entry key="DEFAULT"><ref bean="pricerMarketDataRequestTransactionManager"/></entry>
+    </util:map>
+
 
     <!-- Transaction Managers -->
-    <bean id="newDataPointTransactionManager" class="com.jarias14.tekstratego.service.pricer.biz.transactionmanagers.NewDataPointTransactionManagerImpl">
+
+    <bean id="pricerMarketDataBaseTransactionManager" abstract="true" class="com.jarias14.tekstratego.service.pricer.biz.transactionmanagers.MarketDataBaseTransactionManager">
         <property name="indicatorCatalogDao" ref="pricerIndicatorCatalog"/>
         <property name="rawDataStore" ref="rawDataStore"/>
         <property name="updateSimpleIndicatorProcessor" ref="pricerUpdateSimpleIndicatorProcessor"/>
     </bean>
+
+    <bean id="pricerMarketDataNotificationTransaction" class="com.jarias14.tekstratego.service.pricer.biz.transactionmanagers.MarketDataNotificationTransactionManagerImpl" parent="pricerMarketDataBaseTransactionManager">
+        <property name="marketDataRequestTransactionCache" ref="pricerMarketDataTransactionCache"/>
+    </bean>
+
+    <bean id="pricerMarketDataRequestTransactionManager" class="com.jarias14.tekstratego.service.pricer.biz.transactionmanagers.MarketDataRequestTransactionManagerImpl" parent="pricerMarketDataBaseTransactionManager"/>
 
     <bean id="newIndicatorTransactionManager" class="com.jarias14.tekstratego.service.pricer.biz.transactionmanagers.NewIndicatorTransactionManagerImpl">
         <property name="indicatorDataStore" ref="pricerIndicatorCatalog"/>
@@ -52,7 +69,6 @@
     <!-- Processors -->
     <bean id="pricerUpdateSimpleIndicatorProcessor" class="com.jarias14.tekstratego.service.pricer.biz.processor.impl.NewDataPointIndicatorUpdateProcessorImpl">
         <property name="calculators" ref="simpleIndicatorCalculatorsMap"/>
-        <property name="indicatorDataStore" ref="indicatorDataStore"/>
     </bean>
 
     <util:map id="simpleIndicatorCalculatorsMap" map-class="java.util.HashMap">

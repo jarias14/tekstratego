@@ -1,9 +1,6 @@
 package com.jarias14.tekstratego.common.skeleton.impl;
 
-import com.jarias14.tekstratego.common.skeleton.ApplicationService;
-import com.jarias14.tekstratego.common.skeleton.Processor;
-import com.jarias14.tekstratego.common.skeleton.TransactionDecisionMaker;
-import com.jarias14.tekstratego.common.skeleton.TransactionManager;
+import com.jarias14.tekstratego.common.skeleton.*;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Map;
@@ -17,10 +14,13 @@ public class DefaultApplicationServiceImpl<REQUEST, RESPONSE> implements Applica
     private Processor<REQUEST> requestValidator;
     private Map<String, TransactionManager<REQUEST, RESPONSE>> transactionManagerMap;
     private TransactionDecisionMaker<REQUEST> transactionDecisionMaker;
+    private TransactionCache<REQUEST, RESPONSE> transactionCache;
 
 
     @Override
     public RESPONSE serviceRequest(REQUEST request) {
+
+        RESPONSE response = null;
 
         String transactionManagerId = TransactionDecisionMaker.DEFAULT;
 
@@ -48,8 +48,19 @@ public class DefaultApplicationServiceImpl<REQUEST, RESPONSE> implements Applica
             return null;
         }
 
-        return transactionManagerMap.get(transactionManagerId).process(request);
+        if (null != transactionCache) {
+            response = transactionCache.getDataPoint(request);
+        }
 
+        if (null == response) {
+            response = transactionManagerMap.get(transactionManagerId).process(request);
+
+            if (null != transactionCache) {
+                transactionCache.putDataPoint(request, response);
+            }
+        }
+
+        return response;
     }
 
 
@@ -67,5 +78,9 @@ public class DefaultApplicationServiceImpl<REQUEST, RESPONSE> implements Applica
 
     public void setTransactionDecisionMaker(TransactionDecisionMaker<REQUEST> transactionDecisionMaker) {
         this.transactionDecisionMaker = transactionDecisionMaker;
+    }
+
+    public void setTransactionCache(TransactionCache transactionCache) {
+        this.transactionCache = transactionCache;
     }
 }

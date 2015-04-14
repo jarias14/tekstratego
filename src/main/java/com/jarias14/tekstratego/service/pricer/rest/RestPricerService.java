@@ -1,33 +1,31 @@
 package com.jarias14.tekstratego.service.pricer.rest;
 
+import com.jarias14.tekstratego.common.models.DataPoint;
 import com.jarias14.tekstratego.common.models.DataPointDescription;
-import com.jarias14.tekstratego.service.manager.models.MarketDataNotification;
+import com.jarias14.tekstratego.common.models.MarketDataNotification;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Set;
 
 @Path("/pricer-service")
 public interface RestPricerService {
 
-    /**
-     * Creates an indicator given the stock and the body.
-     * @return IndicatorResource - the list of prices for the request.
-     */
     @POST
     @Path("/indicators")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public DataPointDescription createIndicator(DataPointDescription request);
 
+    @GET
+    @Path("/indicators/{indicator-id}/exchange/{stock-exchange}/stock/{stock-symbol}/time/{epoch-time}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public DataPoint requestMarketData(
+            @PathParam("indicator-id") String indicatorId,
+            @PathParam("stock-exchange") String stockExchange,
+            @PathParam("stock-symbol") String stockSymbol,
+            @PathParam("epoch-time") String epochTime);
 
-    /**
-     * Creates an indicator given the stock and the body.
-     * @return IndicatorResource - the list of prices for the request.
-     */
     @POST
     @Path("/data")
     @Produces(MediaType.APPLICATION_JSON)

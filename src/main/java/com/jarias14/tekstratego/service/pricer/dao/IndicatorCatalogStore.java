@@ -11,6 +11,8 @@ import java.util.Set;
  */
 public interface IndicatorCatalogStore extends Ehcache {
 
+    DataPointDescription getIndicator(String indicatorId);
+
     public Set<DataPointDescription> getIndicators();
     public Set<DataPointDescription> getIndicatorsByStock(Stock stock);
     public boolean removeIndicator(String dataPointId);

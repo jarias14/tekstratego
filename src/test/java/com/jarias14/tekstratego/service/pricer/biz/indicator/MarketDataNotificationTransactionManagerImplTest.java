@@ -2,11 +2,12 @@ package com.jarias14.tekstratego.service.pricer.biz.indicator;
 
 import com.jarias14.tekstratego.common.cache.DataStore;
 import com.jarias14.tekstratego.common.models.*;
-import com.jarias14.tekstratego.service.manager.models.MarketDataNotification;
+import com.jarias14.tekstratego.common.models.MarketDataNotification;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.impl.DataProvider;
 import com.jarias14.tekstratego.service.pricer.biz.processor.impl.NewDataPointIndicatorUpdateProcessorImpl;
 import com.jarias14.tekstratego.service.pricer.biz.processor.model.NewDataPointIndicatorUpdateRequest;
-import com.jarias14.tekstratego.service.pricer.biz.transactionmanagers.NewDataPointTransactionManagerImpl;
+import com.jarias14.tekstratego.service.pricer.biz.transactionmanagers.MarketDataNotificationTransactionManagerImpl;
+import com.jarias14.tekstratego.service.pricer.cache.MarketDataRequestTransactionCache;
 import com.jarias14.tekstratego.service.pricer.dao.IndicatorCatalogStore;
 import org.easymock.EasyMock;
 import org.junit.Before;
@@ -18,23 +19,26 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 
-public class UpdateIndicatorTransactionManagerImplTest {
+public class MarketDataNotificationTransactionManagerImplTest {
 
-    private NewDataPointTransactionManagerImpl tm;
+    private MarketDataNotificationTransactionManagerImpl tm;
     private NewDataPointIndicatorUpdateProcessorImpl updateSimpleIndicatorProcessor;
     private IndicatorCatalogStore indicatorCatalogDao;
     private DataStore rawDataStore;
+    private MarketDataRequestTransactionCache marketDataRequestTransactionCache;
 
     @Before
     public void setUp() throws Exception {
         rawDataStore = EasyMock.createMock(DataStore.class);
         indicatorCatalogDao = EasyMock.createMock(IndicatorCatalogStore.class);
         updateSimpleIndicatorProcessor = EasyMock.createMock(NewDataPointIndicatorUpdateProcessorImpl.class);
+        marketDataRequestTransactionCache = EasyMock.createMock(MarketDataRequestTransactionCache.class);
 
-        tm = new NewDataPointTransactionManagerImpl();
+        tm = new MarketDataNotificationTransactionManagerImpl();
         tm.setIndicatorCatalogDao(indicatorCatalogDao);
         tm.setRawDataStore(rawDataStore);
         tm.setUpdateSimpleIndicatorProcessor(updateSimpleIndicatorProcessor);
+        tm.setMarketDataRequestTransactionCache(marketDataRequestTransactionCache);
     }
 
     @Test
@@ -88,6 +92,9 @@ public class UpdateIndicatorTransactionManagerImplTest {
         EasyMock.expect(rawDataStore.getDataPoints(stock, DataPointIndicator.RAW_OPEN, 1000, 100)).andReturn(DataProvider.getLows());
 
         updateSimpleIndicatorProcessor.process(EasyMock.anyObject(NewDataPointIndicatorUpdateRequest.class));
+        EasyMock.expectLastCall().andReturn(new DataPoint<>()).times(5);
+
+        marketDataRequestTransactionCache.putDataPoint(EasyMock.anyObject(), EasyMock.anyObject());
         EasyMock.expectLastCall().times(5);
 
 

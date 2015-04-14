@@ -1,8 +1,8 @@
-package com.jarias14.tekstratego.service.manager.models;
+package com.jarias14.tekstratego.common.models;
 
-import com.jarias14.tekstratego.common.models.Stock;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MarketDataNotification {
+@EqualsAndHashCode(callSuper = true)
+public class MarketDataNotification extends Identifiable {
     private Stock stock;
     private long time;
 

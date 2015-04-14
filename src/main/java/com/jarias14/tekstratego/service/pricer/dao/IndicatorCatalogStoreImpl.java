@@ -23,6 +23,12 @@ public class IndicatorCatalogStoreImpl extends BlockingCache implements Indicato
     }
 
     @Override
+    public DataPointDescription getIndicator(String indicatorId) {
+        DataPointDescription indicator = (DataPointDescription) getCache().get(indicatorId).getObjectValue();
+        return indicator;
+    }
+
+    @Override
     public Set<DataPointDescription> getIndicators() {
 
         return getDataPointDescriptions(getCache().createQuery().execute());

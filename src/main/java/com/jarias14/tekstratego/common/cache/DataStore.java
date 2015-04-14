@@ -7,6 +7,7 @@ import net.sf.ehcache.Element;
 import net.sf.ehcache.constructs.blocking.BlockingCache;
 import net.sf.ehcache.search.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -49,10 +50,13 @@ public class DataStore extends BlockingCache {
         query.maxResults(numberOfDataPoints);
 
 
+
         // execute query and fetch results
         Results results = query.execute();
         List<DataPoint> dataPoints = results.all().stream()
                 .map(Result::getValue).map(this::getDataPoint).collect(Collectors.toList());
+
+        Collections.reverse(dataPoints);
 
         // prepare response
         DataPointCollection dataPointCollection = new DataPointCollection();

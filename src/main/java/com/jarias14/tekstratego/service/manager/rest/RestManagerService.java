@@ -1,7 +1,7 @@
 package com.jarias14.tekstratego.service.manager.rest;
 
 import com.jarias14.tekstratego.service.manager.models.ManagedAccount;
-import com.jarias14.tekstratego.service.manager.models.MarketDataNotification;
+import com.jarias14.tekstratego.common.models.MarketDataNotification;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
