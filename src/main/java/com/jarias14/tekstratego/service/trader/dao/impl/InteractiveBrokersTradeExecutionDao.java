@@ -1,14 +1,10 @@
 package com.jarias14.tekstratego.service.trader.dao.impl;
 
-import com.ib.client.Contract;
-import com.ib.client.Order;
-import com.ib.client.OrderState;
 import com.ib.controller.*;
 import com.jarias14.tekstratego.common.models.Position;
 import com.jarias14.tekstratego.common.models.TradeRequest;
 import com.jarias14.tekstratego.common.skeleton.DataAccessObject;
-
-import java.util.Random;
+import org.springframework.beans.factory.annotation.Required;
 
 /**
  * Created by jarias14 on 4/14/15.
@@ -22,14 +18,12 @@ public class InteractiveBrokersTradeExecutionDao implements DataAccessObject<Tra
 
         InteractiveBrokersTradeExecutionCallbackHanlder hanlder = new InteractiveBrokersTradeExecutionCallbackHanlder();
 
-
-        int id = new Random().nextInt((0 - Integer.MAX_VALUE) + 1) + 10;
-
         NewContract contract = new NewContract();
         contract.currency("USD");
         contract.secType(Types.SecType.STK);
         contract.symbol(tradeRequest.getStock().getSymbol());
         contract.exchange(tradeRequest.getStock().getExchange().name());
+        contract.primaryExch("NASDAQ");
 
         NewOrder order = new NewOrder();
         order.action(tradeRequest.getQuantity() > 0 ? Types.Action.BUY : Types.Action.SELL);
@@ -43,6 +37,7 @@ public class InteractiveBrokersTradeExecutionDao implements DataAccessObject<Tra
         return null;
     }
 
+    @Required
     public void setIbController(ApiController ibController) {
         this.ibController = ibController;
     }

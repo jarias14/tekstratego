@@ -17,6 +17,7 @@
     <import resource="ThinkerServiceApplictionContext.xml"/>
     <import resource="ManagerServiceApplictionContext.xml"/>
     <import resource="AdminServiceApplictionContext.xml"/>
+    <import resource="TraderServiceApplictionContext.xml"/>
 
     <jaxrs:server id="services" address="/">
         <jaxrs:serviceBeans>
@@ -24,6 +25,7 @@
             <ref bean="pricerRestService"/>
             <ref bean="managerRestService"/>
             <ref bean="thinkerRestService"/>
+            <ref bean="traderRestService"/>
             <ref bean="adminCacheRestService"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>

@@ -33,10 +33,12 @@
     <bean id="traderLiveTradeExecutionTransactionManager" class="com.jarias14.tekstratego.service.trader.biz.transactionmanager.LiveTradeExecutionTransactionManager">
         <property name="tradeExecutionDao" ref="traderTradeExecutionDao"/>
     </bean>
-s
+
     <bean id="traderBacktestingTradeExecutionTransactionManager" class="com.jarias14.tekstratego.service.trader.biz.transactionmanager.SimulatedTradeExecutionTransactionManager"/>
 
     <!-- Data Access Objects -->
-    <bean id="traderTradeExecutionDao" class="com.jarias14.tekstratego.service.trader.dao.impl.InteractiveBrokersTradeExecutionDao"/>
+    <bean id="traderTradeExecutionDao" class="com.jarias14.tekstratego.service.trader.dao.impl.InteractiveBrokersTradeExecutionDao">
+        <property name="ibController" ref="ibApiController"/>
+    </bean>
 
 </beans>
