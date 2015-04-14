@@ -1,14 +1,13 @@
 <ehcache>
-    <cache
-            name="rawDataStore"
-            maxEntriesLocalHeap="10000"
-            eternal="true"
-            timeToIdleSeconds="120"
-            timeToLiveSeconds="120"
-            maxEntriesLocalDisk="10000000"
-            diskExpiryThreadIntervalSeconds="120"
-            memoryStoreEvictionPolicy="LRU">
-        <persistence strategy="localTempSwap"/>
+    <cache name="rawDataStore" maxEntriesLocalHeap="10000" eternal="true">
+        <persistence strategy="none"/>
+        <searchable keys="true" values="true">
+            <searchAttribute name="symbol" expression="key.stock.getSymbol()"/>
+            <searchAttribute name="time" expression="key.getTime()"/>
+            <searchAttribute name="dataPointSizeQuantity" expression="key.dataPointDetails.size.getQuantity()"/>
+            <searchAttribute name="dataPointSizeUnit" expression="key.dataPointDetails.size.getUnit()"/>
+            <searchAttribute name="dataPointIndicator" expression="key.dataPointDetails.getIndicator()"/>
+        </searchable>
     </cache>
     <cache
             name="indicatorDataStore"

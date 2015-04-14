@@ -30,7 +30,7 @@ public class DataStore extends BlockingCache {
     public DataPointCollection getDataPoints(Stock stock, DataPointIndicator dataPointIndicator, long time, Integer numberOfDataPoints) {
 
         // create the query
-        Query query = getCache().createQuery();
+        Query query = getCache().createQuery().includeKeys().includeValues();
 
         // add stock symbol to query
         populateSymbolAttribute(query, stock);
@@ -41,6 +41,9 @@ public class DataStore extends BlockingCache {
         // add time to query
         Attribute<Long> timeAttribute = getCache().getSearchAttribute("time");
         query.addCriteria(timeAttribute.le(time));
+
+        // sorting
+        query.addOrderBy(timeAttribute, Direction.DESCENDING);
 
         // add limit of results to query
         query.maxResults(numberOfDataPoints);
