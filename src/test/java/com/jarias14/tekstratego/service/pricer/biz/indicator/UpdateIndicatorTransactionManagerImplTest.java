@@ -2,6 +2,7 @@ package com.jarias14.tekstratego.service.pricer.biz.indicator;
 
 import com.jarias14.tekstratego.common.cache.DataStore;
 import com.jarias14.tekstratego.common.models.*;
+import com.jarias14.tekstratego.service.manager.models.MarketDataNotification;
 import com.jarias14.tekstratego.service.pricer.biz.indicator.impl.DataProvider;
 import com.jarias14.tekstratego.service.pricer.biz.processor.impl.NewDataPointIndicatorUpdateProcessorImpl;
 import com.jarias14.tekstratego.service.pricer.biz.processor.model.NewDataPointIndicatorUpdateRequest;
@@ -90,10 +91,10 @@ public class UpdateIndicatorTransactionManagerImplTest {
         EasyMock.expectLastCall().times(5);
 
 
-        DataPointTimableDescription request = new DataPointTimableDescription();
+        MarketDataNotification request = new MarketDataNotification();
         request.setTime(1000);
         request.setStock(stock);//new Stock("DIS", StockExchange.NYSE));
-        request.setDetails(new DataPointDetails(DataPointIndicator.RAW_CLOSE, new DataPointSize(TimeUnit.DAYS, 1)));
+        //request.set(new DataPointDetails(DataPointIndicator.RAW_CLOSE, new DataPointSize(TimeUnit.DAYS, 1)));
 
         EasyMock.replay(rawDataStore, indicatorCatalogDao, updateSimpleIndicatorProcessor);
         tm.process(request);

@@ -1,9 +1,12 @@
 package com.jarias14.tekstratego.service.pricer.rest;
 
 import com.jarias14.tekstratego.common.models.DataPointDescription;
-import com.jarias14.tekstratego.common.models.DataPointTimableDescription;
+import com.jarias14.tekstratego.service.manager.models.MarketDataNotification;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.Set;
 
@@ -26,12 +29,9 @@ public interface RestPricerService {
      * @return IndicatorResource - the list of prices for the request.
      */
     @POST
-    @Path("/data-points")
+    @Path("/data")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Set<DataPointDescription> addDataPoint(DataPointTimableDescription request);
-
-
-
+    public Set<DataPointDescription> addDataPoint(MarketDataNotification request);
 
 }

@@ -4,6 +4,7 @@ import com.jarias14.tekstratego.common.cache.DataStore;
 import com.jarias14.tekstratego.common.models.*;
 import com.jarias14.tekstratego.common.skeleton.Processor;
 import com.jarias14.tekstratego.common.skeleton.TransactionManager;
+import com.jarias14.tekstratego.service.manager.models.MarketDataNotification;
 import com.jarias14.tekstratego.service.pricer.biz.processor.model.NewDataPointIndicatorUpdateRequest;
 import com.jarias14.tekstratego.service.pricer.dao.IndicatorCatalogStore;
 import org.springframework.beans.factory.annotation.Required;
@@ -14,14 +15,14 @@ import java.util.stream.Collectors;
 /**
  * Created by jarias14 on 4/5/2015.
  */
-public class NewDataPointTransactionManagerImpl implements TransactionManager<DataPointTimableDescription, Set<DataPointDescription>> {
+public class NewDataPointTransactionManagerImpl implements TransactionManager<MarketDataNotification, Set<DataPointDescription>> {
 
     private DataStore rawDataStore;
     private IndicatorCatalogStore indicatorCatalogDao;
     private Processor<NewDataPointIndicatorUpdateRequest> updateSimpleIndicatorProcessor;
 
     @Override
-    public Set<DataPointDescription> process(DataPointTimableDescription dataPointDescription) {
+    public Set<DataPointDescription> process(MarketDataNotification dataPointDescription) {
 
         // get list of indicators that should process this stock
         Set<DataPointDescription> indicators =

@@ -1,8 +1,8 @@
 package com.jarias14.tekstratego.service.pricer.rest;
 
 import com.jarias14.tekstratego.common.models.DataPointDescription;
-import com.jarias14.tekstratego.common.models.DataPointTimableDescription;
 import com.jarias14.tekstratego.common.skeleton.ApplicationService;
+import com.jarias14.tekstratego.service.manager.models.MarketDataNotification;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.Set;
@@ -13,7 +13,7 @@ import java.util.Set;
 public class RestPricerServiceImpl implements RestPricerService {
 
     private ApplicationService<DataPointDescription, DataPointDescription> newIndicatorApplicationService;
-    private ApplicationService<DataPointTimableDescription, Set<DataPointDescription>> newDataPointApplicationService;
+    private ApplicationService<MarketDataNotification, Set<DataPointDescription>> newDataPointApplicationService;
 
     @Override
     public DataPointDescription createIndicator(DataPointDescription request) {
@@ -21,7 +21,7 @@ public class RestPricerServiceImpl implements RestPricerService {
     }
 
     @Override
-    public Set<DataPointDescription> addDataPoint(DataPointTimableDescription request) {
+    public Set<DataPointDescription> addDataPoint(MarketDataNotification request) {
         return newDataPointApplicationService.serviceRequest(request);
     }
 
@@ -31,7 +31,7 @@ public class RestPricerServiceImpl implements RestPricerService {
     }
 
     @Required
-    public void setNewDataPointApplicationService(ApplicationService<DataPointTimableDescription, Set<DataPointDescription>> newDataPointApplicationService) {
+    public void setNewDataPointApplicationService(ApplicationService<MarketDataNotification, Set<DataPointDescription>> newDataPointApplicationService) {
         this.newDataPointApplicationService = newDataPointApplicationService;
     }
 }
