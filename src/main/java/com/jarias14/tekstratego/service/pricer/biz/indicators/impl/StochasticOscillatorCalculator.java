@@ -2,6 +2,7 @@ package com.jarias14.tekstratego.service.pricer.biz.indicators.impl;
 
 import com.jarias14.tekstratego.common.models.DataPointCollection;
 import com.jarias14.tekstratego.common.models.DataPointIndicator;
+import com.jarias14.tekstratego.common.models.DataPointIndicatorParameter;
 import com.jarias14.tekstratego.service.pricer.biz.indicators.IndicatorCalculator;
 import com.jarias14.tekstratego.service.pricer.biz.processor.model.NewDataPointIndicatorUpdateRequest;
 import com.tictactec.ta.lib.CoreAnnotated;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Required;
 /**
  * Created by jarias14 on 3/29/2015.
  */
-public class StochasticOscillatorCalculator implements IndicatorCalculator<NewDataPointIndicatorUpdateRequest, Double> {
+public class StochasticOscillatorCalculator extends BaseCalculator implements IndicatorCalculator<NewDataPointIndicatorUpdateRequest, Double> {
 
     private static DataPointIndicator closeIndicator = DataPointIndicator.RAW_CLOSE;
     private static DataPointIndicator highIndicator = DataPointIndicator.RAW_HIGH;
@@ -22,11 +23,15 @@ public class StochasticOscillatorCalculator implements IndicatorCalculator<NewDa
     private CoreAnnotated taLib;
 
     @Override
-    public Double execute(NewDataPointIndicatorUpdateRequest NewDataPointIndicatorUpdateRequest) {
+    public Double execute(NewDataPointIndicatorUpdateRequest newDataPointIndicatorUpdateRequest) {
 
-        DataPointCollection closeDataPointCollection = getIndicatorData(NewDataPointIndicatorUpdateRequest.getData(), closeIndicator);
-        DataPointCollection highDataPointCollection = getIndicatorData(NewDataPointIndicatorUpdateRequest.getData(), highIndicator);
-        DataPointCollection lowDataPointCollection = getIndicatorData(NewDataPointIndicatorUpdateRequest.getData(), lowIndicator);
+        DataPointCollection closeDataPointCollection = getIndicatorData(newDataPointIndicatorUpdateRequest.getData(), closeIndicator);
+        DataPointCollection highDataPointCollection = getIndicatorData(newDataPointIndicatorUpdateRequest.getData(), highIndicator);
+        DataPointCollection lowDataPointCollection = getIndicatorData(newDataPointIndicatorUpdateRequest.getData(), lowIndicator);
+
+        Integer kPeriods = getParameter(DataPointIndicatorParameter.STOCHASTIC_OSCILLATOR_K_PERIODS, newDataPointIndicatorUpdateRequest.getRequestedIndicator().getDetails().getIndicatorParameters());
+        Integer kSlowPeriods = getParameter(DataPointIndicatorParameter.STOCHASTIC_OSCILLATOR_K_SLOWING_PERIODS, newDataPointIndicatorUpdateRequest.getRequestedIndicator().getDetails().getIndicatorParameters());
+        Integer dPeriods = getParameter(DataPointIndicatorParameter.STOCHASTIC_OSCILLATOR_D_PERIODS, newDataPointIndicatorUpdateRequest.getRequestedIndicator().getDetails().getIndicatorParameters());
 
         Double[] closeDataPointsWrapper = getDataPoints(closeDataPointCollection);
         Double[] highDataPointsWrapper = getDataPoints(highDataPointCollection);
@@ -45,17 +50,17 @@ public class StochasticOscillatorCalculator implements IndicatorCalculator<NewDa
                 highDataPoints,
                 lowDataPoints,
                 closeDataPoints,
-                14,
-                3,
+                kPeriods,
+                kSlowPeriods,
                 MAType.Sma,
-                3,
+                dPeriods,
                 MAType.Sma,
                 new MInteger(),
                 new MInteger(),
                 kDataPoints,
                 dDataPoints);
 
-        if (NewDataPointIndicatorUpdateRequest.getRequestedIndicator().getDetails().getIndicator().equals(DataPointIndicator.STOCHASTIC_OSCILLATOR_K)) {
+        if (newDataPointIndicatorUpdateRequest.getRequestedIndicator().getDetails().getIndicator().equals(DataPointIndicator.STOCHASTIC_OSCILLATOR_K)) {
             return Double.valueOf(kDataPoints[0]);
         } else {
             return Double.valueOf(dDataPoints[0]);

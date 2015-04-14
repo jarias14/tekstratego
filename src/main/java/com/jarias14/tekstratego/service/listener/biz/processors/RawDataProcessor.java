@@ -29,10 +29,10 @@ public class RawDataProcessor implements Processor<Set<DataPointCollection>> {
         long time = historicalMarketData.stream().map(DataPointCollection::getDataPoints).map(List::stream).findFirst().get().findFirst().get().getTime();
 
         historicalMarketData.stream()
-                .map(DataPointCollection::getDataPoints)
-                .flatMap(List::stream)
-                .forEach(dataPoint ->
-                        rawDataStore.putDataPoint(stock, dataPoint, dataPointDetails));
+                .forEach(dpc ->
+                        dpc.getDataPoints().stream()
+                                .forEach(dataPoint ->
+                                        rawDataStore.putDataPoint(stock, dataPoint, dpc.getDetails())));
 
         // make call to manager to notify new price has been added
         managerServiceNewMarketDataNotificationDao.request(new MarketDataNotification(stock, time));

@@ -27,12 +27,12 @@ public class InteractiveBrokersHistoricDataCallbackHandler implements ApiControl
         DataPoint volumeDataPoint = new DataPoint(bar.time(), Double.valueOf(bar.high()));
 
         Set<DataPointCollection> dataPointCollections = new HashSet<>();
-        dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_OPEN, stock, dataPointSize, 1, openDataPoint));
-        dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_LOW, stock, dataPointSize, 1, lowDataPoint));
-        dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_HIGH, stock, dataPointSize, 1, highDataPoint));
-        dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_CLOSE, stock, dataPointSize, 1, closeDataPoint));
-        dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_ADJ, stock, dataPointSize, 1, adjDataPoint));
-        dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_VOLUME, stock, dataPointSize, 1, volumeDataPoint));
+        dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_OPEN, stock, dataPointSize, openDataPoint));
+        dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_LOW, stock, dataPointSize, lowDataPoint));
+        dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_HIGH, stock, dataPointSize, highDataPoint));
+        dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_CLOSE, stock, dataPointSize, closeDataPoint));
+        dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_ADJ, stock, dataPointSize, adjDataPoint));
+        dataPointCollections.add(new DataPointCollection(DataPointIndicator.RAW_VOLUME, stock, dataPointSize, volumeDataPoint));
 
         rawDataProcessor.process(dataPointCollections);
     }

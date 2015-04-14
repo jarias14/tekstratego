@@ -16,6 +16,7 @@
     <import resource="PricerServiceApplictionContext.xml"/>
     <import resource="ThinkerServiceApplictionContext.xml"/>
     <import resource="ManagerServiceApplictionContext.xml"/>
+    <import resource="AdminServiceApplictionContext.xml"/>
 
     <jaxrs:server id="services" address="/">
         <jaxrs:serviceBeans>
@@ -23,6 +24,7 @@
             <ref bean="pricerRestService"/>
             <ref bean="managerRestService"/>
             <ref bean="thinkerRestService"/>
+            <ref bean="adminCacheRestService"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">

@@ -20,13 +20,13 @@ public class DataPointCollection extends DataPointDescription {
     private List<DataPoint> dataPoints;
 
     public DataPointCollection(DataPointIndicator indicator, String symbol, String exchange, TimeUnit timeUnit, Integer timeSize) {
-        this.setDetails(new DataPointDetails(indicator, timeUnit, timeSize));
+        this.setDetails(new DataPointDetails(indicator, new DataPointSize(timeUnit, timeSize)));
         this.setStock(new Stock(symbol, StockExchange.valueOf(exchange.toUpperCase())));
         this.setDataPoints(new ArrayList<>());
     }
 
-    public DataPointCollection(DataPointIndicator indicator, Stock stock, DataPointSize dataPointSize, int necessaryBars, DataPoint dataPoint) {
-        this.setDetails(new DataPointDetails(indicator, dataPointSize, necessaryBars));
+    public DataPointCollection(DataPointIndicator indicator, Stock stock, DataPointSize dataPointSize, DataPoint dataPoint) {
+        this.setDetails(new DataPointDetails(indicator, dataPointSize));
         this.setStock(stock);
         this.setDataPoints(Arrays.asList(dataPoint));
     }

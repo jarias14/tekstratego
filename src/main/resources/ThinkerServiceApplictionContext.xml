@@ -59,14 +59,7 @@
     </bean>-->
 
 
-    <!-- Cache -->
-    <bean id="thinkerDecisionNodeDataStore" class="com.jarias14.tekstratego.service.thinker.cache.DecisionNodeDataStore">
-        <constructor-arg>
-            <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
-                <constructor-arg value="decisionNodeDataStore"/>
-            </bean>
-        </constructor-arg>
-    </bean>
+
 
 
 </beans>

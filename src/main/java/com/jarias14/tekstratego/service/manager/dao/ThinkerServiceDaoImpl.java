@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by jarias14 on 4/12/2015.
  */
-public class PricerServiceDao implements DataAccessObject<PricerServiceTradeRequest, Trade> {
+public class ThinkerServiceDaoImpl implements DataAccessObject<PricerServiceTradeRequest, Trade> {
 
     private ObjectMapper objectMapper;
     private static final String THINKER_STRATEGY_DECISION_URL_BASE = "http://localhost:8082/thinker-service/strategy/{strategy-id}/decision/{epoch-time}?stock={stock-symbol}";

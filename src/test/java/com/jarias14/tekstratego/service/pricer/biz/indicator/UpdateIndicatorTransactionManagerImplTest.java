@@ -11,6 +11,7 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -44,32 +45,37 @@ public class UpdateIndicatorTransactionManagerImplTest {
 
         DataPointDescription dataPointDescription1 = new DataPointDescription();
         dataPointDescription1.setStock(stock);
-        dataPointDescription1.setDetails(new DataPointDetails(DataPointIndicator.EXPONENTIAL_MOVING_AVERAGE, TimeUnit.DAYS, 1));
-        dataPointDescription1.getDetails().setNecessaryDataPointBars(99);
+        dataPointDescription1.setDetails(new DataPointDetails(DataPointIndicator.EXPONENTIAL_MOVING_AVERAGE, new DataPointSize(TimeUnit.DAYS, 1)));
+        dataPointDescription1.getDetails().setIndicatorParameters(new HashMap<>());
+        dataPointDescription1.getDetails().getIndicatorParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, 99);
         dataPointDescriptionSet.add(dataPointDescription1);
 
         DataPointDescription dataPointDescription2 = new DataPointDescription();
         dataPointDescription2.setStock(stock);
-        dataPointDescription2.setDetails(new DataPointDetails(DataPointIndicator.OPEN, TimeUnit.DAYS, 1));
-        dataPointDescription2.getDetails().setNecessaryDataPointBars(-1);
+        dataPointDescription2.setDetails(new DataPointDetails(DataPointIndicator.OPEN, new DataPointSize(TimeUnit.DAYS, 1)));
+        dataPointDescription2.getDetails().setIndicatorParameters(new HashMap<>());
+        dataPointDescription2.getDetails().getIndicatorParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, -1);
         dataPointDescriptionSet.add(dataPointDescription2);
 
         DataPointDescription dataPointDescription3 = new DataPointDescription();
         dataPointDescription3.setStock(stock);
-        dataPointDescription3.setDetails(new DataPointDetails(DataPointIndicator.CLOSE, TimeUnit.DAYS, 1));
-        dataPointDescription3.getDetails().setNecessaryDataPointBars(100);
+        dataPointDescription3.setDetails(new DataPointDetails(DataPointIndicator.CLOSE, new DataPointSize(TimeUnit.DAYS, 1)));
+        dataPointDescription3.getDetails().setIndicatorParameters(new HashMap<>());
+        dataPointDescription3.getDetails().getIndicatorParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, 100);
         dataPointDescriptionSet.add(dataPointDescription3);
 
         DataPointDescription dataPointDescription4 = new DataPointDescription();
         dataPointDescription4.setStock(stock);
-        dataPointDescription4.setDetails(new DataPointDetails(DataPointIndicator.STOCHASTIC_OSCILLATOR_K, TimeUnit.DAYS, 1));
-        dataPointDescription4.getDetails().setNecessaryDataPointBars(1);
+        dataPointDescription4.setDetails(new DataPointDetails(DataPointIndicator.STOCHASTIC_OSCILLATOR_K, new DataPointSize(TimeUnit.DAYS, 1)));
+        dataPointDescription4.getDetails().setIndicatorParameters(new HashMap<>());
+        dataPointDescription4.getDetails().getIndicatorParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, 1);
         dataPointDescriptionSet.add(dataPointDescription4);
 
         DataPointDescription dataPointDescription5 = new DataPointDescription();
         dataPointDescription5.setStock(stock);
-        dataPointDescription5.setDetails(new DataPointDetails(DataPointIndicator.STOCHASTIC_OSCILLATOR_D, TimeUnit.DAYS, 1));
-        dataPointDescription4.getDetails().setNecessaryDataPointBars(10);
+        dataPointDescription5.setDetails(new DataPointDetails(DataPointIndicator.STOCHASTIC_OSCILLATOR_D, new DataPointSize(TimeUnit.DAYS, 1)));
+        dataPointDescription5.getDetails().setIndicatorParameters(new HashMap<>());
+        dataPointDescription5.getDetails().getIndicatorParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, 10);
         dataPointDescriptionSet.add(dataPointDescription5);
 
         EasyMock.expect(indicatorCatalogDao.getIndicatorsByStock(stock)).andReturn(dataPointDescriptionSet);
@@ -87,7 +93,7 @@ public class UpdateIndicatorTransactionManagerImplTest {
         DataPointTimableDescription request = new DataPointTimableDescription();
         request.setTime(1000);
         request.setStock(stock);//new Stock("DIS", StockExchange.NYSE));
-        request.setDetails(new DataPointDetails(DataPointIndicator.RAW_CLOSE, TimeUnit.DAYS, 1));
+        request.setDetails(new DataPointDetails(DataPointIndicator.RAW_CLOSE, new DataPointSize(TimeUnit.DAYS, 1)));
 
         EasyMock.replay(rawDataStore, indicatorCatalogDao, updateSimpleIndicatorProcessor);
         tm.process(request);

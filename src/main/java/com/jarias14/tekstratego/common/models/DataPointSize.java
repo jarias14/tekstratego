@@ -8,10 +8,10 @@ import java.util.concurrent.TimeUnit;
  * Created by jarias14 on 3/22/2015.
  */
 
-@EqualsAndHashCode
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class DataPointSize {
 
     private TimeUnit unit;

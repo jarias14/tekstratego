@@ -81,22 +81,6 @@
     </bean>
 
 
-    <!-- Cache -->
-    <bean id="indicatorDataStore" class="com.jarias14.tekstratego.common.cache.DataStore">
-        <constructor-arg>
-            <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
-                <constructor-arg value="indicatorDataStore"/>
-            </bean>
-        </constructor-arg>
-    </bean>
-
-    <bean id="pricerIndicatorCatalog" class="com.jarias14.tekstratego.service.pricer.dao.IndicatorCatalogStoreImpl">
-        <constructor-arg>
-            <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
-                <constructor-arg value="pricerIndicatorCatalog"/>
-            </bean>
-        </constructor-arg>
-    </bean>
 
 
 </beans>

@@ -8,12 +8,51 @@
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+    <util:list id="cacheList">
+        <ref bean="rawDataStore"/>
+        <ref bean="managedAccountStore"/>
+        <ref bean="indicatorDataStore"/>
+        <ref bean="pricerIndicatorCatalog"/>
+        <ref bean="thinkerDecisionNodeDataStore"/>
+    </util:list>
 
     <!-- Raw Data Cache -->
     <bean id="rawDataStore" class="com.jarias14.tekstratego.common.cache.DataStore">
         <constructor-arg>
             <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
                 <constructor-arg value="rawDataStore"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="managedAccountStore" class="com.jarias14.tekstratego.service.manager.cache.ManagedAccountStore">
+        <constructor-arg>
+            <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
+                <constructor-arg value="managedAccountStore"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="indicatorDataStore" class="com.jarias14.tekstratego.common.cache.DataStore">
+        <constructor-arg>
+            <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
+                <constructor-arg value="indicatorDataStore"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="pricerIndicatorCatalog" class="com.jarias14.tekstratego.service.pricer.dao.IndicatorCatalogStoreImpl">
+        <constructor-arg>
+            <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
+                <constructor-arg value="pricerIndicatorCatalog"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="thinkerDecisionNodeDataStore" class="com.jarias14.tekstratego.service.thinker.cache.DecisionNodeDataStore">
+        <constructor-arg>
+            <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
+                <constructor-arg value="decisionNodeDataStore"/>
             </bean>
         </constructor-arg>
     </bean>

@@ -5,26 +5,24 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
 
 /**
  * Created by jarias14 on 3/29/2015.
  */
-
 @Data
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class DataPointDetails {
 
+    private Map<DataPointIndicatorParameter, Integer> indicatorParameters;
     private DataPointIndicator indicator;
     private DataPointSize size;
 
-    private int necessaryDataPointBars;
-
-    public DataPointDetails(DataPointIndicator indicator, TimeUnit timeUnit, Integer size) {
+    public DataPointDetails(DataPointIndicator indicator, DataPointSize size) {
         this.indicator = indicator;
-        this.size = new DataPointSize(timeUnit, size);
+        this.size = size;
     }
 
 }

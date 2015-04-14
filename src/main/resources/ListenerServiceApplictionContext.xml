@@ -18,6 +18,7 @@
     <!-- Application Service -->
     <bean id="listenerRawDataSubscriptionApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
         <property name="transactionManagerMap" ref="listenerRawDataSubscriptionTransactionManagerMap"/>
+        <property name="transactionDecisionMaker" ref="listenerRawDataSubscriptionTransactionDecisionMaker"/>
     </bean>
 
     <bean id="listenerRawDataUnsubscriptionApplicationService" class="com.jarias14.tekstratego.common.skeleton.impl.DefaultApplicationServiceImpl">
@@ -25,6 +26,8 @@
     </bean>
 
     <!-- Transaction Manager Maps -->
+    <bean id="listenerRawDataSubscriptionTransactionDecisionMaker" class="com.jarias14.tekstratego.service.listener.biz.decisionmaker.SubscriptionListenerTransactionDecisionMaker"/>
+
     <util:map id="listenerRawDataSubscriptionTransactionManagerMap" map-class="java.util.HashMap">
         <entry key="HISTORIC"><ref bean="listenerHistoricDataTransactionManager"/></entry>
         <entry key="LIVE"><ref bean="listenerLiveDataTransactionManager"/></entry>
@@ -49,7 +52,7 @@
     <!-- Processors -->
     <bean id="listenerRawDataProcessor" class="com.jarias14.tekstratego.service.listener.biz.processors.RawDataProcessor">
         <property name="rawDataStore" ref="rawDataStore"/>
-        <property name="managerServiceNewMarketDataNotificationDao" ref="managerPricerServiceDao"/>
+        <property name="managerServiceNewMarketDataNotificationDao" ref="listenerManagerServiceNewMarketDataNotificationDao"/>
     </bean>
 
     <!-- Data Access Objects -->

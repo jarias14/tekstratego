@@ -11,11 +11,13 @@ public class InteractiveBrokersConnectionHandler implements ApiController.IConne
 
     @Override
     public void connected() {
+        System.out.println("connected!");
 
     }
 
     @Override
     public void disconnected() {
+        System.out.println("disconnected!");
 
     }
 
@@ -26,16 +28,17 @@ public class InteractiveBrokersConnectionHandler implements ApiController.IConne
 
     @Override
     public void error(Exception e) {
-
+        System.out.println("error" + e.getMessage());
     }
 
     @Override
     public void message(int id, int errorCode, String errorMsg) {
-
+        System.out.println("id: " + id + ", errorCode:" + errorCode + ", errorMsg: " + errorMsg);
     }
 
     @Override
     public void show(String string) {
+        System.out.println("show: " + string);
 
     }
 }

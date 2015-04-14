@@ -77,22 +77,12 @@
 
     <!-- Processors -->
     <bean id="managerStrategyProcessor" class="com.jarias14.tekstratego.service.manager.biz.processors.ManagedAccountStrategyProcessor">
-        <property name="pricerServiceDao" ref="managerPricerServiceDao"/>
+        <property name="thinkerServiceDao" ref="managerThinkerServiceDao"/>
     </bean>
 
     <!-- Data Access Objects -->
-    <bean id="managerPricerServiceDao" class="com.jarias14.tekstratego.service.manager.dao.PricerServiceDao">
+    <bean id="managerThinkerServiceDao" class="com.jarias14.tekstratego.service.manager.dao.ThinkerServiceDaoImpl">
         <property name="objectMapper" ref="objectMapper"/>
-    </bean>
-
-
-    <!-- Cache -->
-    <bean id="managedAccountStore" class="com.jarias14.tekstratego.service.manager.cache.ManagedAccountStore">
-        <constructor-arg>
-            <bean class="net.sf.ehcache.Cache" factory-bean="ehCacheManagerFactory" factory-method="getCache">
-                <constructor-arg value="managedAccountStore"/>
-            </bean>
-        </constructor-arg>
     </bean>
 
 

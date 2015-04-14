@@ -13,7 +13,7 @@
         <constructor-arg name="outLogger" ref="ibLogger"/>
     </bean>
 
-    <!--
+
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="targetObject">
             <ref bean="ibApiController"/>
@@ -23,11 +23,11 @@
         </property>
         <property name="arguments">
             <list>
-                <value>67.231.204.144</value>
-                <value>8150</value>
+                <value>localhost</value>
+                <value>7496</value>
                 <value>4566</value>
             </list>
         </property>
     </bean>
--->
+
 </beans>

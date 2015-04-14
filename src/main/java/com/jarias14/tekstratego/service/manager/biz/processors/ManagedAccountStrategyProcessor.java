@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class ManagedAccountStrategyProcessor implements Processor<ManagedAccount> {
 
-    private DataAccessObject<PricerServiceTradeRequest, Trade> pricerServiceDao;
+    private DataAccessObject<PricerServiceTradeRequest, Trade> thinkerServiceDao;
 
     @Override
     public void process(ManagedAccount managedAccount) {
@@ -26,13 +26,13 @@ public class ManagedAccountStrategyProcessor implements Processor<ManagedAccount
         newTrades.addAll(
                 managedAccount.getBuyStrategyIds().stream().flatMap(strategyId ->
                                 managedAccount.getStocks().stream().map(stock ->
-                                        pricerServiceDao.request(new PricerServiceTradeRequest(strategyId, stock, System.currentTimeMillis() / 1000))).filter(Trade::getStrategyDecision)
+                                        thinkerServiceDao.request(new PricerServiceTradeRequest(strategyId, stock, System.currentTimeMillis() / 1000))).filter(Trade::getStrategyDecision)
                 ).collect(Collectors.toList()));
 
         newTrades.addAll(
                 managedAccount.getSellStrategyIds().stream().flatMap(strategyId ->
                                 managedAccount.getStocks().stream().map(stock ->
-                                        pricerServiceDao.request(new PricerServiceTradeRequest(strategyId, stock, System.currentTimeMillis() / 1000))).filter(Trade::getStrategyDecision)
+                                        thinkerServiceDao.request(new PricerServiceTradeRequest(strategyId, stock, System.currentTimeMillis() / 1000))).filter(Trade::getStrategyDecision)
                 ).collect(Collectors.toList()));
 
         managedAccount.getPotentialTrades().addAll(newTrades);
@@ -40,7 +40,7 @@ public class ManagedAccountStrategyProcessor implements Processor<ManagedAccount
 
 
     @Required
-    public void setPricerServiceDao(DataAccessObject<PricerServiceTradeRequest, Trade> pricerServiceDao) {
-        this.pricerServiceDao = pricerServiceDao;
+    public void setThinkerServiceDao(DataAccessObject<PricerServiceTradeRequest, Trade> thinkerServiceDao) {
+        this.thinkerServiceDao = thinkerServiceDao;
     }
 }

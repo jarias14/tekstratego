@@ -20,12 +20,11 @@ import java.util.Map;
 public class ManagerServiceNewMarketDataNotificationDao implements DataAccessObject<MarketDataNotification, Boolean> {
 
     private ObjectMapper objectMapper;
-    private static final String THINKER_STRATEGY_DECISION_URL_BASE = "http://localhost:8082/manager-service/accounts?newDataStock={stock-symbol}&newDataTime={epoch-time}";
+    private static final String THINKER_STRATEGY_DECISION_URL_BASE = "http://localhost:8082/tekstratego/manager-service/data";
 
     @Override
     public Boolean request(MarketDataNotification marketDataNotification) {
-        getRestTemplate().put(THINKER_STRATEGY_DECISION_URL_BASE, Boolean.class, getUriVariablesMap(marketDataNotification.getStock(), marketDataNotification.getTime()));
-        return true;
+        return getRestTemplate().postForObject(THINKER_STRATEGY_DECISION_URL_BASE, marketDataNotification, Boolean.class);
     }
 
     private RestTemplate getRestTemplate(){

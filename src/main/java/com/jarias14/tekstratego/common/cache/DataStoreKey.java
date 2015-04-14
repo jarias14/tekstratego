@@ -9,9 +9,9 @@ import lombok.EqualsAndHashCode;
 /**
  * Created by jarias14 on 4/4/2015.
  */
+@Data
 @EqualsAndHashCode
 @AllArgsConstructor
-@Data
 public class DataStoreKey {
     private Stock stock;
     private long time;

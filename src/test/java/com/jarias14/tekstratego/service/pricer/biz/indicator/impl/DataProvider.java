@@ -3,6 +3,7 @@ package com.jarias14.tekstratego.service.pricer.biz.indicator.impl;
 import com.jarias14.tekstratego.common.models.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,7 +40,8 @@ public class DataProvider {
         DataPointDetails details = new DataPointDetails();
         details.setSize(dataPointSize);
         details.setIndicator(dataPointIndicator);
-        details.setNecessaryDataPointBars(10);
+        details.setIndicatorParameters(new HashMap<>());
+        details.getIndicatorParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, 10);
 
         Stock stock = new Stock("TEST", StockExchange.NYSE);
 

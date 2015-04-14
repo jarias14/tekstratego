@@ -8,10 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class SimpleMovingAverageTestReal {
@@ -45,7 +42,8 @@ public class SimpleMovingAverageTestReal {
         DataPointDetails details = new DataPointDetails();
         details.setSize(dataPointSize);
         details.setIndicator(DataPointIndicator.SIMPLE_MOVING_AVERAGE);
-        details.setNecessaryDataPointBars(10);
+        details.setIndicatorParameters(new HashMap<>());
+        details.getIndicatorParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, 10);
 
         Stock stock = new Stock("TEST", StockExchange.NYSE);
 
@@ -106,7 +104,8 @@ public class SimpleMovingAverageTestReal {
         DataPointDetails details = new DataPointDetails();
         details.setSize(dataPointSize);
         details.setIndicator(DataPointIndicator.RAW_CLOSE);
-        details.setNecessaryDataPointBars(10);
+        details.setIndicatorParameters(new HashMap<>());
+        details.getIndicatorParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, 10);
 
 
         DataPointCollection dataPointCollection = new DataPointCollection();
