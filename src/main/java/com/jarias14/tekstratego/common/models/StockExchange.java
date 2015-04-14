@@ -5,5 +5,5 @@ package com.jarias14.tekstratego.common.models;
  */
 
 public enum StockExchange {
-    NYSE, NASDAQ
+    NYSE, NASDAQ, BATS, SMART
 }
