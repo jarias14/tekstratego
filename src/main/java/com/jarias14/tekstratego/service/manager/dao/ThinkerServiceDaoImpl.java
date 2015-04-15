@@ -21,7 +21,7 @@ import java.util.Map;
 public class ThinkerServiceDaoImpl implements DataAccessObject<PricerServiceTradeRequest, Trade> {
 
     private ObjectMapper objectMapper;
-    private static final String THINKER_STRATEGY_DECISION_URL_BASE = "http://localhost:8082/thinker-service/strategy/{strategy-id}/decision/{epoch-time}?stock={stock-symbol}";
+    private static final String THINKER_STRATEGY_DECISION_URL_BASE = "http://localhost:8082/thinker-service/strategies/{strategy-id}/exchanges/{stock-exchange}/stocks/{stock-symbol}/times/{epoch-time}/";
 
     @Override
     public Trade request(PricerServiceTradeRequest request) {
@@ -46,8 +46,9 @@ public class ThinkerServiceDaoImpl implements DataAccessObject<PricerServiceTrad
 
         Map<String, String> uriVariables = new HashMap<>();
         uriVariables.put("strategy-id", strategyId);
-        uriVariables.put("epoch-time", String.valueOf(time));
         uriVariables.put("stock-symbol", stock.getSymbol());
+        uriVariables.put("stock-exchange", stock.getExchange().name());
+        uriVariables.put("epoch-time", String.valueOf(time));
         return uriVariables;
     }
 
