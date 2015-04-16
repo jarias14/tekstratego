@@ -35,7 +35,7 @@ public class RawDataProcessor implements Processor<Set<DataPointCollection>> {
                                         rawDataStore.putDataPoint(stock, dataPoint, dpc.getDetails())));
 
         // make call to manager to notify new price has been added
-        managerServiceNewMarketDataNotificationDao.request(new MarketDataNotification(stock, time));
+        managerServiceNewMarketDataNotificationDao.request(new MarketDataNotification(stock, time, historicalMarketData));
     }
 
 

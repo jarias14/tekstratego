@@ -2,6 +2,7 @@ package com.jarias14.tekstratego.service.manager.cache;
 
 import com.jarias14.tekstratego.common.models.Stock;
 import com.jarias14.tekstratego.service.manager.models.ManagedAccount;
+import com.jarias14.tekstratego.service.manager.models.ManagedAccountStrategy;
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
@@ -35,7 +36,14 @@ public class ManagedAccountStore extends BlockingCache {
         List<ManagedAccount> managedAccounts = elementMap.values().stream()
                 .map(Element::getObjectValue)
                 .map(v -> (ManagedAccount)v)
-                .filter(v -> v.getStocks().contains(stock))
+                .filter(v -> {
+                    for (ManagedAccountStrategy strategy : v.getStrategies()) {
+                        if (strategy.getStocks().contains(stock)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                })
                 .collect(Collectors.toList());
 
         return managedAccounts;

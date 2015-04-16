@@ -66,22 +66,21 @@
 
     <bean id="managerRetrieveAccountTradeStatusTransactionManager" class="com.jarias14.tekstratego.service.manager.biz.transactionmanager.ExecuteAccountTransactionManager">
         <property name="managedAccountStore" ref="managedAccountStore"/>
-        <property name="strategyProcessor" ref="managerStrategyProcessor"/>
     </bean>
 
-    <bean id="managerNewMarketDataTransactionManager" class="com.jarias14.tekstratego.service.manager.biz.transactionmanager.NewMarketDataApplicationService">
+    <bean id="managerNewMarketDataTransactionManager" class="com.jarias14.tekstratego.service.manager.biz.transactionmanager.NewMarketDataTransactionManager">
         <property name="managedAccountStore" ref="managedAccountStore"/>
-        <property name="managedAccountProcessor" ref="managerStrategyProcessor"/>
-    </bean>
-
-
-    <!-- Processors -->
-    <bean id="managerStrategyProcessor" class="com.jarias14.tekstratego.service.manager.biz.processors.ManagedAccountStrategyProcessor">
         <property name="thinkerServiceDao" ref="managerThinkerServiceDao"/>
+        <property name="traderServiceDao" ref="managerTraderServiceDao"/>
     </bean>
+
 
     <!-- Data Access Objects -->
     <bean id="managerThinkerServiceDao" class="com.jarias14.tekstratego.service.manager.dao.ThinkerServiceDaoImpl">
+        <property name="objectMapper" ref="objectMapper"/>
+    </bean>
+
+    <bean id="managerTraderServiceDao" class="com.jarias14.tekstratego.service.manager.dao.TraderServiceDaoImpl">
         <property name="objectMapper" ref="objectMapper"/>
     </bean>
 

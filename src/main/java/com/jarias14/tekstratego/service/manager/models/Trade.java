@@ -1,5 +1,6 @@
 package com.jarias14.tekstratego.service.manager.models;
 
+import com.jarias14.tekstratego.common.models.Position;
 import com.jarias14.tekstratego.common.models.Stock;
 import lombok.Data;
 
@@ -10,8 +11,9 @@ import lombok.Data;
 public class Trade {
     private Stock stock;
     private long time;
-    private TradeType type;
     private Integer shares;
     private Double cost;
     private Boolean strategyDecision;
+    private ManagedAccountStrategy strategy;
+    private Position position;
 }

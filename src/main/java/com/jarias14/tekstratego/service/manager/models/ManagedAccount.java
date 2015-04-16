@@ -1,9 +1,9 @@
 package com.jarias14.tekstratego.service.manager.models;
 
 import com.jarias14.tekstratego.common.models.Identifiable;
-import com.jarias14.tekstratego.common.models.Stock;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,9 +11,8 @@ import java.util.List;
  */
 @Data
 public class ManagedAccount extends Identifiable {
-    private List<Stock> stocks;
-    private List<String> buyStrategyIds;
-    private List<String> sellStrategyIds;
-    private List<Trade> executedTrades;
-    private List<Trade> potentialTrades;
+    private List<ManagedAccountStrategy> strategies;
+    private List<Trade> executedTrades = new ArrayList<>();
+    private List<Trade> potentialTrades = new ArrayList<>();
+    private boolean simulated;
 }

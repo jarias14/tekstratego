@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 /**
  * Created by jarias14 on 4/12/2015.
  */
@@ -15,5 +17,6 @@ import lombok.NoArgsConstructor;
 public class MarketDataNotification extends Identifiable {
     private Stock stock;
     private long time;
+    private Set<DataPointCollection> dataPoints;
 
 }
