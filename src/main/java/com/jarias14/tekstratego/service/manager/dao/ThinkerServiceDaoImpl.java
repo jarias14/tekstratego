@@ -21,7 +21,7 @@ import java.util.Map;
 public class ThinkerServiceDaoImpl implements DataAccessObject<PricerServiceTradeRequest, Trade> {
 
     private ObjectMapper objectMapper;
-    private static final String THINKER_STRATEGY_DECISION_URL_BASE = "http://localhost:8082/thinker-service/strategies/{strategy-id}/exchanges/{stock-exchange}/stocks/{stock-symbol}/times/{epoch-time}/";
+    private static final String THINKER_STRATEGY_DECISION_URL_BASE = "http://localhost:8082/tekstratego/thinker-service/strategies/{strategy-id}/exchanges/{stock-exchange}/stocks/{stock-symbol}/times/{epoch-time}/";
 
     @Override
     public Trade request(PricerServiceTradeRequest request) {
