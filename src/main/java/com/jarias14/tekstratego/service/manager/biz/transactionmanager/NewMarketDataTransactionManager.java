@@ -10,6 +10,7 @@ import com.jarias14.tekstratego.service.manager.models.Trade;
 import com.jarias14.tekstratego.service.manager.models.TradeType;
 import org.springframework.beans.factory.annotation.Required;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,7 +54,7 @@ public class NewMarketDataTransactionManager implements TransactionManager<Marke
 
                                     if (TradeType.BUY.equals(potentialTrade.getTradeType()) && 0 == getPositionForStock(potentialTrade.getStock(), managedAccount)) {
                                         sharesToTrade = potentialTrade.getShares();
-                                    } else if (TradeType.SELL.equals(potentialTrade.getTradeType()) && 0 > getPositionForStock(potentialTrade.getStock(), managedAccount)) {
+                                    } else if (TradeType.SELL.equals(potentialTrade.getTradeType()) && 0 < getPositionForStock(potentialTrade.getStock(), managedAccount)) {
                                         sharesToTrade = potentialTrade.getShares() == null ? getPositionForStock(potentialTrade.getStock(), managedAccount) : potentialTrade.getShares();
                                     }
 
@@ -63,14 +64,16 @@ public class NewMarketDataTransactionManager implements TransactionManager<Marke
                                         TradeRequest tradeRequest = new TradeRequest();
                                         tradeRequest.setStock(potentialTrade.getStock());
                                         tradeRequest.setPrice(potentialTrade.getCost());
-                                        tradeRequest.setQuantity(potentialTrade.getShares());
+                                        tradeRequest.setQuantity(sharesToTrade);
                                         tradeRequest.setSimulated(managedAccount.isSimulated());
 
                                         Position position = traderServiceDao.request(tradeRequest);
+                                        position.setStock(tradeRequest.getStock());
 
                                         potentialTrade.setPosition(position);
 
                                         managedAccount.getExecutedTrades().add(potentialTrade);
+                                        addPositionToManagedAccount(position, managedAccount);
                                     }
                                 }
                         );
@@ -89,6 +92,29 @@ public class NewMarketDataTransactionManager implements TransactionManager<Marke
 
 
         return true;
+    }
+
+    private void addPositionToManagedAccount(Position newPosition, ManagedAccount managedAccount) {
+        boolean foundPosition = false;
+        for (Position position : managedAccount.getPositions()) {
+            if (position.getStock().equals(newPosition.getStock())) {
+                position.setPosition(position.getPosition() + newPosition.getPosition());
+            }
+        }
+
+        if (!foundPosition) {
+            managedAccount.getPositions().add(newPosition);
+        }
+
+        List<Position> positionsToRemove = new ArrayList<>();
+        for (Position position : managedAccount.getPositions()) {
+            if (position.getPosition() == 0) {
+                positionsToRemove.add(position);
+            }
+        }
+
+        managedAccount.getPositions().removeAll(positionsToRemove);
+
     }
 
     private Integer getPositionForStock(Stock stock, ManagedAccount managedAccount) {
