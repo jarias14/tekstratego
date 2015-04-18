@@ -1,15 +1,13 @@
 package com.jarias14.tekstratego.service.manager.biz.transactionmanager;
 
-import com.jarias14.tekstratego.common.models.DataPointIndicator;
-import com.jarias14.tekstratego.common.models.MarketDataNotification;
-import com.jarias14.tekstratego.common.models.Position;
-import com.jarias14.tekstratego.common.models.TradeRequest;
+import com.jarias14.tekstratego.common.models.*;
 import com.jarias14.tekstratego.common.skeleton.DataAccessObject;
 import com.jarias14.tekstratego.common.skeleton.TransactionManager;
 import com.jarias14.tekstratego.service.manager.cache.ManagedAccountStore;
 import com.jarias14.tekstratego.service.manager.dao.resources.PricerServiceTradeRequest;
 import com.jarias14.tekstratego.service.manager.models.ManagedAccount;
 import com.jarias14.tekstratego.service.manager.models.Trade;
+import com.jarias14.tekstratego.service.manager.models.TradeType;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.List;
@@ -38,6 +36,7 @@ public class NewMarketDataTransactionManager implements TransactionManager<Marke
                                         requestDecision(marketDataNotification, strategy.getStrategyId()).getStrategyDecision())
                                 .forEach(strategy -> {
                                     Trade trade = new Trade();
+                                    trade.setTradeType(strategy.getTradeType());
                                     trade.setStrategy(strategy);
                                     trade.setShares(strategy.getSharesToInvest());
                                     trade.setStrategyDecision(true);
@@ -48,25 +47,41 @@ public class NewMarketDataTransactionManager implements TransactionManager<Marke
                                 });
 
                         managedAccount.getPotentialTrades().stream().forEach( potentialTrade -> {
-                                    TradeRequest tradeRequest = new TradeRequest();
-                                    tradeRequest.setStock(potentialTrade.getStock());
-                                    tradeRequest.setPrice(potentialTrade.getCost());
-                                    tradeRequest.setQuantity(potentialTrade.getShares());
-                                    tradeRequest.setSimulated(managedAccount.isSimulated());
 
-                                    Position position = traderServiceDao.request(tradeRequest);
 
-                                    potentialTrade.setPosition(position);
+                                    Integer sharesToTrade = 0;
 
-                                    managedAccount.getExecutedTrades().add(potentialTrade);
+                                    if (TradeType.BUY.equals(potentialTrade.getTradeType()) && 0 == getPositionForStock(potentialTrade.getStock(), managedAccount)) {
+                                        sharesToTrade = potentialTrade.getShares();
+                                    } else if (TradeType.SELL.equals(potentialTrade.getTradeType()) && 0 > getPositionForStock(potentialTrade.getStock(), managedAccount)) {
+                                        sharesToTrade = potentialTrade.getShares() == null ? getPositionForStock(potentialTrade.getStock(), managedAccount) : potentialTrade.getShares();
+                                    }
+
+
+                                    if (sharesToTrade != 0) {
+
+                                        TradeRequest tradeRequest = new TradeRequest();
+                                        tradeRequest.setStock(potentialTrade.getStock());
+                                        tradeRequest.setPrice(potentialTrade.getCost());
+                                        tradeRequest.setQuantity(potentialTrade.getShares());
+                                        tradeRequest.setSimulated(managedAccount.isSimulated());
+
+                                        Position position = traderServiceDao.request(tradeRequest);
+
+                                        potentialTrade.setPosition(position);
+
+                                        managedAccount.getExecutedTrades().add(potentialTrade);
+                                    }
                                 }
                         );
 
 
-                        
+
 
 
                         managedAccount.getPotentialTrades().removeAll(managedAccount.getExecutedTrades());
+                        managedAccount.getAbandonedTrades().addAll(managedAccount.getPotentialTrades());
+                        managedAccount.getPotentialTrades().removeAll(managedAccount.getAbandonedTrades());
 
 
 
@@ -74,6 +89,17 @@ public class NewMarketDataTransactionManager implements TransactionManager<Marke
 
 
         return true;
+    }
+
+    private Integer getPositionForStock(Stock stock, ManagedAccount managedAccount) {
+
+        for (Position position : managedAccount.getPositions()) {
+            if (position.getStock().equals(stock)) {
+                return position.getPosition();
+            }
+        }
+
+        return 0;
     }
 
     private Trade requestDecision(MarketDataNotification marketDataNotification, String strategyId) {

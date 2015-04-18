@@ -16,4 +16,5 @@ public class Trade {
     private Boolean strategyDecision;
     private ManagedAccountStrategy strategy;
     private Position position;
+    private TradeType tradeType;
 }

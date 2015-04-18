@@ -10,6 +10,7 @@ import com.jarias14.tekstratego.service.manager.models.ManagedAccountStrategy;
 import com.jarias14.tekstratego.service.manager.models.Trade;
 import com.jarias14.tekstratego.service.manager.models.TradeType;
 import com.jarias14.tekstratego.service.thinker.rest.model.*;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -30,7 +31,7 @@ public class IntegratedTest {
     private static final String MANAGER_CREATE_ACCOUNT = "http://localhost:8082/tekstratego/manager-service/accounts";
 
 
-    @Test
+    @Ignore
     public void testOne() {
 
         String simpleMovingAverageIndicator = createSimpleMovingAverageIndicator(9);

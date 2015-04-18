@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Position {
 
+    private Stock stock;
     private Integer position;
     private Double averageCost;
     private Double marketPrice;
