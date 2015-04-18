@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 public interface RestTraderService {
 
     @POST
-    @Path("/trade")
+    @Path("/trades")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Position executeTrade(TradeRequest tradeRequest);

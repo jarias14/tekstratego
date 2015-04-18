@@ -9,10 +9,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -30,6 +27,8 @@ public class YahooHistoricDataCallbackHandler {
     public void processYahooHistoricData(YahooHistoricalDataResponse response) {
 
         List<Set<DataPointCollection>> dataPointCollectionList = response.getQuery().getResults().getQuote().stream().map(this::getDataPointCollectionSet).collect(Collectors.toList());
+
+        Collections.reverse(dataPointCollectionList);
 
         dataPointCollectionList.stream().forEach(rawDataProcessor::process);
     }

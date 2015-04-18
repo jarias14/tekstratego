@@ -1,10 +1,10 @@
 package com.jarias14.tekstratego.service.manager.dao;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jarias14.tekstratego.common.models.Position;
 import com.jarias14.tekstratego.common.models.Stock;
+import com.jarias14.tekstratego.common.models.TradeRequest;
 import com.jarias14.tekstratego.common.skeleton.DataAccessObject;
-import com.jarias14.tekstratego.service.manager.dao.resources.PricerServiceTradeRequest;
-import com.jarias14.tekstratego.service.manager.models.Trade;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -18,15 +18,16 @@ import java.util.Map;
 /**
  * Created by jarias14 on 4/12/2015.
  */
-public class TraderServiceDaoImpl implements DataAccessObject<PricerServiceTradeRequest, Trade> {
+public class TraderServiceDaoImpl implements DataAccessObject<TradeRequest, Position> {
 
     private ObjectMapper objectMapper;
-    private static final String THINKER_STRATEGY_DECISION_URL_BASE = "http://localhost:8082/thinker-service/strategies/{strategy-id}/exchanges/{stock-exchange}/stocks/{stock-symbol}/times/{epoch-time}/";
+    private static final String TRADER_TRADE_URL_BASE = "http://localhost:8082/tekstratego/trader-service/trades";
 
     @Override
-    public Trade request(PricerServiceTradeRequest request) {
-        Trade trade = getRestTemplate().getForObject(THINKER_STRATEGY_DECISION_URL_BASE, Trade.class, getUriVariablesMap(request.getStrategyId(), request.getStock(), request.getTime()));
-        return trade;
+    public Position request(TradeRequest request) {
+        Position position = getRestTemplate().postForObject(TRADER_TRADE_URL_BASE, request, Position.class);
+
+        return position;
     }
 
     private RestTemplate getRestTemplate(){

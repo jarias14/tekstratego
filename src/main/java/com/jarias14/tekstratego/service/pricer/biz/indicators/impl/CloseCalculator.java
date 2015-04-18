@@ -14,7 +14,7 @@ public class CloseCalculator extends BaseCalculator implements IndicatorCalculat
     @Override
     public Double execute(NewDataPointIndicatorUpdateRequest newDataPointIndicatorUpdateRequest) {
 
-        // THIS IS NOT RIGHT!!
-        return (Double)newDataPointIndicatorUpdateRequest.getData().stream().findFirst().get().getDataPoints().get(0).getValue();
+
+        return (Double)newDataPointIndicatorUpdateRequest.getData().iterator().next().getDataPoints().get(0).getValue();
     }
 }

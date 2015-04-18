@@ -92,10 +92,10 @@ public class MarketDataNotificationTransactionManagerImplTest {
         EasyMock.expect(rawDataStore.getDataPoints(stock, DataPointIndicator.RAW_OPEN, 1000, 100)).andReturn(DataProvider.getLows());
 
         updateSimpleIndicatorProcessor.process(EasyMock.anyObject(NewDataPointIndicatorUpdateRequest.class));
-        EasyMock.expectLastCall().andReturn(new DataPoint<>()).times(5);
+        EasyMock.expectLastCall().andReturn(new DataPoint<>()).times(3);
 
         marketDataRequestTransactionCache.putDataPoint(EasyMock.anyObject(), EasyMock.anyObject());
-        EasyMock.expectLastCall().times(5);
+        EasyMock.expectLastCall().times(3);
 
 
         MarketDataNotification request = new MarketDataNotification();

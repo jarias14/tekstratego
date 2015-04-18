@@ -84,6 +84,10 @@
             <key><bean id="CELL" class="com.jarias14.tekstratego.common.models.DataPointIndicator" factory-method="valueOf"><constructor-arg value="SIMPLE_MOVING_AVERAGE"/></bean></key>
             <ref bean="simpleMovingAverageCalculator"/>
         </entry>
+        <entry>
+            <key><bean id="CELL" class="com.jarias14.tekstratego.common.models.DataPointIndicator" factory-method="valueOf"><constructor-arg value="CLOSE"/></bean></key>
+            <ref bean="closeCalculator"/>
+        </entry>
     </util:map>
 
     <!-- Indicator Calculators -->
@@ -95,6 +99,7 @@
     <bean id="simpleMovingAverageCalculator" class="com.jarias14.tekstratego.service.pricer.biz.indicators.impl.SimpleMovingAverageCalculator">
         <property name="taLib" ref="taLibCore"/>
     </bean>
+    <bean id="closeCalculator" class="com.jarias14.tekstratego.service.pricer.biz.indicators.impl.CloseCalculator"/>
 
 
 

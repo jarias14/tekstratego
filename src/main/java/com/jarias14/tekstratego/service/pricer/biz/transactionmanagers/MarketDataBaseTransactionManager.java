@@ -5,6 +5,8 @@ import com.jarias14.tekstratego.common.models.*;
 import com.jarias14.tekstratego.common.skeleton.TransactionManager;
 import com.jarias14.tekstratego.service.pricer.biz.processor.model.NewDataPointIndicatorUpdateRequest;
 import com.jarias14.tekstratego.service.pricer.dao.IndicatorCatalogStore;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.util.Comparator;
@@ -83,9 +85,35 @@ public abstract class MarketDataBaseTransactionManager {
     }
 
     protected DataPoint requestMarketData(DataPointTimableDescription indicatorRequest, Set<DataPointCollection> dataPointCollectionSet) {
+
+        DataPoint dataPoint;
+
         NewDataPointIndicatorUpdateRequest request = new NewDataPointIndicatorUpdateRequest(indicatorRequest, dataPointCollectionSet);
-        DataPoint dataPoint = updateSimpleIndicatorProcessor.process(request);
+
+        if (!isMarketDataRequestValid(request)) {
+            dataPoint = new DataPoint(request.getRequestedIndicator().getTime(), null);
+        } else {
+            dataPoint = updateSimpleIndicatorProcessor.process(request);
+        }
+
         return dataPoint;
+    }
+
+    private boolean isMarketDataRequestValid(NewDataPointIndicatorUpdateRequest request) {
+        if (request == null || request.getRequestedIndicator() == null || request.getRequestedIndicator().getDetails() == null || MapUtils.isEmpty(request.getRequestedIndicator().getDetails().getParameters()) || CollectionUtils.isEmpty(request.getData())) {
+            return false;
+        }
+
+
+        Integer requiredNumberOfDataPoints = request.getRequestedIndicator().getDetails().getParameters().get(DataPointIndicatorParameter.REQUIRED_PERIODS);
+
+        for (DataPointCollection dataPointCollection : request.getData()) {
+            if (dataPointCollection.getDataPoints().size() < requiredNumberOfDataPoints) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 

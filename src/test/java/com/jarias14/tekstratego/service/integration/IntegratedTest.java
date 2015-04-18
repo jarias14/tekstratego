@@ -38,39 +38,53 @@ public class IntegratedTest {
         String stochasticOscillatorK = createStochasticOscillator(DataPointIndicator.STOCHASTIC_OSCILLATOR_K, 14, 3, 3);
         String stochasticOscillatorD = createStochasticOscillator(DataPointIndicator.STOCHASTIC_OSCILLATOR_D, 14, 3, 3);
 
-
         String trueDecisionNodeLeafId = createLeafDecisionNode(true);
         String falseDecisionNodeLeafId = createLeafDecisionNode(false);
 
+
+        // BUY STRATEGY
 
         String turningStochasticDecisionNode =
                 createIndicatorDifferenceDecisionNode(Arrays.asList(stochasticOscillatorK, stochasticOscillatorD), trueDecisionNodeLeafId);
 
         String oversoldStochasticDecisionNode =
-                createIndicatorRangeDecisionNode(Arrays.asList(stochasticOscillatorK), turningStochasticDecisionNode);
+                createIndicatorRangeDecisionNode(Arrays.asList(stochasticOscillatorK), 0, 20, turningStochasticDecisionNode);
 
         String smaOverPriceIndicator =
-                createSimpleMovingAverageOverClosePriceDecisionNode(Arrays.asList(closeIndicator, simpleMovingAverageIndicator), oversoldStochasticDecisionNode);
+                createSimpleMovingAverageOverClosePriceDecisionNode(Arrays.asList(simpleMovingAverageIndicator, closeIndicator), oversoldStochasticDecisionNode);
 
 
+        // SELL STRATEGY
 
-        String managerId = createManager(smaOverPriceIndicator);
+        String overboughtStochasticDecisionNode =
+                createIndicatorRangeDecisionNode(Arrays.asList(stochasticOscillatorK), 80, 100, trueDecisionNodeLeafId);
 
 
+        // MANAGER
+
+        String managerId = createManager(smaOverPriceIndicator, overboughtStochasticDecisionNode);
 
     }
 
-    private String createManager(String smaOverPriceIndicator) {
+    private String createManager(String smaOverPriceIndicator, String overboughtStochasticDecisionNode) {
 
-        ManagedAccountStrategy strategy = new ManagedAccountStrategy();
-        strategy.setSharesToInvest(100);
-        strategy.setStocks(Arrays.asList(new Stock("MCD", StockExchange.NYSE), new Stock("MSFT", StockExchange.NASDAQ)));
-        strategy.setStrategyId(smaOverPriceIndicator);
-        strategy.setTradeType(TradeType.BUY);
+
+        ManagedAccountStrategy sellStrategy = new ManagedAccountStrategy();
+        sellStrategy.setSharesToInvest(-100);
+        sellStrategy.setStocks(Arrays.asList(new Stock("MCD", StockExchange.NYSE), new Stock("MSFT", StockExchange.NASDAQ)));
+        sellStrategy.setStrategyId(overboughtStochasticDecisionNode);
+        sellStrategy.setTradeType(TradeType.SELL);
+
+        ManagedAccountStrategy buyStrategy = new ManagedAccountStrategy();
+        buyStrategy.setSharesToInvest(100);
+        buyStrategy.setStocks(Arrays.asList(new Stock("MCD", StockExchange.NYSE), new Stock("MSFT", StockExchange.NASDAQ)));
+        buyStrategy.setStrategyId(smaOverPriceIndicator);
+        buyStrategy.setTradeType(TradeType.BUY);
 
         ManagedAccount managedAccount = new ManagedAccount();
         managedAccount.setStrategies(new ArrayList<>());
-        managedAccount.getStrategies().add(strategy);
+        managedAccount.getStrategies().add(buyStrategy);
+        managedAccount.getStrategies().add(sellStrategy);
         managedAccount.setSimulated(true);
 
         ManagedAccount response = getRestTemplate().postForObject(MANAGER_CREATE_ACCOUNT, managedAccount, ManagedAccount.class);
@@ -79,9 +93,9 @@ public class IntegratedTest {
 
     }
 
-    private String createIndicatorRangeDecisionNode(List<String> decisionNodeComparisonIds, String nextDecisionNodeId) {
+    private String createIndicatorRangeDecisionNode(List<String> decisionNodeComparisonIds, int min, int max, String nextDecisionNodeId) {
 
-        DecisionNodeComparison decisionNodeComparison = createDecisionNodeComparison(new Double(0), new Double(20), DecisionNodeComparisonType.NUMERIC_RANGE, nextDecisionNodeId);
+        DecisionNodeComparison decisionNodeComparison = createDecisionNodeComparison(new Double(min), new Double(max), DecisionNodeComparisonType.NUMERIC_RANGE, nextDecisionNodeId);
 
         DecisionNode decisionNode = createDecisionNode(DecisionNodeType.CONTINUOUS);
         decisionNode.getDecisionNodeComparisons().add(decisionNodeComparison);
@@ -118,7 +132,7 @@ public class IntegratedTest {
 
     private String createIndicatorDifferenceDecisionNode(List<String> decisionNodeComparisonIds, String nextDecisionNodeId) {
 
-        DecisionNodeComparison decisionNodeComparison = createDecisionNodeComparison(new Double(0), new Double(10), DecisionNodeComparisonType.NUMERIC_DIFFERENCE, nextDecisionNodeId);
+        DecisionNodeComparison decisionNodeComparison = createDecisionNodeComparison(new Double(0), new Double(20), DecisionNodeComparisonType.NUMERIC_DIFFERENCE, nextDecisionNodeId);
 
         DecisionNode decisionNode = createDecisionNode(DecisionNodeType.CONTINUOUS);
         decisionNode.getDecisionNodeComparisons().add(decisionNodeComparison);
@@ -153,7 +167,7 @@ public class IntegratedTest {
         dataPointDetails.setIndicator(indicator);
         dataPointDetails.setSize(new DataPointSize(TimeUnit.DAYS, 1));
         dataPointDetails.setParameters(new HashMap<>());
-        dataPointDetails.getParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, kPeriods + dPeriods);
+        dataPointDetails.getParameters().put(DataPointIndicatorParameter.REQUIRED_PERIODS, kPeriods + dPeriods + 1);
         dataPointDetails.getParameters().put(DataPointIndicatorParameter.STOCHASTIC_OSCILLATOR_K_PERIODS, kPeriods);
         dataPointDetails.getParameters().put(DataPointIndicatorParameter.STOCHASTIC_OSCILLATOR_K_SLOWING_PERIODS, kSlowPeriods);
         dataPointDetails.getParameters().put(DataPointIndicatorParameter.STOCHASTIC_OSCILLATOR_D_PERIODS, dPeriods);

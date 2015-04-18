@@ -59,10 +59,19 @@ public class NewMarketDataTransactionManager implements TransactionManager<Marke
                                     potentialTrade.setPosition(position);
 
                                     managedAccount.getExecutedTrades().add(potentialTrade);
-                                    managedAccount.getPotentialTrades().remove(potentialTrade);
                                 }
                         );
+
+
+                        
+
+
+                        managedAccount.getPotentialTrades().removeAll(managedAccount.getExecutedTrades());
+
+
+
                 });
+
 
         return true;
     }

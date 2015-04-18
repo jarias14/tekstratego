@@ -62,6 +62,10 @@ public class PerformDecisionTransactionManager implements TransactionManager<Dec
             marketDataRequest.setId(decisionNodeIndicators.get(1));
             Double secondValue = marketDataRequestDao.request(marketDataRequest);
 
+            if (null == firstValue || null == secondValue) {
+                return false;
+            }
+
             Double difference = firstValue - secondValue;
 
             return difference >= decisionNodeComparisonRange.getMin() && difference <= decisionNodeComparisonRange.getMax();
@@ -74,6 +78,10 @@ public class PerformDecisionTransactionManager implements TransactionManager<Dec
 
             marketDataRequest.setId(decisionNodeIndicators.get(0));
             Double value = marketDataRequestDao.request(marketDataRequest);
+
+            if (null == value) {
+                return false;
+            }
 
             return value >= decisionNodeComparisonRange.getMin() && value <= decisionNodeComparisonRange.getMax();
 
