@@ -97,8 +97,9 @@ public class NewMarketDataTransactionManager implements TransactionManager<Marke
     private void addPositionToManagedAccount(Position newPosition, ManagedAccount managedAccount) {
         boolean foundPosition = false;
         for (Position position : managedAccount.getPositions()) {
-            if (position.getStock().equals(newPosition.getStock())) {
+            if (position.getStock().getSymbol().equals(newPosition.getStock().getSymbol())) {
                 position.setPosition(position.getPosition() + newPosition.getPosition());
+                foundPosition = true;
             }
         }
 
