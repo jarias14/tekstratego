@@ -71,13 +71,13 @@ public class IntegratedTest {
 
         ManagedAccountStrategy sellStrategy = new ManagedAccountStrategy();
         sellStrategy.setSharesToInvest(-100);
-        sellStrategy.setStocks(Arrays.asList(new Stock("MCD", StockExchange.NYSE), new Stock("MSFT", StockExchange.NASDAQ)));
+        sellStrategy.setStocks(Arrays.asList(new Stock("MCD", StockExchange.NYSE), new Stock("MSFT", StockExchange.NASDAQ), new Stock("GE", StockExchange.NYSE)));
         sellStrategy.setStrategyId(overboughtStochasticDecisionNode);
         sellStrategy.setTradeType(TradeType.SELL);
 
         ManagedAccountStrategy buyStrategy = new ManagedAccountStrategy();
         buyStrategy.setSharesToInvest(100);
-        buyStrategy.setStocks(Arrays.asList(new Stock("MCD", StockExchange.NYSE), new Stock("MSFT", StockExchange.NASDAQ)));
+        buyStrategy.setStocks(Arrays.asList(new Stock("MCD", StockExchange.NYSE), new Stock("MSFT", StockExchange.NASDAQ), new Stock("GE", StockExchange.NYSE)));
         buyStrategy.setStrategyId(smaOverPriceIndicator);
         buyStrategy.setTradeType(TradeType.BUY);
 
@@ -85,7 +85,7 @@ public class IntegratedTest {
         managedAccount.setStrategies(new ArrayList<>());
         managedAccount.getStrategies().add(buyStrategy);
         managedAccount.getStrategies().add(sellStrategy);
-        managedAccount.setSimulated(true);
+        managedAccount.setSimulated(false);
 
         ManagedAccount response = getRestTemplate().postForObject(MANAGER_CREATE_ACCOUNT, managedAccount, ManagedAccount.class);
 

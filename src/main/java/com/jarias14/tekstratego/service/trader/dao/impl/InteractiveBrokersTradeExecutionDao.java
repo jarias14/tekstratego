@@ -36,14 +36,14 @@ public class InteractiveBrokersTradeExecutionDao implements DataAccessObject<Tra
         ibController.placeOrModifyOrder(contract, order, hanlder);
 
 
-        while (hanlder.getOrderStatus().isActive()) {
+        while (hanlder != null && hanlder.getOrderStatus() != null && hanlder.getOrderStatus().isActive()) {
             try { Thread.sleep(TimeUnit.SECONDS.toMillis(10)); }
             catch (Exception e) { throw new UncheckedException(e); }
         }
 
         Position position = new Position();
-        position.setPosition(hanlder.getFilled());
-        position.setAverageCost(hanlder.getAvgFillPrice());
+        position.setPosition(order.totalQuantity());
+       // position.setAverageCost(order.);
 
         return position;
     }
