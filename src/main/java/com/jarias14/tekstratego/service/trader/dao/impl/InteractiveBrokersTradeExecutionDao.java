@@ -30,7 +30,7 @@ public class InteractiveBrokersTradeExecutionDao implements DataAccessObject<Tra
 
         NewOrder order = new NewOrder();
         order.action(tradeRequest.getQuantity() > 0 ? Types.Action.BUY : Types.Action.SELL);
-        order.totalQuantity(tradeRequest.getQuantity());
+        order.totalQuantity(Math.abs(tradeRequest.getQuantity()));
         order.orderType(OrderType.MKT);
 
         ibController.placeOrModifyOrder(contract, order, hanlder);
