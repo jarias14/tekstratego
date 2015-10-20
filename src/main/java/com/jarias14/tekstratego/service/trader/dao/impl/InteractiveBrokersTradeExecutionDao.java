@@ -42,7 +42,7 @@ public class InteractiveBrokersTradeExecutionDao implements DataAccessObject<Tra
         }
 
         Position position = new Position();
-        position.setPosition(order.totalQuantity());
+        position.setPosition(tradeRequest.getQuantity());
        // position.setAverageCost(order.);
 
         return position;
